@@ -1,0 +1,3 @@
+C:/Users/Matteo/Desktop/UNIPD/C_workspace/Contenitore/cmake-build-debug/CMakeFiles/Contenitore.dir
+C:/Users/Matteo/Desktop/UNIPD/C_workspace/Contenitore/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Matteo/Desktop/UNIPD/C_workspace/Contenitore/cmake-build-debug/CMakeFiles/rebuild_cache.dir
