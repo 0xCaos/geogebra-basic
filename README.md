@@ -1,4 +1,6 @@
 # PAO-dreams
 Repository per il progetto di PAO
 
-Prova per la Repository per Programmazione ad Oggetti
+Repository per lo share del progetto di Programmazione ad Oggetti 2020/21
+
+Geogebra++ by Noghez, Midez, Casuz
