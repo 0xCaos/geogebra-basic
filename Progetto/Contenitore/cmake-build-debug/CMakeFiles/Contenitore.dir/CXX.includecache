@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Matteo/Desktop/UNIPD/C_workspace/Contenitore/Vettore.h
+iostream
+-
+memory
+-
+
+C:/Users/Matteo/Desktop/UNIPD/C_workspace/Contenitore/main.cpp
+iostream
+-
+Vettore.h
+C:/Users/Matteo/Desktop/UNIPD/C_workspace/Contenitore/Vettore.h
+
