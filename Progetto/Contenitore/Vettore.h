@@ -42,10 +42,9 @@ public:
         Iterator() : punt(nullptr) {};
         explicit Iterator(T* p) : punt(p) {};
         Iterator(const Iterator&);
-
+        ~Iterator() = default; // va bene il distruttore di default
 
         //Iterator&operator=(const Iterator&); Va bene l'assegnazione di default
-        // va bene il distruttore di default
 
         T& operator*() const;
         bool operator==(Iterator) const;
@@ -92,12 +91,18 @@ public:
      */
     Iterator erase(Iterator, Iterator);
     /**
-     * Cambia la dimensione (capacity) del vettore
+     * Resizes the container so that it contains n elements.
+     * If n is smaller than the current container size, the content is reduced to its first n elements,
+     * removing those beyond (and destroying them).
+     * If n is greater than the current container size, the content is expanded by inserting at the end
+     * as many elements as needed to reach a size of n.
+     * If val is specified, the new elements are initialized as copies of val, otherwise, they are value-initialized.
      */
-    void resize();
+    void resize(u_int, const T& = T());
 
     /**
      * Svuota il vettore di tutti i suoi elementi
+     * (A reallocation is not guaranteed to happen, and the vector capacity is not guaranteed to change)
      */
     void clear();
 
@@ -263,6 +268,33 @@ typename Vettore<T>::Iterator Vettore<T>::erase(const Vettore::Iterator first, c
         return ultimo;
     }
     return last;
+}
+
+template<class T>
+T Vettore<T>::pop_back() {
+    return *(erase(end()-1));
+}
+
+template<class T>
+void Vettore<T>::clear() {
+    erase(begin(), end());
+}
+
+template<class T>
+bool Vettore<T>::empty() const {
+    return vsize>0;
+}
+
+template<class T>
+void Vettore<T>::resize(u_int new_size, const T& val) {
+    if(new_size >= 0){
+        if(new_size > vsize){
+            while(vsize < new_size)
+                push_back(val);
+        } else {
+            erase(begin()+new_size, end());
+        }
+    }
 }
 
 template<class T>

@@ -1,30 +1,30 @@
 #include <iostream>
 #include "Vettore.h"
+#include <vector>
 
 int main() {
     std::cout << "Tester contenitore: INIZIO" << std::endl;
-
-    Vettore<int> v1 = {10, 20, 23, 45, 50, 60, 80};
-
-    //v1.erase(v1.begin());
     /*
-    Vettore<int>::Iterator inizio = v1.begin();
-    Vettore<int>::Iterator fine = v1.end();
-    inizio+1;
-    inizio+2;
-    */
+    Vettore<int> v1 = {10};
+    Vettore<std::pair<int, int>> vett_coppie;
 
-    v1.erase(v1.begin()+2, v1.begin()+4);
+    vett_coppie.push_back({2,2});
+    vett_coppie.push_back({3,3});
+    vett_coppie.push_back({4,4});
 
-    v1.push_back(33);
-    v1.push_back(33);
-    v1.push_back(33);
-
-    std::cout << "\n";
-    for(auto el : v1) {
-        std::cout << el << " ";
+    std::cout << "Prima stampa \n";
+    for(auto el : vett_coppie) {
+        std::cout << "(" << el.first << ", " << el.second << ") ";
     }
 
-    std::cout << "\n" << v1.size() << " " << v1.capacity();
+    //vett_coppie.resize(10); // costruttore di default per val
+    vett_coppie.resize(10, {7,7}); // costruttore di copia per val
 
+    std::cout << "\nSeconda stampa \n";
+    for(auto el : vett_coppie) {
+        std::cout << "(" << el.first << ", " << el.second << ") ";
+    }
+
+    std::cout << "\n" << vett_coppie.size() << " " << vett_coppie.capacity();
+     */
 }
