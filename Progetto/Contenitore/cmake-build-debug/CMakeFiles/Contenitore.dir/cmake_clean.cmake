@@ -1,9 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Contenitore.dir/main.cpp.obj"
-  "Contenitore.exe"
-  "Contenitore.exe.manifest"
+  "CMakeFiles/Contenitore.dir/main.cpp.o"
+  "Contenitore"
   "Contenitore.pdb"
-  "libContenitore.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.
