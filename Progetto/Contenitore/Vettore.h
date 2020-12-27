@@ -12,7 +12,7 @@ typedef unsigned int u_int;
 
 template<class T>
 class Vettore {
-friend class Iterator;
+friend class iterator;
 private:
     /**
      * Array sotto la struttura del vettore
@@ -34,31 +34,55 @@ private:
     void rialloca_array();
 
 public:
-    class Iterator {
+    class iterator {
         friend class Vettore;
     private:
         T* punt;
     public:
-        Iterator() : punt(nullptr) {};
-        explicit Iterator(T* p) : punt(p) {};
-        Iterator(const Iterator&);
-        ~Iterator() = default; // va bene il distruttore di default
-
-        //Iterator&operator=(const Iterator&); Va bene l'assegnazione di default
+        iterator() : punt(nullptr) {};
+        iterator(T* p) : punt(p) {};
+        iterator(const iterator&);
+        ~iterator() = default; // va bene il distruttore di default
 
         T& operator*() const;
-        bool operator==(Iterator) const;
-        bool operator!=(Iterator) const;
+        bool operator==(iterator) const;
+        bool operator!=(iterator) const;
 
-        Iterator& operator++(); // operator++ prefisso
-        Iterator operator++(int); // operator++ postfisso
+        iterator& operator++(); // operator++ prefisso
+        iterator operator++(int); // operator++ postfisso
 
-        Iterator& operator--(); // operator++ prefisso
-        Iterator operator--(int); // operator++ postfisso
+        iterator& operator--(); // operator++ prefisso
+        iterator operator--(int); // operator++ postfisso
 
-        Iterator operator+(int) const;
-        Iterator operator-(int) const;
-    }; // end classe Iterator
+        iterator operator+(int);
+        iterator operator-(int);
+    }; // end classe iterator
+
+    class const_iterator {
+    private:
+        const T* punt;
+    public:
+        const_iterator() : punt(nullptr) {};
+        const_iterator(T* p) : punt(p) {};
+        //const_iterator(const_iterator&);
+        ~const_iterator() = default;
+
+        const T& operator*() const;
+        bool operator==(const_iterator) const;
+        bool operator!=(const_iterator) const;
+
+        const_iterator& operator++(); // operator++ prefisso
+        const_iterator operator++(int); // operator++ postfisso
+
+        const_iterator& operator--(); // operator++ prefisso
+        const_iterator operator--(int); // operator++ postfisso
+
+        const_iterator operator+(int) const;
+        const_iterator operator-(int) const;
+
+        const_iterator(iterator);
+
+    }; // end classe const_iterator
 
     Vettore();
     Vettore(const Vettore&);
@@ -70,8 +94,13 @@ public:
     Vettore& operator=(const Vettore&);
     Vettore& operator=(const std::initializer_list<T>&);
 
-    Iterator begin() const;
-    Iterator end() const;
+    // per discriminare la begin() e end() di "iterator" hanno la marcatura senza il const
+    iterator begin() noexcept;
+    iterator end();
+
+    // le funzioni che si riferiscono a un "const_iterator" le marchiamo const (MATCH MAKING)
+    const_iterator begin() const;
+    const_iterator end() const;
 
     void push_back(const T&);
     T pop_back();
@@ -82,14 +111,14 @@ public:
      * Elimina l'elemento puntato dall'Iterator nell'array
      * @return Iterator alla cella successiva a quella eliminata
      */
-    Iterator erase(Iterator);  // modificare in Const_Iterator
+    iterator erase(iterator);  // modificare in Const_Iterator
     /**
      * Overloading di erase(Iterator) con un range di elementi,
      * cancella tutti gli elementi nel range compreso tra i due iterator
      * [first, last) => (last escluso)
      * @return Iterator alla cella successiva all'ultima eliminata
      */
-    Iterator erase(Iterator, Iterator);
+    iterator erase(iterator, iterator);
     /**
      * Resizes the container so that it contains n elements.
      * If n is smaller than the current container size, the content is reduced to its first n elements,
@@ -124,7 +153,13 @@ public:
      */
     bool empty() const;
 
-
+    /**
+     * Funzione per l'inserimento di elementi in un vettore
+     * @return an iterator that points to the first of the newly inserted elements
+     */
+    iterator insert(iterator, const T&);
+    iterator insert(iterator, u_int, const T&);
+    iterator insert(iterator, std::initializer_list<T>);
 };
 
 template<class T>
@@ -157,7 +192,7 @@ Vettore<T>::~Vettore() {
 }
 
 template<class T>
-T& Vettore<T>::Iterator::operator*() const {
+T& Vettore<T>::iterator::operator*() const {
     return *punt;
 }
 
@@ -206,9 +241,8 @@ Vettore<T>& Vettore<T>::operator=(const Vettore& v2) {
         arr = new T[vcapacity];
         for(u_int i=0; i < vsize; i++)
             arr[i] = v2.arr[i];
-
-        return *this;
     }
+    return *this;
 }
 
 template<class T>
@@ -227,13 +261,13 @@ Vettore<T>& Vettore<T>::operator=(const std::initializer_list<T>& li) {
 }
 
 template<class T>
-typename Vettore<T>::Iterator Vettore<T>::begin() const {
-    return Iterator(&(arr[0]));
+typename Vettore<T>::iterator Vettore<T>::begin() noexcept {
+    return iterator(&(arr[0]));
 }
 
 template<class T>
-typename Vettore<T>::Iterator Vettore<T>::end() const {
-    return Iterator(&(arr[vsize]));
+typename Vettore<T>::iterator Vettore<T>::end() {
+    return iterator(&(arr[vsize]));
 }
 
 template<class T>
@@ -242,10 +276,10 @@ u_int Vettore<T>::capacity() const {
 }
 
 template<class T>
-typename Vettore<T>::Iterator Vettore<T>::erase(const Vettore::Iterator first) {
+typename Vettore<T>::iterator Vettore<T>::erase(Vettore::iterator first) {
     if(first.punt && first!=end()){
-        Iterator prec = first;
-        Iterator succ = first+1;
+        iterator prec = first;
+        iterator succ = first+1;
         while (succ != end()) {
             *prec = std::move(*succ);
             ++prec; ++succ;
@@ -257,10 +291,10 @@ typename Vettore<T>::Iterator Vettore<T>::erase(const Vettore::Iterator first) {
 }
 
 template<class T>
-typename Vettore<T>::Iterator Vettore<T>::erase(const Vettore::Iterator first, const Vettore::Iterator last) {
+typename Vettore<T>::iterator Vettore<T>::erase(Vettore::iterator first, Vettore::iterator last) {
     if(first.punt && last.punt && (first!=last)){
         //Iterator scorri(first);
-        Iterator ultimo(last);
+        iterator ultimo(last);
         while(first!=ultimo){
             erase(first);
             ultimo--;
@@ -282,7 +316,7 @@ void Vettore<T>::clear() {
 
 template<class T>
 bool Vettore<T>::empty() const {
-    return vsize>0;
+    return vsize==0;
 }
 
 template<class T>
@@ -298,54 +332,201 @@ void Vettore<T>::resize(u_int new_size, const T& val) {
 }
 
 template<class T>
-bool Vettore<T>::Iterator::operator==(Vettore::Iterator it) const {
+bool Vettore<T>::iterator::operator==(Vettore::iterator it) const {
     return punt == it.punt;
 }
 
 template<class T>
-bool Vettore<T>::Iterator::operator!=(Vettore::Iterator it) const {
+bool Vettore<T>::iterator::operator!=(Vettore::iterator it) const {
     return punt != it.punt;
 }
 
 template<class T>
-typename Vettore<T>::Iterator& Vettore<T>::Iterator::operator++() {
+typename Vettore<T>::iterator& Vettore<T>::iterator::operator++() {
     punt++;
     return *this;
 }
 
 template<class T>
-typename Vettore<T>::Iterator Vettore<T>::Iterator::operator++(int) {
-    Iterator aux(*this);
+typename Vettore<T>::iterator Vettore<T>::iterator::operator++(int) {
+    iterator aux(*this);
     operator++();
     return aux;
 }
 
 template<class T>
-typename Vettore<T>::Iterator& Vettore<T>::Iterator::operator--() {
+typename Vettore<T>::iterator& Vettore<T>::iterator::operator--() {
     punt--;
     return *this;
 }
 
 template<class T>
-typename Vettore<T>::Iterator Vettore<T>::Iterator::operator--(int) {
-    Iterator aux(*this);
+typename Vettore<T>::iterator Vettore<T>::iterator::operator--(int) {
+    iterator aux(*this);
     operator--();
     return aux;
 }
 
 template<class T>
-typename Vettore<T>::Iterator Vettore<T>::Iterator::operator+(int x) const {
-    return Iterator(punt+x);
+typename Vettore<T>::iterator Vettore<T>::iterator::operator+(int x) {
+    return iterator(punt+x);
 }
 
 template<class T>
-typename Vettore<T>::Iterator Vettore<T>::Iterator::operator-(int x) const {
-    return Iterator(punt-x);
+typename Vettore<T>::iterator Vettore<T>::iterator::operator-(int x) {
+    return iterator(punt-x);
 }
 
 template<class T>
-Vettore<T>::Iterator::Iterator(const Vettore::Iterator & it) {
+Vettore<T>::iterator::iterator(const Vettore::iterator & it) {
     punt = it.punt;
 }
+/*
+template<class T>
+Vettore<T>::const_iterator::const_iterator(Vettore::const_iterator & it) {
+    punt = it.punt;
+}
+ */
+
+template<class T>
+const T& Vettore<T>::const_iterator::operator*() const {
+    return *punt;
+}
+
+template<class T>
+bool Vettore<T>::const_iterator::operator==(Vettore::const_iterator it) const {
+    return punt == it.punt;
+}
+
+template<class T>
+bool Vettore<T>::const_iterator::operator!=(Vettore::const_iterator it) const {
+    return punt != it.punt;
+}
+
+template<class T>
+typename Vettore<T>::const_iterator& Vettore<T>::const_iterator::operator++() {
+    punt++;
+    return *this;
+}
+
+template<class T>
+typename Vettore<T>::const_iterator Vettore<T>::const_iterator::operator++(int) {
+    const_iterator aux(*this);
+    operator++();
+    return aux;
+}
+
+template<class T>
+typename Vettore<T>::const_iterator& Vettore<T>::const_iterator::operator--() {
+    punt--;
+    return *this;
+}
+
+template<class T>
+typename Vettore<T>::const_iterator Vettore<T>::const_iterator::operator--(int) {
+    const_iterator aux(*this);
+    operator--();
+    return aux;
+}
+
+template<class T>
+typename Vettore<T>::const_iterator Vettore<T>::const_iterator::operator+(int x) const {
+    return const_iterator(punt+x);
+}
+
+template<class T>
+typename Vettore<T>::const_iterator Vettore<T>::const_iterator::operator-(int x) const {
+    return const_iterator(punt-x);
+}
+
+template<class T>
+Vettore<T>::const_iterator::const_iterator(Vettore<T>::iterator it) {
+    const T* aux = it.punt;
+    punt = aux;
+}
+
+
+template<class T>
+typename Vettore<T>::const_iterator Vettore<T>::begin() const {
+    return const_iterator(&(arr[0]));
+}
+
+template<class T>
+typename Vettore<T>::const_iterator Vettore<T>::end() const {
+    return const_iterator(&(arr[vsize]));
+}
+
+template<class T>
+typename Vettore<T>::iterator Vettore<T>::insert(Vettore::iterator pos, const T& x) {
+    if(pos == end()) {
+        push_back(x);
+        pos = end();
+    } else {
+        if(vsize+1 > vcapacity){
+            if(vcapacity == 0) vcapacity = 1;
+            else vcapacity *= 2;
+
+            T* tmp = new T[vcapacity];      // creo il nuovo array
+            iterator scorri = begin();
+            u_int i = 0;
+            while(scorri!=pos && i < vsize){
+                tmp[i] = arr[i];
+                scorri++; i++;
+            }
+
+            if(scorri!=pos)
+                throw(std::out_of_range("The position used is out of range")); // posizione non presente nell'array (UB)
+            else {
+                iterator aux = tmp+i;
+                tmp[i] = x;
+                while (i < vsize){
+                    tmp[i+1] = arr[i];
+                    i++;
+                }
+
+                if(arr) delete[] arr;                   // elimino il vecchio array
+
+                arr = tmp;
+                pos = aux;
+            }
+        } else {
+
+            iterator prec = end()-1;
+            iterator succ = end();
+
+            while(prec != pos-1 && prec != begin()-1){
+                *succ = std::move(*prec);
+                prec--; succ--;
+            }
+
+            if(prec == begin()-1) {
+                throw(std::out_of_range("The position used is out of range"));
+            } // posizione non presente nell'array (UB)
+
+            *pos = x;
+        }
+        vsize++;
+    }
+    return pos;
+}
+
+template<class T>
+typename Vettore<T>::iterator Vettore<T>::insert(Vettore::iterator pos, u_int n, const T& x) {
+    for(u_int i=0; i < n; i++)
+        pos = insert(pos,x);
+
+    return pos;
+}
+
+template<class T>
+typename Vettore<T>::iterator Vettore<T>::insert(Vettore::iterator pos, std::initializer_list<T> li) {
+    for(auto x : li){
+        pos = insert(pos,x);
+        pos++;
+    }
+
+    return pos;
+}
+
 
 #endif //CONTENITORE_VETTORE_H
