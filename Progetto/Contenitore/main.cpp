@@ -9,6 +9,7 @@ using namespace std;
 // Operator[i] --> 0 <= i < size()
 
 int main() {
+/*
     Vettore<int> v1 = {10, 20, 30, 40, 50};
 
     for(int i=51; i<60; ++i)
@@ -72,12 +73,6 @@ int main() {
     for(auto el : v3)
         cout << el << " ";
     cout << endl;
-    /*
-    cout << "v3=v2: ";
-    v3 = v2;
-    for(auto el : v3)
-        cout << el << " ";
-    */
     cout << endl;
     cout << "----- v2 Props -----" << endl;
     cout << "SIZE: " << v2.size() << endl;
@@ -112,5 +107,29 @@ int main() {
     cout << "CAPACITY: " << v2.capacity() << endl;
     cout << "EMPTY?: " << v2.empty() << endl;
     cout << endl;
+    */
+    vector<int> std = {1,2,3,4,5};
+    Vettore<int> nostro = {1,2,3,4,5};
+    cout << "ELEMENTI STD: ";
+    for(auto el : std)
+        cout << el << " ";
+    cout << endl;
+    cout << "ELEMENTI NOSTRO: ";
+    for(auto el : nostro)
+        cout << el << " ";
+    cout << endl;
+    cout << "----- ERASE -----" << endl;
+    std.erase(std.begin(), std.end());
+    nostro.erase(nostro.begin(), nostro.end());
+    cout << "ELEMENTI STD: ";
+    for(auto el : std)
+        cout << el << " ";
+    cout << endl;
+    cout << "ELEMENTI NOSTRO: ";
+    for(auto el : std)
+        cout << el << " ";
+    cout << endl;
+    cout << "std.begin(): " << *std.begin() << endl;
+    cout << "nostro.begin(): " << *nostro.begin() << endl;
 }
 

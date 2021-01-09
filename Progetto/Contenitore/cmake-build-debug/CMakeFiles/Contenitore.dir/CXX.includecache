@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/matteo/Desktop/UniPD/PAO/PAO-dreams/Progetto/Contenitore/Vettore.h
+iostream
+-
+memory
+-
+
+/home/matteo/Desktop/UniPD/PAO/PAO-dreams/Progetto/Contenitore/main.cpp
+iostream
+-
+Vettore.h
+/home/matteo/Desktop/UniPD/PAO/PAO-dreams/Progetto/Contenitore/Vettore.h
+vector
+-
+
