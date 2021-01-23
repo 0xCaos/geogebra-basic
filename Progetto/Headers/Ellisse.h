@@ -9,12 +9,12 @@ private:
     double raggio2;
 public:
     Ellisse(std::string, colori, Punto, double, double);
-    double Perimetro() override;
-    double Area() override;
+    double perimetro() const override;
+    double area() const override;
     double Eccentricita() override;
     double getSemidistanzaFocale();
     std::pair<Punto,Punto> getFuochi() override;
-    void disegna(QPainter*) override;
+    void disegna(QPainter*) const override;
 };
 
 #endif // ELLISSE_H

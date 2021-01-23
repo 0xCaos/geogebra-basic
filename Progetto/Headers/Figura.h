@@ -3,7 +3,6 @@
 
 #include "Disegnabile.h"
 #include "Punto.h"
-//class Punto {};
 
 class Figura : public Disegnabile {
 private:
@@ -11,8 +10,8 @@ private:
 protected:
     Figura(string, colori, Punto);
 public:
-    virtual double Perimetro() =0;
-    virtual double Area() =0;
+    virtual double perimetro() const =0;
+    virtual double area() const =0;
     Punto getPuntoInizio();
 };
 

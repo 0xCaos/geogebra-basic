@@ -5,10 +5,8 @@
 #ifndef SEGMENTO_SEGMENTO_H
 #define SEGMENTO_SEGMENTO_H
 
-#include <iostream>
-
-#include "Punto.h"
 #include "Disegnabile.h"
+#include "Punto.h"
 
 class Segmento : public Disegnabile {
 private:
@@ -31,7 +29,7 @@ public:
     /**
      * @brief override di Disegnabile::disegna()
      */
-    void disegna(QPainter*) override;
+    void disegna(QPainter*) const override {};
 };
 
 

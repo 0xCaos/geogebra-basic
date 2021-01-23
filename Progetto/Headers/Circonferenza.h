@@ -9,13 +9,13 @@ private:
     double raggio;
 public:
     Circonferenza(string, colori, Punto, double);
-    double Diametro();
-    double Perimetro() override;
-    double Area() override;
+    double diametro() const;
+    double perimetro() const override;
+    double area() const override;
     double Eccentricita() override;
     std::pair<Punto,Punto> getFuochi() override;
-    double getRaggio();
-    void disegna(QPainter*) override;
+    double getRaggio() const;
+    void disegna(QPainter*) const override;
 };
 
 #endif // CIRCONFERENZA_H

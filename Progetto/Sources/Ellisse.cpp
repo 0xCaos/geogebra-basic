@@ -2,14 +2,14 @@
 
 #include "math.h"
 
-Ellisse::Ellisse(std::string nome, Disegnabile::colori colore, Punto centro, double _raggio1, double _raggio2) :
+Ellisse::Ellisse(std::string nome, colori colore, Punto centro, double _raggio1, double _raggio2) :
     Circonferenza(nome, colore, centro, _raggio1),
     raggio2(_raggio2)
 {}
 
-double Ellisse::Perimetro() { return 2*M_PI*sqrt((pow(getRaggio(),2) + pow(raggio2,2))/2); }
+double Ellisse::perimetro() const { return 2*M_PI*sqrt((pow(getRaggio(),2) + pow(raggio2,2))/2); }
 
-double Ellisse::Area() { return M_PI*getRaggio()*raggio2; }
+double Ellisse::area() const { return M_PI*getRaggio()*raggio2; }
 
 double Ellisse::getSemidistanzaFocale() {
     if ( getRaggio() > raggio2) return pow(getRaggio(),2) - pow(raggio2,2);
@@ -36,5 +36,10 @@ std::pair<Punto, Punto> Ellisse::getFuochi()
         Punto f2("default", Nero, getPuntoInizio().getX(), getPuntoInizio().getY()+c);
         return std::pair<Punto, Punto>(f1,f2);
     }
+}
+
+void Ellisse::disegna(QPainter *) const
+{
+
 }
 

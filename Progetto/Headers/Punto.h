@@ -39,7 +39,7 @@ public:
     /**
      * @brief Override di Disegnabile::disegna()
      */
-    void disegna(QPainter*) override;
+    void disegna(QPainter*) const override;
 };
 
 

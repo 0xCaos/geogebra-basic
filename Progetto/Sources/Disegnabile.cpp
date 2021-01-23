@@ -1,3 +1,3 @@
 #include "Disegnabile.h"
 
-Disegnabile::Disegnabile(std::string nome, Disegnabile::colori colore) : nome(nome), colore(colore) {}
+Disegnabile::Disegnabile(std::string nome, colori colore) : nome(nome), colore(colore) {}

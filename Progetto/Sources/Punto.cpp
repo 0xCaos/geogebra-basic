@@ -5,7 +5,7 @@
 #include <math.h>
 #include "Punto.h"
 
-Punto::Punto(std::string nome, Disegnabile::colori colore, double _x, double _y) : Disegnabile(nome, colore), x(_x), y(_y) {}
+Punto::Punto(std::string nome, colori colore, double _x, double _y) : Disegnabile(nome, colore), x(_x), y(_y) {}
 
 double Punto::getX() { return x; }
 
@@ -18,6 +18,6 @@ double Punto::getDistanza(Punto p)
     return d;
 }
 
-void Punto::disegna(QPainter*) {
+void Punto::disegna(QPainter*) const {
 
 }
