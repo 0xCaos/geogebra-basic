@@ -30,8 +30,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf89184b-488d-41ff-ad22-79e071b18916" name="Default Changelist" comment="Test con il main">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../uml2" beforeDir="false" afterPath="$PROJECT_DIR$/../../uml2" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,6 +89,7 @@
       <workItem from="1609233398840" duration="4000" />
       <workItem from="1609233588661" duration="3212000" />
       <workItem from="1610015519786" duration="13000" />
+      <workItem from="1610523631850" duration="103000" />
     </task>
     <task id="LOCAL-00001" summary="Prova Commit CLion">
       <created>1609089111331</created>

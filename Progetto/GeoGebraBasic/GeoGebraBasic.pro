@@ -12,6 +12,8 @@ SOURCES += \
     Disegnabile.cpp \
     Figura.cpp \
     Poligono.cpp \
+    Punto.cpp \
+    Segmento.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -19,6 +21,8 @@ HEADERS += \
     Disegnabile.h \
     Figura.h \
     Poligono.h \
+    Punto.h \
+    Segmento.h \
     Vettore.h \
     mainwindow.h
 

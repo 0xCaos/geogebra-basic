@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/Segmento.dir/main.cpp.o CMakeFiles/Segmento.dir/Segmento.cpp.o  -o Segmento 
