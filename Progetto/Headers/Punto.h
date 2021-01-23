@@ -16,7 +16,7 @@ public:
     /**
      * @brief Costruttore di Punto
      */
-    Punto(string, colori, double, double);
+    Punto(string ="", colori =Nero, double =0, double =0);
 
     /**
      * @brief Getter della coordinata X del Punto

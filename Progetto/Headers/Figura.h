@@ -2,8 +2,8 @@
 #define FIGURA_H
 
 #include "Disegnabile.h"
-
-class Punto {};
+#include "Punto.h"
+//class Punto {};
 
 class Figura : public Disegnabile {
 private:
@@ -13,6 +13,7 @@ protected:
 public:
     virtual double Perimetro() =0;
     virtual double Area() =0;
+    Punto getPuntoInizio();
 };
 
 #endif // FIGURA_H
