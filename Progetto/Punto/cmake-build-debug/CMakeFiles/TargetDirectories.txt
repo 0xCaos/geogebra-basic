@@ -1,3 +1,0 @@
-/home/matteo/Desktop/UniPD/PAO/PAO-dreams/Progetto/Punto/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/matteo/Desktop/UniPD/PAO/PAO-dreams/Progetto/Punto/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/matteo/Desktop/UniPD/PAO/PAO-dreams/Progetto/Punto/cmake-build-debug/CMakeFiles/Punto.dir

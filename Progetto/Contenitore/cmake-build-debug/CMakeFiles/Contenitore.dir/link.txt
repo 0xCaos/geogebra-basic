@@ -1,1 +1,0 @@
-/usr/bin/c++   -Wall -Wextra -g   CMakeFiles/Contenitore.dir/main.cpp.o  -o Contenitore 

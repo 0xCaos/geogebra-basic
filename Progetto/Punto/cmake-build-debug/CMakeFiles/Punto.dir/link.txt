@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/Punto.dir/main.cpp.o CMakeFiles/Punto.dir/Punto.cpp.o  -o Punto 
