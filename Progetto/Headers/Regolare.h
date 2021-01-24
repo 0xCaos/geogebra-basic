@@ -22,6 +22,8 @@ public:
      */
     Regolare(string, colori, std::pair<Punto, Punto>, unsigned int);
 
+    //~Regolare() =default;
+
     /**
      * @brief perimetro
      * @return il perimetro di una figura regolare

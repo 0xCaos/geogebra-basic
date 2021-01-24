@@ -1,7 +1,7 @@
 ﻿#ifndef RETTA_H
 #define RETTA_H
 
-#import "Segmento.h"
+#include "Segmento.h"
 
 class Retta : public Segmento {
 private:

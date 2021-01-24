@@ -17,6 +17,8 @@ public:
      */
     Poligono(string, colori, Vettore<Punto> = Vettore<Punto>());
 
+    //~Poligono() = default;
+
     /**
      * @brief setVertici
      * metodo per il settaggio di tutti i vertici del poligono

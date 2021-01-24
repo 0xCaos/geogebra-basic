@@ -2,6 +2,7 @@
 #define CURVA_H
 
 #include "Figura.h"
+//#include "Punto.h"
 
 class Curva : public Figura
 {

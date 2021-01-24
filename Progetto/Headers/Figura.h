@@ -5,14 +5,11 @@
 #include "Punto.h"
 
 class Figura : public Disegnabile {
-private:
-    //Punto puntoInizio;
 protected:
-    Figura(string, colori);
+    Figura(string, QColor);
 public:
     virtual double perimetro() const =0;
     virtual double area() const =0;
-    //Punto getPuntoInizio();
 };
 
 #endif // FIGURA_H

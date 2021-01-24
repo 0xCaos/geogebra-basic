@@ -18,6 +18,8 @@ public:
      */
     Punto(string ="Punto", colori =Nero, double =0, double =0);
 
+    //~Punto() = default;
+
     /**
      * @brief Getter della coordinata X del Punto
      * @return Ritorna un double (x)
@@ -40,6 +42,12 @@ public:
      * @brief Override di Disegnabile::disegna()
      */
     void disegna(QPainter*) const override;
+
+    /**
+     * @brief getInfo override di Disegnabile::getInfo()
+     * @return una map con tutte le info relative al punto
+     */
+    std::unordered_map<string,string> getInfo() const override;
 };
 
 
