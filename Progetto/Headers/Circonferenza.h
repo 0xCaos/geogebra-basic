@@ -7,6 +7,7 @@ class Circonferenza : public Curva
 {
 private:
     double raggio;
+    Punto centro;
 public:
     Circonferenza(string, colori, Punto, double);
     double diametro() const;

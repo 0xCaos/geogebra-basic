@@ -6,9 +6,7 @@
 class Curva : public Figura
 {
 public:
-    Curva(std::string, colori, Punto);/*
-    double Perimetro() override;
-    double Area() override;*/
+    Curva(std::string, colori);
     virtual double Eccentricita() = 0;
     virtual std::pair<Punto,Punto> getFuochi() = 0;
 };

@@ -6,6 +6,7 @@
 
 class Regolare : public Figura {
 private:
+    std::pair<Punto, Punto> punti;
     double lato;
     unsigned int numLati;
 
@@ -19,7 +20,7 @@ public:
      * figura con "numLati" tutti di lunghezza "lato"
      * se numLati > 12, verrà creato al massimo comunque un dodecagono
      */
-    Regolare(string, colori, Punto, double, unsigned int);
+    Regolare(string, colori, std::pair<Punto, Punto>, unsigned int);
 
     /**
      * @brief perimetro

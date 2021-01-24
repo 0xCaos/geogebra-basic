@@ -6,13 +6,13 @@
 
 class Figura : public Disegnabile {
 private:
-    Punto puntoInizio;
+    //Punto puntoInizio;
 protected:
-    Figura(string, colori, Punto);
+    Figura(string, colori);
 public:
     virtual double perimetro() const =0;
     virtual double area() const =0;
-    Punto getPuntoInizio();
+    //Punto getPuntoInizio();
 };
 
 #endif // FIGURA_H

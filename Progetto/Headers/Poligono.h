@@ -3,16 +3,19 @@
 
 #include "Figura.h"
 #include "Vettore.h"
+#include "math.h"
 
 class Poligono : public Figura {
 private:
-    Vettore<Punto> punti;
+    Vettore<Punto> vertici;
+
+    static bool crossProductSign(Punto, Punto, Punto);
 public:
     /**
      * @brief Poligono
      * Costruttore di Poligono
      */
-    Poligono(string, colori, Punto);
+    Poligono(string, colori, Vettore<Punto> = Vettore<Punto>());
 
     /**
      * @brief setVertici
@@ -28,9 +31,15 @@ public:
 
     /**
      * @brief area (override di Figura::area)
-     * @return area del poligono
+     * @return area del poligono (sia concavo che convesso)
      */
     double area() const override;
+
+    /**
+     * @brief concavo
+     * @return true sse il poligono è concavo altrimenti è convesso
+     */
+    bool concavo() const;
 
     /**
      * @brief disegna (override di Disegnabile::disegna)
