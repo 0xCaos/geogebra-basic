@@ -11,7 +11,7 @@ public:
     /**
      * @brief Costruttore di Curva
      */
-    Curva(std::string nome, colori colore);
+    Curva(std::string nome, QColor colore);
 
     /**
      * @brief Calcolo dell'eccentricità (rapporto costante tra le distanze di un qualsiasi

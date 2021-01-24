@@ -5,7 +5,7 @@
 #include <math.h>
 #include "Punto.h"
 
-Punto::Punto(string nome, colori colore, double _x, double _y) : Disegnabile(nome, colore), x(_x), y(_y) {}
+Punto::Punto(string nome, QColor colore, double _x, double _y) : Disegnabile(nome, colore), x(_x), y(_y) {}
 
 double Punto::getX() { return x; }
 
@@ -20,7 +20,7 @@ double Punto::getDistanza(Punto p)
 
 std::unordered_map<string, string> Punto::getInfo() const {
     std::unordered_map<string, string> infoPunto;
-    infoPunto["Colore"] = "Nero";
+    infoPunto["Colore"] = "getColore()";
     infoPunto["Nome"] = getNome();
 
     return infoPunto;

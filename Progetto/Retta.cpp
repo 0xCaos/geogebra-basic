@@ -2,7 +2,7 @@
 
 using std::string;
 
-Retta::Retta(string nome, colori colore, Punto a, Punto b) :
+Retta::Retta(string nome, QColor colore, Punto a, Punto b) :
     Segmento(nome, colore, a, b),
     paralleloX(a.getY() == b.getY()),
     paralleloY(a.getX() == b.getX())

@@ -2,7 +2,7 @@
 
 #include "math.h"
 
-Ellisse::Ellisse(std::string nome, colori colore, Punto centro, double _raggio1, double _raggio2) :
+Ellisse::Ellisse(std::string nome, QColor colore, Punto centro, double _raggio1, double _raggio2) :
     Circonferenza(nome, colore, centro, _raggio1),
     raggio2(_raggio2)
 {}

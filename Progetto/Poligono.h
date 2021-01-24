@@ -15,7 +15,7 @@ public:
      * @brief Poligono
      * Costruttore di Poligono
      */
-    Poligono(string, colori, Vettore<Punto> = Vettore<Punto>());
+    Poligono(string, QColor, Vettore<Punto> = Vettore<Punto>());
 
     //~Poligono() = default;
 
@@ -47,6 +47,8 @@ public:
      * @brief disegna (override di Disegnabile::disegna)
      */
     void disegna(QPainter*) const override {};
+
+    std::unordered_map<string, string> getInfo() const override;
 };
 
 #endif // POLIGONO_H

@@ -11,7 +11,7 @@ public:
     /**
      * @brief Costruttore di Ellisse
      */
-    Ellisse(std::string nome, colori colore, Punto centro, double raggio1, double raggio2);
+    Ellisse(std::string nome, QColor colore, Punto centro, double raggio1, double raggio2);
 
     /**
      * @brief Calcolo del perimetro dell'ellisse

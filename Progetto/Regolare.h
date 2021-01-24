@@ -20,7 +20,7 @@ public:
      * figura con "numLati" tutti di lunghezza "lato"
      * se numLati > 12, verrà creato al massimo comunque un dodecagono
      */
-    Regolare(string, colori, std::pair<Punto, Punto>, unsigned int);
+    Regolare(string, QColor, std::pair<Punto, Punto>, unsigned int);
 
     //~Regolare() =default;
 
@@ -37,6 +37,8 @@ public:
     double area() const override;
 
     void disegna(QPainter*) const override {}
+
+    std::unordered_map<string, string> getInfo() const override;
 
 };
 

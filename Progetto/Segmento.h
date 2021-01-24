@@ -18,7 +18,7 @@ public:
      * @param Punto 1
      * @param Punto 2
      */
-    Segmento(string, colori, Punto, Punto);
+    Segmento(string, QColor, Punto, Punto);
 
     /**
      * @brief Lunghezza del Segmento

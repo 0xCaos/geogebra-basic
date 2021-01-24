@@ -16,7 +16,7 @@ public:
     /**
      * @brief Costruttore di Punto
      */
-    Punto(string ="Punto", colori =Nero, double =0, double =0);
+    Punto(string ="Punto", QColor =Qt::black, double =0, double =0);
 
     //~Punto() = default;
 

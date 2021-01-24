@@ -13,7 +13,7 @@ public:
     /**
      * @brief Costruttore di Circonferenza
      */
-    Circonferenza(string nome, colori colore, Punto centro, double raggio);
+    Circonferenza(string nome, QColor colore, Punto centro, double raggio);
 
     /**
      * @brief Calcolo del diametro

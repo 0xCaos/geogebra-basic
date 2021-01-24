@@ -2,7 +2,7 @@
 
 #include "math.h"
 
-Circonferenza::Circonferenza(std::string nome, colori colore, Punto _centro, double _raggio) :
+Circonferenza::Circonferenza(std::string nome, QColor colore, Punto _centro, double _raggio) :
     Curva(nome, colore),
     raggio(_raggio),
     centro(_centro)

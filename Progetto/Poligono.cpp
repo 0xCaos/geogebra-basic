@@ -17,7 +17,19 @@ bool Poligono::concavo() const {
     else return true; // concavo
 }
 
-Poligono::Poligono(std::string nome , colori color, Vettore<Punto> vettVertici) : Figura(nome, color), vertici(vettVertici) {}
+std::unordered_map<std::string, std::string> Poligono::getInfo() const {
+    std::unordered_map<string, string> infoPoligono;
+    infoPoligono["Concavità"] = concavo()?"Concavo":"Convesso";
+    infoPoligono["Area"] = area();
+    infoPoligono["Perimetro"] = perimetro();
+    infoPoligono["Vertici"] = vertici.size();
+    infoPoligono["Colore"] = "Nero";
+    infoPoligono["Nome"] = getNome();
+
+    return infoPoligono;
+}
+
+Poligono::Poligono(std::string nome , QColor color, Vettore<Punto> vettVertici) : Figura(nome, color), vertici(vettVertici) {}
 
 void Poligono::setVertici(Vettore<Punto> newVertici) {
     vertici = newVertici;
