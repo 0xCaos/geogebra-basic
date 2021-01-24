@@ -35,7 +35,7 @@ public:
     /**
      * @brief disegna (override di Disegnabile::disegna)
      */
-    void disegna(QPainter*) const override;
+    void disegna(QPainter*) const override {};
 };
 
 #endif // POLIGONO_H

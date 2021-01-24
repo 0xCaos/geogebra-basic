@@ -26,16 +26,18 @@ std::pair<Punto, Punto> Ellisse::getFuochi()
 {
     // Se si vuole mettere solo un return finale, bisogna crearsi per forza all'inizio i 2 Punto (fuochi) e poi usare la new
     // dentro all'if e all'else... ci sta?
+    Punto f1;
+    Punto f2;
     double c = sqrt(getSemidistanzaFocale());
     if (getRaggio() > raggio2) {
-        Punto f1("default", Nero, getPuntoInizio().getX()-c, getPuntoInizio().getY());
-        Punto f2("default", Nero, getPuntoInizio().getX()+c, getPuntoInizio().getY());
+        f1 = Punto("default", Nero, getPuntoInizio().getX()-c, getPuntoInizio().getY());
+        f2 = Punto("default", Nero, getPuntoInizio().getX()+c, getPuntoInizio().getY());
         return std::pair<Punto, Punto>(f1,f2);
     } else {
-        Punto f1("default", Nero, getPuntoInizio().getX(), getPuntoInizio().getY()-c);
-        Punto f2("default", Nero, getPuntoInizio().getX(), getPuntoInizio().getY()+c);
-        return std::pair<Punto, Punto>(f1,f2);
+        f1 = Punto("default", Nero, getPuntoInizio().getX(), getPuntoInizio().getY()-c);
+        f2 = Punto("default", Nero, getPuntoInizio().getX(), getPuntoInizio().getY()+c);
     }
+    return std::pair<Punto, Punto>(f1,f2);
 }
 
 void Ellisse::disegna(QPainter *) const
