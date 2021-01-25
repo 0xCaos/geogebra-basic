@@ -38,4 +38,8 @@ std::unordered_map<std::string, std::string> Circonferenza::getInfo() const {
     return infoCirconferenza;
 }
 
+Circonferenza *Circonferenza::clone() const {
+    return new Circonferenza(*this);
+}
+
 

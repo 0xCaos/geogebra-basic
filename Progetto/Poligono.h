@@ -7,23 +7,23 @@
 
 class Poligono : public Figura {
 private:
-    Vettore<Punto> vertici;
+    Vettore<Punto*> vertici;
 
-    static bool crossProductSign(Punto, Punto, Punto);
+    static bool crossProductSign(const Punto&, const Punto&, const Punto&);
 public:
     /**
      * @brief Poligono
      * Costruttore di Poligono
      */
-    Poligono(string, QColor, Vettore<Punto> = Vettore<Punto>());
+    Poligono(string, QColor, const Vettore<Punto*>& = Vettore<Punto*>());
 
-    //~Poligono() = default;
+    ~Poligono();
 
     /**
      * @brief setVertici
      * metodo per il settaggio di tutti i vertici del poligono
      */
-    void setVertici(Vettore<Punto>);
+    void setVertici(const Vettore<Punto*>&);
 
     /**
      * @brief perimetro (override di Figura::perimetro)
@@ -53,6 +53,12 @@ public:
      * @return unordered_map con "Nome proprietà" => valore
      */
     std::unordered_map<string, string> getInfo() const override;
+
+    /**
+     * @brief clone override di Disegnabile::clone()
+     * @return un puntatore al nuovo Punto clonato
+     */
+    Poligono* clone() const override;
 };
 
 #endif // POLIGONO_H

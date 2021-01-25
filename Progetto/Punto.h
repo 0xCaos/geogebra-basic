@@ -18,7 +18,7 @@ public:
      */
     Punto(string ="Punto", QColor =Qt::black, double =0, double =0);
 
-    //~Punto() = default;
+    ~Punto() = default;
 
     /**
      * @brief Getter della coordinata X del Punto
@@ -38,7 +38,18 @@ public:
      */
     double getDistanza(Punto) const;
 
+    /**
+     * @brief operator std::string
+     * overloading del convertitore a string per Punto
+     * output => (x, y)
+     */
     operator std::string() const;
+
+    /**
+     * @brief clone override di Disegnabile::clone()
+     * @return un puntatore al nuovo Punto clonato
+     */
+    Punto *clone() const override;
 
     /**
      * @brief Override di Disegnabile::disegna()

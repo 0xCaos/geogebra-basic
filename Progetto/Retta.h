@@ -1,9 +1,9 @@
 ﻿#ifndef RETTA_H
 #define RETTA_H
 
-#include "Segmento.h"
+#include "Linea.h"
 
-class Retta : public Segmento {
+class Retta : public Linea {
 private:
     double m;
     double q;
@@ -17,6 +17,8 @@ public:
      * Calcolo di quota all'origine "q" --> q = y1 - m*x1
      */
     Retta(string, QColor, Punto, Punto);
+
+    ~Retta() =default;
 
     /**
      * @brief Getter del coefficiente angolare
@@ -40,6 +42,17 @@ public:
      * @return unordered_map con "Nome proprietà" => valore
      */
     std::unordered_map<string,string> getInfo() const override;
+
+    /**
+     * @brief override di Disegnabile::disegna()
+     */
+    void disegna(QPainter*) const override {};
+
+    /**
+     * @brief clone override di Disegnabile::clone()
+     * @return un puntatore alla nuova Retta clonata
+     */
+    Retta* clone() const override;
 };
 
 #endif // RETTA_H

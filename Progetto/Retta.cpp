@@ -1,7 +1,7 @@
 #include "Retta.h"
 
 Retta::Retta(string nome, QColor colore, Punto a, Punto b) :
-    Segmento(nome, colore, a, b),
+    Linea(nome, colore, a, b),
     paralleloX(a.getY() == b.getY()),
     paralleloY(a.getX() == b.getX())
 {
@@ -41,4 +41,8 @@ std::unordered_map<std::string, std::string> Retta::getInfo() const {
     infoRetta["Nome"] = getNome();
 
     return infoRetta;
+}
+
+Retta *Retta::clone() const {
+    return new Retta(*this);
 }

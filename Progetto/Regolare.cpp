@@ -31,3 +31,7 @@ std::unordered_map<string, string> Regolare::getInfo() const {
 
     return infoRegolare;
 }
+
+Regolare *Regolare::clone() const {
+    return new Regolare(*this);
+}

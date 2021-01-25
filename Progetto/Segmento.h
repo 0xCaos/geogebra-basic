@@ -5,12 +5,9 @@
 #ifndef SEGMENTO_SEGMENTO_H
 #define SEGMENTO_SEGMENTO_H
 
-#include "Disegnabile.h"
-#include "Punto.h"
+#include "Linea.h"
 
-class Segmento : public Disegnabile {
-private:
-    std::pair<Punto,Punto> punti;
+class Segmento : public Linea {
 public:
 
     /**
@@ -20,13 +17,19 @@ public:
      */
     Segmento(string, QColor, Punto, Punto);
 
-    std::pair<Punto, Punto> getPunti() const;
+    ~Segmento() =default;
 
     /**
      * @brief Lunghezza del Segmento
      * @return Ritorna la lunghezza (double)
      */
     double getLunghezza() const;
+
+    /**
+     * @brief clone override di Disegnabile::clone()
+     * @return un puntatore al nuovo Segmento clonato
+     */
+    Segmento* clone() const override;
 
     /**
      * @brief override di Disegnabile::disegna()
@@ -38,6 +41,8 @@ public:
      * @return unordered_map con "Nome proprietà" => valore
      */
     std::unordered_map<string,string> getInfo() const override;
+
+
 };
 
 

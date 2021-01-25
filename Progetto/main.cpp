@@ -22,14 +22,14 @@ int main(int argc, char *argv[])
     Segmento s ("a", Qt::black, Punto("A",Qt::black, 1, 2), Punto("A",Qt::black, 5, 7));
     Retta r ("r", Qt::black, Punto("A",Qt::black, 1, 2), Punto("A",Qt::black, 5, 7));
     Regolare quadrato ("Quadrato", Qt::black, std::pair<Punto, Punto>(Punto("A",Qt::black, 1, 2), Punto("A",Qt::black, 5, 7)), 4);
-    Poligono pol1 ("Poligono", Rosso);
+    Poligono pol1 ("Poligono", Qt::red);
     pol1.setVertici({
-            Punto("M", Qt::black, 4, 12),
-            Punto("N", Qt::black, 8, 8),
-            Punto("O", Qt::black, 5, 8),
-            Punto("P", Qt::black, 6, 6),
-            Punto("Q", Qt::black, 1, 7),
-            Punto("R", Qt::black, 4, 9)
+            new Punto("M", Qt::black, 4, 12),
+            new Punto("N", Qt::black, 8, 8),
+            new Punto("O", Qt::black, 5, 8),
+            new Punto("P", Qt::black, 6, 6),
+            new Punto("Q", Qt::black, 1, 7),
+            new Punto("R", Qt::black, 4, 9)
     });
 
     Circonferenza cerchio("Circonferenza", Qt::black, Punto(), 2);

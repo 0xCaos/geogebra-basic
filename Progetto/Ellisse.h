@@ -15,6 +15,8 @@ public:
      */
     Ellisse(std::string nome, QColor colore, Punto centro, double raggio1, double raggio2);
 
+    ~Ellisse() =default;
+
     /**
      * @brief Calcolo del perimetro dell'ellisse
      * @return 2 * PI_GRECO * radiceQuadrata((raggio1^2 + raggio2^2)/2)
@@ -61,6 +63,12 @@ public:
      * @return unordered_map con "Nome proprietà" => valore
      */
     std::unordered_map<string, string> getInfo() const override;
+
+    /**
+     * @brief clone override di Disegnabile::clone()
+     * @return un puntatore alla nuova Ellisse clonata
+     */
+    Ellisse* clone() const override;
 };
 
 #endif // ELLISSE_H

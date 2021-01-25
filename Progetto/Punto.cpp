@@ -18,6 +18,10 @@ double Punto::getDistanza(Punto p) const
     return d;
 }
 
+Punto *Punto::clone() const {
+    return new Punto(*this);
+}
+
 Punto::operator std::string() const {
     return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ")";
 }

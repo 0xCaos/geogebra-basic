@@ -55,3 +55,7 @@ std::unordered_map<std::string, std::string> Ellisse::getInfo() const {
     return infoEllisse;
 }
 
+Ellisse *Ellisse::clone() const {
+    return new Ellisse(*this);
+}
+

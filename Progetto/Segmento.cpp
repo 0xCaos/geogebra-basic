@@ -4,17 +4,19 @@
 
 #include "Segmento.h"
 
-Segmento::Segmento(std::string nome, QColor colore, Punto a, Punto b) : Disegnabile(nome, colore), punti(a,b) {}
+Segmento::Segmento(std::string nome, QColor colore, Punto a, Punto b) : Linea(nome, colore, a, b) {}
 
-std::pair<Punto, Punto> Segmento::getPunti() const { return punti; }
+double Segmento::getLunghezza() const { return getPunti().first.getDistanza(getPunti().second); }
 
-double Segmento::getLunghezza() const { return punti.first.getDistanza(punti.second); }
+Segmento *Segmento::clone() const {
+    return new Segmento(*this);
+}
 
 std::unordered_map<std::string, std::string> Segmento::getInfo() const {
     std::unordered_map<string, string> infoSegmento;
     infoSegmento["Lunghezza"] = std::to_string(getLunghezza());
-    infoSegmento["Secondo Punto"] = punti.second;
-    infoSegmento["Primo Punto"] = punti.first;
+    infoSegmento["Secondo Punto"] = getPunti().second;
+    infoSegmento["Primo Punto"] = getPunti().first;
     infoSegmento["Nome"] = getNome();
 
     return infoSegmento;
