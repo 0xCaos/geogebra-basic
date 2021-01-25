@@ -1,7 +1,6 @@
 #ifndef DISEGNABILE_H
 #define DISEGNABILE_H
 
-#include "Tipi.h"
 #include "string"
 #include <unordered_map>
 #include <QColor>

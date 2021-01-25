@@ -34,6 +34,10 @@ std::unordered_map<string, string> Punto::getInfo() const {
     return infoPunto;
 }
 
+bool Punto::operator==(const Punto &_p) {
+    return getX() == _p.getX() && getY() == _p.getY();
+}
+
 void Punto::disegna(QPainter*) const {
 
 }

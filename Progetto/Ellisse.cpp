@@ -2,7 +2,7 @@
 
 #include "math.h"
 
-Ellisse::Ellisse(std::string nome, QColor colore, Punto _centro, double _raggio1, double _raggio2) :
+Ellisse::Ellisse(std::string nome, QColor colore, Punto* _centro, double _raggio1, double _raggio2) :
     Curva(nome, colore),
     semiAsse1(_raggio1),
     semiAsse2(_raggio2),
@@ -30,11 +30,11 @@ std::pair<Punto, Punto> Ellisse::getFuochi() const
     Punto f2;
     double c = sqrt(getSemidistanzaFocale());
     if (semiAsse1 > semiAsse2) {
-        f1 = Punto("Fuoco 1", Qt::black, centro.getX()-c, centro.getY());
-        f2 = Punto("Fuoco 2", Qt::black, centro.getX()+c, centro.getY());
+        f1 = Punto("Fuoco 1", Qt::black, centro->getX()-c, centro->getY());
+        f2 = Punto("Fuoco 2", Qt::black, centro->getX()+c, centro->getY());
     } else {
-        f1 = Punto("Fuoco 1", Qt::black, centro.getX(), centro.getY()-c);
-        f2 = Punto("Fuoco 2", Qt::black, centro.getX(), centro.getY()+c);
+        f1 = Punto("Fuoco 1", Qt::black, centro->getX(), centro->getY()-c);
+        f2 = Punto("Fuoco 2", Qt::black, centro->getX(), centro->getY()+c);
     }
     return std::pair<Punto, Punto>(f1,f2);
 }

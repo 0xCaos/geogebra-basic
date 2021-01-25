@@ -6,17 +6,17 @@
 
 class Linea : public Disegnabile {
 private:
-    std::pair<Punto,Punto> punti;
+    std::pair<Punto*,Punto*> punti;
 
 protected:
-    Linea(string, QColor, Punto, Punto);
+    Linea(string, QColor, Punto*, Punto*);
 
 public:
     /**
      * @brief getPunti
      * @return ritorna i punti per cui passa una linea e che la identificano
      */
-    std::pair<Punto, Punto> getPunti() const;
+    std::pair<Punto*, Punto*> getPunti() const;
 
     ~Linea() =default;
 };

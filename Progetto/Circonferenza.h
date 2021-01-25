@@ -6,14 +6,14 @@
 class Circonferenza : public Curva {
 private:
     double raggio;
-    Punto centro;
+    Punto* centro;
 
 public:
 
     /**
      * @brief Costruttore di Circonferenza
      */
-    Circonferenza(string nome, QColor colore, Punto centro, double raggio);
+    Circonferenza(string nome, QColor colore, Punto* centro, double raggio);
 
     ~Circonferenza() =default;
 
@@ -55,7 +55,7 @@ public:
     /**
      * @brief Getter del centro della circonferenza
      */
-    Punto getCentro() const;
+    Punto* getCentro() const;
 
     /**
      * @brief override di Disegnabile::disegna()

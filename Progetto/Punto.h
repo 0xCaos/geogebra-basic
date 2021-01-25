@@ -49,7 +49,7 @@ public:
      * @brief clone override di Disegnabile::clone()
      * @return un puntatore al nuovo Punto clonato
      */
-    Punto *clone() const override;
+    Punto* clone() const override;
 
     /**
      * @brief Override di Disegnabile::disegna()
@@ -61,6 +61,12 @@ public:
      * @return unordered_map con "Nome proprietà" => valore
      */
     std::unordered_map<string,string> getInfo() const override;
+
+    /**
+     * @brief operator ==
+     * @return true se i due punti hanno le stesse coordinate, altrimenti false
+     */
+    bool operator==(const Punto& _p);
 };
 
 

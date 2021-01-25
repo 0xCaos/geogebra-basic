@@ -1,16 +1,16 @@
 #include "Retta.h"
 
-Retta::Retta(string nome, QColor colore, Punto a, Punto b) :
+Retta::Retta(string nome, QColor colore, Punto* a, Punto* b) :
     Linea(nome, colore, a, b),
-    paralleloX(a.getY() == b.getY()),
-    paralleloY(a.getX() == b.getX())
+    paralleloX(a->getY() == b->getY()),
+    paralleloY(a->getX() == b->getX())
 {
     if (paralleloX || paralleloY) m = 0;
-    if (paralleloX) q = a.getY();
-    if (paralleloY) q = a.getX();
+    if (paralleloX) q = a->getY();
+    if (paralleloY) q = a->getX();
     else {
-        m = (b.getY() - a.getY())/(b.getX() - a.getX());
-        q = a.getY() - m*a.getX();
+        m = (b->getY() - a->getY())/(b->getX() - a->getX());
+        q = a->getY() - m*a->getX();
     }
 }
 
@@ -37,7 +37,7 @@ std::string Retta::getFormula() const
 std::unordered_map<std::string, std::string> Retta::getInfo() const {
     std::unordered_map<string, string> infoRetta;
     infoRetta["Formula"] = getFormula();
-    infoRetta["Passa per"] = string(getPunti().first) + " e " + string(getPunti().second);
+    infoRetta["Passa per"] = string(*getPunti().first) + " e " + string(*getPunti().second);
     infoRetta["Nome"] = getNome();
 
     return infoRetta;

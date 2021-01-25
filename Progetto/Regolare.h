@@ -8,7 +8,7 @@ Vettore<double> const costantiAree = {0.433, 1, 1.720, 2.598, 3.634, 4.828, 6.18
 
 class Regolare : public Figura {
 private:
-    std::pair<Punto, Punto> punti;
+    std::pair<Punto*, Punto*> punti;
     double lato;
     unsigned int numLati;
 
@@ -20,7 +20,7 @@ public:
      * figura con "numLati" tutti di lunghezza "lato"
      * se numLati > 12, verrà creato al massimo comunque un dodecagono
      */
-    Regolare(string, QColor, std::pair<Punto, Punto>, unsigned int);
+    Regolare(string, QColor, std::pair<Punto*, Punto*>, unsigned int);
 
     ~Regolare() =default;
 

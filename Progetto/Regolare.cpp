@@ -4,12 +4,12 @@ double Regolare::getCostanteArea(unsigned int id) const {
     return costantiAree[id-3];
 }
 
-Regolare::Regolare(std::string nome, QColor color, std::pair<Punto, Punto> punti, unsigned int numVertici) : Figura(nome, color) {
+Regolare::Regolare(std::string nome, QColor color, std::pair<Punto*, Punto*> punti, unsigned int numVertici) : Figura(nome, color) {
     if(numVertici > 12) numVertici = 12;
     if(numVertici < 3) numVertici = 3;
 
     numLati = numVertici;
-    lato = punti.first.getDistanza(punti.second);
+    lato = punti.first->getDistanza(*punti.second);
 }
 
 double Regolare::perimetro() const {

@@ -2,7 +2,7 @@
 
 #include "math.h"
 
-Circonferenza::Circonferenza(std::string nome, QColor colore, Punto _centro, double _raggio) :
+Circonferenza::Circonferenza(std::string nome, QColor colore, Punto* _centro, double _raggio) :
     Curva(nome, colore),
     raggio(_raggio),
     centro(_centro)
@@ -16,11 +16,11 @@ double Circonferenza::area() const { return pow(raggio,2)*M_PI; }
 
 double Circonferenza::eccentricita() const { return 0; }
 
-std::pair<Punto, Punto> Circonferenza::getFuochi() const { return std::pair<Punto,Punto>(centro, centro); }
+std::pair<Punto, Punto> Circonferenza::getFuochi() const { return std::pair<Punto,Punto>(*centro, *centro); }
 
 double Circonferenza::getRaggio() const { return raggio; }
 
-Punto Circonferenza::getCentro() const { return centro; }
+Punto* Circonferenza::getCentro() const { return centro; }
 
 void Circonferenza::disegna(QPainter *) const
 {
@@ -32,7 +32,7 @@ std::unordered_map<std::string, std::string> Circonferenza::getInfo() const {
     infoCirconferenza["Area"] = std::to_string(area());
     infoCirconferenza["Perimetro"] = std::to_string(perimetro());
     infoCirconferenza["Diametro"] = std::to_string(diametro());
-    infoCirconferenza["Centro"] = getCentro();
+    infoCirconferenza["Centro"] = *getCentro();
     infoCirconferenza["Nome"] = getNome();
 
     return infoCirconferenza;

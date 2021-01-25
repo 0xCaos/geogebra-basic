@@ -3,9 +3,11 @@
 #include <QApplication>
 #include <unordered_map>
 #include "Gerarchia.h"
+#include "DeepPtr.h"
 
 #include "iostream"
 using std::cout;
+using std::endl;
 
 int main(int argc, char *argv[])
 {
@@ -16,9 +18,14 @@ int main(int argc, char *argv[])
     return a.exec();
     */
 
+    DeepPtr<Punto> A(new Punto("A",Qt::black,3,4));
+    DeepPtr<Punto> B(new Punto("B",Qt::black,2,1));
+    DeepPtr<Punto> C(A);
+    C.reset(new Punto("C",Qt::black,8,7));
+    cout << A->getDistanza(*C) << endl;
 
     //colori nero = Nero;
-
+/*
     Segmento s ("a", Qt::black, Punto("A",Qt::black, 1, 2), Punto("A",Qt::black, 5, 7));
     Retta r ("r", Qt::black, Punto("A",Qt::black, 1, 2), Punto("A",Qt::black, 5, 7));
     Regolare quadrato ("Quadrato", Qt::black, std::pair<Punto, Punto>(Punto("A",Qt::black, 1, 2), Punto("A",Qt::black, 5, 7)), 4);
@@ -92,7 +99,7 @@ int main(int argc, char *argv[])
 
         cout << itr->first << "  " << itr->second << "\n";
      }
-
+*/
     //Punto("Punto 1", 1, 1, 2) punto1;
     /*
     Punto punto1 ("Punto 1");

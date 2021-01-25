@@ -15,7 +15,7 @@ public:
      * @param Punto 1
      * @param Punto 2
      */
-    Segmento(string, QColor, Punto, Punto);
+    Segmento(string, QColor, Punto*, Punto*);
 
     ~Segmento() =default;
 
