@@ -3,10 +3,12 @@
 
 #include "Circonferenza.h"
 
-class Ellisse : public Circonferenza
+class Ellisse : public Curva
 {
 private:
-    double raggio2;
+    double semiAsse1;
+    double semiAsse2;
+    Punto centro;
 public:
     /**
      * @brief Costruttore di Ellisse
@@ -33,7 +35,7 @@ public:
 
     /**
      * @brief Calcolo dell'eccentricità
-     * @return semiDistanzaFocale / radiceQuadrata(raggioMaggiore)
+     * @return semiDistanzaFocale / radiceQuadrata(semi asse maggiore)
      */
     double eccentricita() const override;
 
@@ -50,9 +52,15 @@ public:
     std::pair<Punto,Punto> getFuochi() const override;
 
     /**
-     * @brief disegna
+     * @brief disegna (Override di Disegnabile::disegna())
      */
     void disegna(QPainter*) const override;
+
+    /**
+     * @brief getInfo (override di Disegnabile::getInfo)
+     * @return unordered_map con "Nome proprietà" => valore
+     */
+    std::unordered_map<string, string> getInfo() const override;
 };
 
 #endif // ELLISSE_H

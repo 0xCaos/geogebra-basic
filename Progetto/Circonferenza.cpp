@@ -27,4 +27,15 @@ void Circonferenza::disegna(QPainter *) const
 
 }
 
+std::unordered_map<std::string, std::string> Circonferenza::getInfo() const {
+    std::unordered_map<string, string> infoCirconferenza;
+    infoCirconferenza["Area"] = std::to_string(area());
+    infoCirconferenza["Perimetro"] = std::to_string(perimetro());
+    infoCirconferenza["Diametro"] = std::to_string(diametro());
+    infoCirconferenza["Centro"] = getCentro();
+    infoCirconferenza["Nome"] = getNome();
+
+    return infoCirconferenza;
+}
+
 

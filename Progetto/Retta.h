@@ -21,17 +21,25 @@ public:
     /**
      * @brief Getter del coefficiente angolare
      */
-    double getM();
+    double getM() const;
 
     /**
      * @brief Getter della quota all'origine
      */
-    double getQ();
+    double getQ() const;
+
+    double getLunghezza() const =delete; // per una retta non ha senso chiedere la lunghezza
 
     /**
      * @brief Generatore della formula della Retta
      */
-    std::string getFormula();
+    std::string getFormula() const;
+
+    /**
+     * @brief getInfo override di Disegnabile::getInfo()
+     * @return unordered_map con "Nome proprietà" => valore
+     */
+    std::unordered_map<string,string> getInfo() const override;
 };
 
 #endif // RETTA_H

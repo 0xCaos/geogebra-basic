@@ -20,9 +20,9 @@ bool Poligono::concavo() const {
 std::unordered_map<std::string, std::string> Poligono::getInfo() const {
     std::unordered_map<string, string> infoPoligono;
     infoPoligono["Concavità"] = concavo()?"Concavo":"Convesso";
-    infoPoligono["Area"] = area();
-    infoPoligono["Perimetro"] = perimetro();
-    infoPoligono["Vertici"] = vertici.size();
+    infoPoligono["Area"] = std::to_string(area());
+    infoPoligono["Perimetro"] = std::to_string(perimetro());
+    infoPoligono["Vertici"] = std::to_string(vertici.size());
     infoPoligono["Colore"] = "Nero";
     infoPoligono["Nome"] = getNome();
 

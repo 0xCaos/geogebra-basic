@@ -17,15 +17,15 @@ double Regolare::perimetro() const {
 }
 
 double Regolare::area() const {
-    double numeroFisso = getCostanteArea(numLati);
-    return (lato*lato)*numeroFisso;
+    double costante = getCostanteArea(numLati);
+    return (lato*lato)*costante;
 }
 
-std::unordered_map<std::string, std::string> Regolare::getInfo() const {
+std::unordered_map<string, string> Regolare::getInfo() const {
     std::unordered_map<string, string> infoRegolare;
-    infoRegolare["Area"] = area();
-    infoRegolare["Perimetro"] = perimetro();
-    infoRegolare["Vertici"] = numLati;
+    infoRegolare["Area"] = std::to_string(area());
+    infoRegolare["Perimetro"] = std::to_string(perimetro());
+    infoRegolare["Vertici"] = std::to_string(numLati);
     infoRegolare["Colore"] = "Nero";
     infoRegolare["Nome"] = getNome();
 

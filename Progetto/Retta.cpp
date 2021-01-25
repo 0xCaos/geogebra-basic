@@ -1,7 +1,5 @@
 #include "Retta.h"
 
-using std::string;
-
 Retta::Retta(string nome, QColor colore, Punto a, Punto b) :
     Segmento(nome, colore, a, b),
     paralleloX(a.getY() == b.getY()),
@@ -16,11 +14,11 @@ Retta::Retta(string nome, QColor colore, Punto a, Punto b) :
     }
 }
 
-double Retta::getM() { return m; }
+double Retta::getM() const { return m; }
 
-double Retta::getQ() { return q; }
+double Retta::getQ() const { return q; }
 
-std::string Retta::getFormula()
+std::string Retta::getFormula() const
 {
     if (m) {
         string sign = "+";
@@ -34,4 +32,13 @@ std::string Retta::getFormula()
         if (paralleloX) return "y = " + std::to_string(getQ());
         else return "x = " + std::to_string(getQ());
     }
+}
+
+std::unordered_map<std::string, std::string> Retta::getInfo() const {
+    std::unordered_map<string, string> infoRetta;
+    infoRetta["Formula"] = getFormula();
+    infoRetta["Passa per"] = string(getPunti().first) + " e " + string(getPunti().second);
+    infoRetta["Nome"] = getNome();
+
+    return infoRetta;
 }

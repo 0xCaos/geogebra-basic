@@ -2,24 +2,26 @@
 
 #include "math.h"
 
-Ellisse::Ellisse(std::string nome, QColor colore, Punto centro, double _raggio1, double _raggio2) :
-    Circonferenza(nome, colore, centro, _raggio1),
-    raggio2(_raggio2)
+Ellisse::Ellisse(std::string nome, QColor colore, Punto _centro, double _raggio1, double _raggio2) :
+    Curva(nome, colore),
+    semiAsse1(_raggio1),
+    semiAsse2(_raggio2),
+    centro(_centro)
 {}
 
-double Ellisse::perimetro() const { return 2*M_PI*sqrt((pow(getRaggio(),2) + pow(raggio2,2))/2); }
+double Ellisse::perimetro() const { return 2*M_PI*sqrt((pow(semiAsse1,2) + pow(semiAsse2,2))/2); }
 
-double Ellisse::area() const { return M_PI*getRaggio()*raggio2; }
+double Ellisse::area() const { return M_PI*semiAsse1*semiAsse2; }
 
 double Ellisse::getSemidistanzaFocale() const {
-    if (getRaggio() > raggio2) return sqrt(pow(getRaggio(),2) - pow(raggio2,2));
-    return sqrt(pow(raggio2,2) - pow(getRaggio(),2));
+    if (semiAsse1 > semiAsse2) return sqrt(pow(semiAsse1,2) - pow(semiAsse2,2));
+    return sqrt(pow(semiAsse2,2) - pow(semiAsse1,2));
 }
 
 double Ellisse::eccentricita() const
 {
-    if (getRaggio() > raggio2) return getSemidistanzaFocale()/sqrt(getRaggio());
-    return getSemidistanzaFocale()/sqrt(raggio2);
+    if (semiAsse1 > semiAsse2) return getSemidistanzaFocale()/semiAsse1;
+    return getSemidistanzaFocale()/semiAsse2;
 }
 
 std::pair<Punto, Punto> Ellisse::getFuochi() const
@@ -27,12 +29,12 @@ std::pair<Punto, Punto> Ellisse::getFuochi() const
     Punto f1;
     Punto f2;
     double c = sqrt(getSemidistanzaFocale());
-    if (getRaggio() > raggio2) {
-        f1 = Punto("default", Nero, getCentro().getX()-c, getCentro().getY());
-        f2 = Punto("default", Nero, getCentro().getX()+c, getCentro().getY());
+    if (semiAsse1 > semiAsse2) {
+        f1 = Punto("Fuoco 1", Qt::black, centro.getX()-c, centro.getY());
+        f2 = Punto("Fuoco 2", Qt::black, centro.getX()+c, centro.getY());
     } else {
-        f1 = Punto("default", Nero, getCentro().getX(), getCentro().getY()-c);
-        f2 = Punto("default", Nero, getCentro().getX(), getCentro().getY()+c);
+        f1 = Punto("Fuoco 1", Qt::black, centro.getX(), centro.getY()-c);
+        f2 = Punto("Fuoco 2", Qt::black, centro.getX(), centro.getY()+c);
     }
     return std::pair<Punto, Punto>(f1,f2);
 }
@@ -40,5 +42,16 @@ std::pair<Punto, Punto> Ellisse::getFuochi() const
 void Ellisse::disegna(QPainter *) const
 {
 
+}
+
+std::unordered_map<std::string, std::string> Ellisse::getInfo() const {
+    std::unordered_map<string, string> infoEllisse;
+    infoEllisse["Eccentricità"] = std::to_string(eccentricita());
+    infoEllisse["Area"] = std::to_string(area());
+    infoEllisse["Perimetro"] = std::to_string(perimetro());
+    infoEllisse["Fuochi"] = string(getFuochi().first) + " " + string(getFuochi().second);
+    infoEllisse["Nome"] = getNome();
+
+    return infoEllisse;
 }
 

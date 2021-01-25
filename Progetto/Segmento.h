@@ -20,16 +20,24 @@ public:
      */
     Segmento(string, QColor, Punto, Punto);
 
+    std::pair<Punto, Punto> getPunti() const;
+
     /**
      * @brief Lunghezza del Segmento
      * @return Ritorna la lunghezza (double)
      */
-    double getLunghezza();
+    double getLunghezza() const;
 
     /**
      * @brief override di Disegnabile::disegna()
      */
     void disegna(QPainter*) const override {};
+
+    /**
+     * @brief getInfo override di Disegnabile::getInfo()
+     * @return unordered_map con "Nome proprietà" => valore
+     */
+    std::unordered_map<string,string> getInfo() const override;
 };
 
 

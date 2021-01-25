@@ -24,19 +24,21 @@ public:
      * @brief Getter della coordinata X del Punto
      * @return Ritorna un double (x)
      */
-    double getX();
+    double getX() const;
 
     /**
      * @brief Getter della coordinata Y del Punto
      * @return Ritorna un double (Y)
      */
-    double getY();
+    double getY() const;
 
     /**
      * @brief Calcolo della distanza tra il Punto di invocazione e il Punto passato come parametro
      * @return Ritorna un double (la distanza)
      */
-    double getDistanza(Punto);
+    double getDistanza(Punto) const;
+
+    operator std::string() const;
 
     /**
      * @brief Override di Disegnabile::disegna()
@@ -45,7 +47,7 @@ public:
 
     /**
      * @brief getInfo override di Disegnabile::getInfo()
-     * @return una map con tutte le info relative al punto
+     * @return unordered_map con "Nome proprietà" => valore
      */
     std::unordered_map<string,string> getInfo() const override;
 };
