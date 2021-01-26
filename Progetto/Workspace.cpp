@@ -3,7 +3,7 @@
 WorkSpace::WorkSpace() : disegni() {}
 
 WorkSpace::~WorkSpace(){
-    for(auto i: disegni) delete i;
+    //for(auto i: disegni) delete i.get();
 }
 
 void WorkSpace::addDisegno(Disegnabile *disegno) {
@@ -23,7 +23,7 @@ void WorkSpace::svuotaWorkspace() {
 
 bool WorkSpace::puntoNuovo(const Punto *point) const {
     for(auto i = disegni.begin(); i != disegni.end(); i++)
-        if(dynamic_cast<Punto*>(*i) && *(static_cast<Punto*>(*i)) == *point)
+        if(dynamic_cast<Punto*>((*i).get()) && *(static_cast<Punto*>((*i).get())) == *point)
             return false;
 
     return true;

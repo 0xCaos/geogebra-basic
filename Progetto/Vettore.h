@@ -18,7 +18,7 @@ private:
      * Array sotto la struttura del vettore
      */
     T* arr;
-    //std::unique_ptr<T[]> arr;
+
     /**
      * Size del Vettore
      * vsize indica il numero di elementi presenti nel Vettore

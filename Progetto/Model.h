@@ -6,10 +6,10 @@
 
 class Model {
 private:
-    WorkSpace* workspace;
 
     bool checkNuoviPunti(const Vettore<Punto*>& points) const;
 public:
+    WorkSpace* workspace;
     Model();
     ~Model();
 

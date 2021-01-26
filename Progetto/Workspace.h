@@ -2,20 +2,21 @@
 #define WORKSPACE_H
 
 #include "Gerarchia.h"
+#include "DeepPtr.h"
 
 class WorkSpace {
 private:
-    Vettore<Disegnabile*> disegni;
+    Vettore<DeepPtr<Disegnabile>> disegni;
 public:
     WorkSpace();
     ~WorkSpace();
 
     /* Only for Debug
+    */
     void stampaContenuto() const {
         for(auto el : disegni)
             std::cout << el->getNome() << " ";
     }
-    */
 
     /**
      * @brief inserisce il disegno alla fine di disegni

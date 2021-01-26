@@ -56,7 +56,6 @@ void Model::addNewPunto(double x, double y, std::string nome, QColor color) cons
     Creator creator;
     Punto* p = creator.creaPunto(nome, color, x, y);
     if(!checkNuoviPunti({ p })) {
-        std::cout << "non aggiungo";
         delete p; // se non aggiunto faccio la delete => altrimenti Memory leak
     }
 }

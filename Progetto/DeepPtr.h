@@ -69,7 +69,7 @@ public:
      * @brief operator *
      * @return ritorna p dereferenziato, se p non è nullo
      */
-    T operator*() const;
+    T& operator*() const;
 
     /**
      * @brief operator ->
@@ -95,15 +95,17 @@ DeepPtr<T>::DeepPtr(const DeepPtr& _dp) : p(_dp.p->clone()) {}
 
 template<class T>
 DeepPtr<T>&  DeepPtr<T>::operator=(const DeepPtr& _dp) {
-    if (this != _dp) {
+    if (this != &_dp) {
         delete p;
         p = _dp.p->clone();
     }
-    return this;
+    return *this;
 }
 
 template<class T>
-DeepPtr<T>::~DeepPtr() { delete p; }
+DeepPtr<T>::~DeepPtr() {
+    delete p;
+}
 
 template<class T>
 T* DeepPtr<T>::get() const { return p; }
@@ -129,7 +131,7 @@ void DeepPtr<T>::reset(T* _p) {
 }
 
 template<class T>
-T DeepPtr<T>::operator*() const { if (get()) return *get(); }
+T& DeepPtr<T>::operator*() const { if (get()) return *get(); }
 
 template<class T>
 T* DeepPtr<T>::operator->() const { if (get()) return get(); }
