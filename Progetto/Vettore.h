@@ -63,7 +63,7 @@ public:
         const T* punt;
     public:
         const_iterator() : punt(nullptr) {};
-        const_iterator(T* p) : punt(p) {};
+        const_iterator(const T* p) : punt(p) {};
         //const_iterator(const_iterator&);
         ~const_iterator() = default;
 

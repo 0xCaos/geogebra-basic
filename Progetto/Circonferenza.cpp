@@ -3,7 +3,7 @@
 #include "math.h"
 
 Circonferenza::Circonferenza(std::string nome, QColor colore, Punto* _centro, double _raggio) :
-    Curva(nome, colore),
+    Curva((_raggio<=0) ? throw std::domain_error("Il raggio deve essere positivo.") : nome, colore),
     raggio(_raggio),
     centro(_centro)
 {}

@@ -3,7 +3,7 @@
 #include "math.h"
 
 Ellisse::Ellisse(std::string nome, QColor colore, Punto* _centro, double _raggio1, double _raggio2) :
-    Curva(nome, colore),
+    Curva((_raggio1<=0 || _raggio2<=0) ? throw std::domain_error("I due semiassi devono essere entrambi positivi.") : nome, colore),
     semiAsse1(_raggio1),
     semiAsse2(_raggio2),
     centro(_centro)

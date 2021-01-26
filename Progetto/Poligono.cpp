@@ -29,10 +29,16 @@ std::unordered_map<std::string, std::string> Poligono::getInfo() const {
     return infoPoligono;
 }
 
-Poligono::Poligono(std::string nome , QColor color, const Vettore<Punto*>& vettVertici) : Figura(nome, color), vertici(vettVertici) {}
-
-Poligono::~Poligono() {
-    for(auto punto : vertici) delete punto;
+Poligono::Poligono(std::string nome , QColor color, const Vettore<Punto*>& vettVertici) :
+    Figura(nome,color)
+{
+    bool duplicati = false;
+    for(auto i = vettVertici.begin(); i != vettVertici.end() && !duplicati; ++i)
+        for(auto j = i+1; j != vettVertici.end() && !duplicati; ++j)
+            if (**i == **j) duplicati = true;
+    duplicati ?
+        throw std::logic_error("Attenzione: non puoi inserire più volte lo stesso punto.") :
+        vertici = vettVertici;
 }
 
 void Poligono::setVertici(const Vettore<Punto*>& newVertici) {

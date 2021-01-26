@@ -17,7 +17,7 @@ public:
      */
     Poligono(string, QColor, const Vettore<Punto*>& = Vettore<Punto*>());
 
-    ~Poligono();
+    ~Poligono() = default;
 
     /**
      * @brief setVertici
