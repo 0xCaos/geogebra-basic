@@ -14,14 +14,19 @@ void WorkSpace::removeDisegno(unsigned int index) { // Valutare se tornare il pu
     if(index >= disegni.size())
         throw std::out_of_range("Il disegno selezionato non è presente.");
 
-    //auto disegno = disegni[index];
     disegni.erase(disegni.begin()+index);
-
-    //return disegno;
 }
 
 void WorkSpace::svuotaWorkspace() {
     disegni.clear();
+}
+
+bool WorkSpace::puntoNuovo(const Punto *point) const {
+    for(auto i = disegni.begin(); i != disegni.end(); i++)
+        if(dynamic_cast<Punto*>(*i) && *(static_cast<Punto*>(*i)) == *point)
+            return false;
+
+    return true;
 }
 
 

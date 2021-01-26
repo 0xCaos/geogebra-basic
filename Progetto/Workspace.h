@@ -10,6 +10,13 @@ public:
     WorkSpace();
     ~WorkSpace();
 
+    /* Only for Debug
+    void stampaContenuto() const {
+        for(auto el : disegni)
+            std::cout << el->getNome() << " ";
+    }
+    */
+
     /**
      * @brief inserisce il disegno alla fine di disegni
      * @param puntatore al disegno da inserire
@@ -27,6 +34,13 @@ public:
      * @brief rimuove tutti i disegni dal workspace
      */
     void svuotaWorkspace();
+
+    /**
+     * @brief puntoNuovo        controlla se un punto è già presente nel workspace
+     * @param point             punto sul quale si esegue il controllo
+     * @return                  true sse point non è presente in disegni
+     */
+    bool puntoNuovo(const Punto* point) const;
 
 };
 

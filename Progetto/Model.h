@@ -8,6 +8,7 @@ class Model {
 private:
     WorkSpace* workspace;
 
+    bool checkNuoviPunti(const Vettore<Punto*>& points) const;
 public:
     Model();
     ~Model();
@@ -92,6 +93,11 @@ public:
      * @brief refresh               Ridisegna tutti i disegni sul piano cartesiano
      */
     void refresh() const;
+
+    /**
+     * @brief cancellaTutto         Elimina tutti i disegni dal workspace
+     */
+    void cancellaTutto();
 
 };
 
