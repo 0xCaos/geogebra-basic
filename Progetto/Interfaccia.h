@@ -4,14 +4,17 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QAction>
 #include <QMenu>
 #include <QMenuBar>
 #include <QPushButton>
 #include <QLabel>
+//#include <utility>
+#include <QInputDialog>
+
+#include "PianoCartesiano.h"
 
 class Controller;
-
-class PianoCartesiano;
 
 class Interfaccia : public QWidget {
     Q_OBJECT
@@ -34,10 +37,11 @@ private:
 
 public:
     explicit Interfaccia(QWidget* parent = nullptr);
+    ~Interfaccia() =default;
 
     void setController(Controller* c);
 
-    ~Interfaccia() =default;
+    unsigned int showRemoveDialog();
 };
 
 #endif // INTERFACCIA_H

@@ -6,19 +6,20 @@
 #include "Interfaccia.h"
 
 class Controller : public QObject {
+    Q_OBJECT
 private:
     Model* model;
     Interfaccia* view;
+
 public:
     explicit Controller(QObject *parent = nullptr);
-    ~Controller();
+    ~Controller() =default;
 
     void setModel(Model* m);
     void setView(Interfaccia* v);
-    // stesso set per la vista
 
 public slots:
-
+    /*
     void addPunto() const;
     void addSegmento() const;
     void addRetta() const;
@@ -26,8 +27,8 @@ public slots:
     void addEllisse() const;
     void addRegolare() const;
     void addPoligono() const;
-
-    void remove() const;
+    */
+    void removeDisegno() const;
 };
 
 #endif // CONTROLLER_H

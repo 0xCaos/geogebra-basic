@@ -1,5 +1,6 @@
 #include "Interfaccia.h"
 
+#include "Controller.h"
 
 void Interfaccia::addMenu(QVBoxLayout *mainLayout) {
     QMenuBar*   menuBar = new QMenuBar(this);
@@ -51,7 +52,7 @@ void Interfaccia::buildSxLayout(QHBoxLayout *bodyInterface) {
 
 void Interfaccia::buildDxLayout(QHBoxLayout *bodyInterface) {
     QVBoxLayout* dxLayout   = new QVBoxLayout;
-    /*
+
     PianoCartesiano* piano  = new PianoCartesiano;
     piano->setMinimumSize(1100,800);
 
@@ -61,7 +62,7 @@ void Interfaccia::buildDxLayout(QHBoxLayout *bodyInterface) {
     zoomIn->setGeometry(piano->width()-buttonSize*2,piano->height()-buttonSize*3,buttonSize,buttonSize);
     zoomOut->setGeometry(piano->width()-buttonSize*2,piano->height()-buttonSize*2,buttonSize,buttonSize);
     dxLayout->addWidget(piano);
-    */
+
     bodyInterface->addLayout(dxLayout);
 }
 
@@ -95,4 +96,17 @@ Interfaccia::Interfaccia(QWidget *parent) : QWidget(parent) {
 
 void Interfaccia::setController(Controller *c) {
     controller = c;
+
+    connect(resetButton, SIGNAL(clicked()), controller, SLOT(removeDisegno()));
+}
+
+unsigned int Interfaccia::showRemoveDialog() {
+    bool ok = false;
+    unsigned int remove =
+            QInputDialog::getInt(this, tr("Elimina disegno"),
+                         "Indice del disegno da rimuovere: ", 1, 1, 2147483647, 1, &ok);
+    if(!ok)
+        throw std::runtime_error("Nessun disegno selezionato: rimozione annullata");
+
+    return remove;
 }
