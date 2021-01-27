@@ -1,3 +1,7 @@
+#include "Model.h"
+#include "Controller.h"
+#include "Interfaccia.h"
+
 #include <QApplication>
 #include <unordered_map>
 #include "Gerarchia.h"
@@ -5,24 +9,28 @@
 
 #include "iostream"
 using std::cout;
-using std::endl;
 
 int main(int argc, char *argv[])
 {
-    /*
+
     QApplication a(argc, argv);
-    MainWindow w;
+        Interfaccia w;
+        Controller c;
+        Model m;
+
+        c.setModel(&m);
+        c.setView(&w);
+        w.setController(&c);
+
     w.show();
     return a.exec();
-    */
 
+
+    /*
     cout << "Inizio \n";
     Model modelloTest;
     cout << "creato modello\n";
-    Punto* p2 = new Punto("C",Qt::black, 6, 1);
-    Punto* p3 = new Punto("A",Qt::black, 4, 7);
-    Punto* p4 = new Punto("B", Qt::black, 3.54, 7.7);
-    modelloTest.addNewPoligono({p2,p3,p4});
+    modelloTest.addNewPoligono({new Punto("C",Qt::black, 6, 1), new Punto("A",Qt::black, 4, 7), new Punto("B", Qt::black, 3.54, 7.7)});
     cout << "\nPost newPoligono\n";
     Punto p1;
     modelloTest.addNewPunto(p1.getX(), p1.getY(), p1.getNome(), p1.getColore());
@@ -31,9 +39,7 @@ int main(int argc, char *argv[])
     modelloTest.addNewPunto(3, 4, "Lollo", p1.getColore());
     modelloTest.addNewPunto(3, 4, "Yoda", p1.getColore());
 
-    Poligono pol1("Poligono", Qt::black, {p2,p3,p4});
-
-    delete p2, delete p3, delete p4;
+    Poligono pol1("Poligono", Qt::black, {new Punto("C",Qt::black, 6, 1), new Punto("A",Qt::black, 4, 7), new Punto("B", Qt::black, 3.54, 7.7)});
 
     cout << "\nContenuto Modello\n";
     modelloTest.workspace->stampaContenuto();
@@ -42,6 +48,8 @@ int main(int argc, char *argv[])
     modelloTest.workspace->stampaContenuto();
 
     cout << "\nEnd Main\n";
+
+    */
 
 
     /*
