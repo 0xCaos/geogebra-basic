@@ -29,4 +29,8 @@ bool WorkSpace::puntoNuovo(const Punto *point) const {
     return true;
 }
 
+std::unordered_map<string, string> WorkSpace::getInfoDisegnabile() {
+    return disegni[disegni.size()-1]->getInfo();
+}
+
 

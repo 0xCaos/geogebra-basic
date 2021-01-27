@@ -57,6 +57,8 @@ public:
 
     Vettore<QString> showNewPuntoDialog();
     unsigned int showRemoveDialog();
+
+    void addInfoDisegnabile(std::unordered_map<string,string>);
 };
 
 #endif // INTERFACCIA_H

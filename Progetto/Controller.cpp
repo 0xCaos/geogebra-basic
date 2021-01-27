@@ -15,6 +15,7 @@ void Controller::addPunto() const {
     //while(!ok){
         try {
             Vettore<QString> dati = view->showNewPuntoDialog();
+            std::unordered_map<string, string> displayInfo;
             //for(auto el : dati)
             //    std::cout << el.toStdString() << " ";
             string nome = dati[0].toStdString();
@@ -22,6 +23,8 @@ void Controller::addPunto() const {
             double y = dati[2].toDouble();
             // Qt color mancante !!!!
             model->addNewPunto(x, y, nome);
+            displayInfo = model->getInfoDisegnabile();
+            view->addInfoDisegnabile(displayInfo);
             //ok = true;
         }  catch (std::runtime_error exc) {
             //std::cout << exc.what();

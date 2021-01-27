@@ -99,6 +99,8 @@ public:
      */
     void cancellaTutto();
 
+    std::unordered_map<string, string> getInfoDisegnabile() const;
+
 };
 
 #endif // MODEL_H

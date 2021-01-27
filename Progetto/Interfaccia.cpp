@@ -149,10 +149,10 @@ Vettore<QString> Interfaccia::showNewPuntoDialog() {
     QDialog* formDialog = new QDialog(this);
     formDialog->setWindowTitle("Nuovo Punto");
 
-    QVBoxLayout* mainLayout     = new QVBoxLayout;
+    QVBoxLayout* mainLayout     = new QVBoxLayout;/*
     QHBoxLayout* inputLayout    = new QHBoxLayout;
     QVBoxLayout* sxLabelLayout  = new QVBoxLayout;
-    QVBoxLayout* dxInputLayout  = new QVBoxLayout;
+    QVBoxLayout* dxInputLayout  = new QVBoxLayout;*/
     QHBoxLayout* buttonLayout   = new QHBoxLayout;
 
     QFormLayout* formLayout = new QFormLayout;
@@ -250,4 +250,10 @@ unsigned int Interfaccia::showRemoveDialog() {
         throw std::runtime_error("Nessun disegno selezionato: rimozione annullata");
 
     return remove;
+}
+
+void Interfaccia::addInfoDisegnabile(std::unordered_map<std::string, std::string> info) {
+    for(auto el : info) {
+        std::cout << el.first << " | " << el.second << std::endl;
+    }
 }
