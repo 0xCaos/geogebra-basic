@@ -11,11 +11,11 @@ public:
     ~WorkSpace();
 
     /* Only for Debug
-    */
     void stampaContenuto() const {
         for(auto el : disegni)
             std::cout << el->getNome() << " ";
     }
+    */
 
     /**
      * @brief inserisce il disegno alla fine di disegni

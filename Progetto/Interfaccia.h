@@ -11,6 +11,10 @@
 #include <QLabel>
 //#include <utility>
 #include <QInputDialog>
+#include <QDialog>
+#include <QValidator>
+#include <QDialogButtonBox>
+#include <QString>
 
 #include "PianoCartesiano.h"
 
@@ -29,7 +33,6 @@ private:
     QPushButton* eliminaButton;
     QPushButton* resetButton;
 
-
     void addMenu(QVBoxLayout* mainLayout);
 
     void buildSxLayout(QHBoxLayout* bodyInterface);
@@ -41,6 +44,14 @@ public:
 
     void setController(Controller* c);
 
+
+    //void setColor();
+
+    void showSceltaFiguraDialog();
+
+    void showWarningDialog(const QString& message);
+
+    Vettore<QString> showNewPuntoDialog();
     unsigned int showRemoveDialog();
 };
 

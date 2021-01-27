@@ -87,6 +87,10 @@ Interfaccia::Interfaccia(QWidget *parent) : QWidget(parent) {
     buildSxLayout(bodyInterface);
     buildDxLayout(bodyInterface);
 
+    //qDebug("prima della connect");
+    connect(disegnaButton, &QPushButton::clicked, this, &Interfaccia::showSceltaFiguraDialog);
+    //qDebug("dopo della connect");
+
     mainLayout->addLayout(bodyInterface);
 
     mainLayout->setSpacing(0);
@@ -98,6 +102,103 @@ void Interfaccia::setController(Controller *c) {
     controller = c;
 
     connect(resetButton, SIGNAL(clicked()), controller, SLOT(removeDisegno()));
+}
+
+void Interfaccia::showSceltaFiguraDialog() {
+    QDialog* dialog = new QDialog(this);
+
+    QVBoxLayout *verticalLayout = new QVBoxLayout;
+
+    QPushButton* nuovoPunto = new QPushButton("Nuovo Punto");
+    verticalLayout->addWidget(nuovoPunto);
+    dialog->setLayout(verticalLayout);
+    dialog->resize(QSize(720, 480));
+
+    connect(nuovoPunto, SIGNAL(clicked()), controller, SLOT(addPunto()));
+
+    dialog->exec();
+    qDebug("popup chiuso");
+}
+
+void Interfaccia::showWarningDialog(const QString &message) {
+    QDialog* dialog = new QDialog(this);
+
+    dialog->setLayout(new QHBoxLayout);
+    dialog->layout()->addWidget(new QLabel(message, dialog));
+    dialog->layout()->setAlignment(Qt::AlignCenter);
+    dialog->setMinimumWidth(120);
+    dialog->setMaximumWidth(500);
+
+    dialog->exec();
+}
+
+Vettore<QString> Interfaccia::showNewPuntoDialog() {
+    QDialog* formDialog = new QDialog(this);
+
+    QVBoxLayout* mainLayout     = new QVBoxLayout;
+    QHBoxLayout* inputLayout    = new QHBoxLayout;
+    QVBoxLayout* sxLabelLayout  = new QVBoxLayout;
+    QVBoxLayout* dxInputLayout  = new QVBoxLayout;
+    QHBoxLayout* buttonLayout   = new QHBoxLayout;
+
+    // SX Label Layout
+    QLabel* nome    = new QLabel("Nome");
+    QLabel* x       = new QLabel("X");
+    QLabel* y       = new QLabel("Y");
+    QLabel* color   = new QLabel("Colore");
+
+    sxLabelLayout->addWidget(nome);
+    sxLabelLayout->addWidget(x);
+    sxLabelLayout->addWidget(y);
+    sxLabelLayout->addWidget(color);
+
+    QLineEdit* inputNome    = new QLineEdit("P");
+    QLineEdit* inputX       = new QLineEdit;
+    QLineEdit* inputY       = new QLineEdit;
+    QDoubleValidator* validator = new QDoubleValidator(-200.0,200.0,2,formDialog);
+    inputX->setValidator(validator);
+    inputY->setValidator(validator);
+    QLineEdit* inputColor   = new QLineEdit();
+
+    dxInputLayout->addWidget(inputNome);
+    dxInputLayout->addWidget(inputX);
+    dxInputLayout->addWidget(inputY);
+    dxInputLayout->addWidget(inputColor);
+
+    QDialogButtonBox* bottoni = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(bottoni, SIGNAL(accepted()), formDialog, SLOT(accept()));
+    connect(bottoni, SIGNAL(rejected()), formDialog, SLOT(reject()));
+
+    buttonLayout->addWidget(bottoni);
+
+    inputLayout->addLayout(sxLabelLayout);
+    inputLayout->addLayout(dxInputLayout);
+    mainLayout->addLayout(inputLayout);
+    mainLayout->addLayout(buttonLayout);
+
+    formDialog->setLayout(mainLayout);
+
+    formDialog->resize(QSize(400, 400));
+
+    //formDialog->exec();
+
+    if(formDialog->exec()){
+        Vettore<QString> results = {
+            inputNome->text(),
+            inputX->text(),
+            inputY->text(),
+            inputColor->text()
+        };
+        return results;
+    } else
+        throw std::runtime_error("Operazione annullata");
+        //return Vettore<QString>();
+
+    /*
+    double ascissa = QString(inputX->text()).toDouble();
+    double ordinata = QString(inputY->text()).toDouble();
+    std::cout << ascissa << " " << ordinata << "\n";
+    */
 }
 
 unsigned int Interfaccia::showRemoveDialog() {

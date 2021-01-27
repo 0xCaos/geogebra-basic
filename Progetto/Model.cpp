@@ -1,9 +1,14 @@
 #include "Model.h"
 
-void Model::checkNuoviPunti(const Vettore<Punto*>& points) const {
+bool Model::checkNuoviPunti(const Vettore<Punto*>& points) const {
+    bool almenoUno = false;
     for(auto point : points)
-        if(workspace->puntoNuovo(point))
+        if(workspace->puntoNuovo(point)){
+            //std::cout << string(*point) << "\n";
             workspace->addDisegno(point);
+            almenoUno = true;
+           }
+    return almenoUno;
 }
 
 Model::Model() : workspace(new WorkSpace) {}
@@ -69,8 +74,10 @@ void Model::addNewCirconferenza(Punto *centro, double raggio, std::string nome, 
 void Model::addNewPunto(double x, double y, std::string nome, QColor color) const {
     Creator creator;
     Punto* p = creator.creaPunto(nome, color, x, y);
-    checkNuoviPunti({p});
+    //std::cout << string(*p) << "\n";
+    bool nuovo = checkNuoviPunti({p});
     delete p;
+    if(!nuovo) throw std::runtime_error("Punto già presente");
     //checkNuoviPunti({creator.creaPunto(nome, color, x, y)});
 }
 

@@ -19,8 +19,9 @@ public:
     void setView(Interfaccia* v);
 
 public slots:
-    /*
+
     void addPunto() const;
+    /*
     void addSegmento() const;
     void addRetta() const;
     void addCirconferenza() const;
