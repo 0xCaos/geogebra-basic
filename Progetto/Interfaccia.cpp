@@ -2,6 +2,7 @@
 
 #include "Controller.h"
 
+
 void Interfaccia::addMenu(QVBoxLayout *mainLayout) {
     QMenuBar*   menuBar = new QMenuBar(this);
     file                = new QMenu("File", menuBar);
@@ -104,6 +105,18 @@ void Interfaccia::setController(Controller *c) {
     connect(resetButton, SIGNAL(clicked()), controller, SLOT(removeDisegno()));
 }
 
+void Interfaccia::selectColor()
+{
+    //QColorDialog::ColorDialogOptions options;
+    QColor color = QColorDialog::getColor(Qt::black, this, "Seleziona colore");
+
+    if (color.isValid()) {
+        colorLabel->setText(color.name());
+        colorLabel->setPalette(QPalette(color));
+        colorLabel->setAutoFillBackground(true);
+    }
+}
+
 void Interfaccia::showSceltaFiguraDialog() {
     QDialog* dialog = new QDialog(this);
 
@@ -134,6 +147,7 @@ void Interfaccia::showWarningDialog(const QString &message) {
 
 Vettore<QString> Interfaccia::showNewPuntoDialog() {
     QDialog* formDialog = new QDialog(this);
+    formDialog->setWindowTitle("Nuovo Punto");
 
     QVBoxLayout* mainLayout     = new QVBoxLayout;
     QHBoxLayout* inputLayout    = new QHBoxLayout;
@@ -141,44 +155,70 @@ Vettore<QString> Interfaccia::showNewPuntoDialog() {
     QVBoxLayout* dxInputLayout  = new QVBoxLayout;
     QHBoxLayout* buttonLayout   = new QHBoxLayout;
 
-    // SX Label Layout
-    QLabel* nome    = new QLabel("Nome");
-    QLabel* x       = new QLabel("X");
-    QLabel* y       = new QLabel("Y");
-    QLabel* color   = new QLabel("Colore");
+    QFormLayout* formLayout = new QFormLayout;
 
-    sxLabelLayout->addWidget(nome);
-    sxLabelLayout->addWidget(x);
-    sxLabelLayout->addWidget(y);
-    sxLabelLayout->addWidget(color);
+    QPushButton *colorButton = new QPushButton(tr("Colore"));
+    connect(colorButton, &QAbstractButton::clicked, this, &Interfaccia::selectColor);
 
     QLineEdit* inputNome    = new QLineEdit("P");
     QLineEdit* inputX       = new QLineEdit;
     QLineEdit* inputY       = new QLineEdit;
-    QDoubleValidator* validator = new QDoubleValidator(-200.0,200.0,2,formDialog);
+    QDoubleValidator* validator = new QDoubleValidator(-200.0, 200.0, 2, formDialog);
     inputX->setValidator(validator);
     inputY->setValidator(validator);
-    QLineEdit* inputColor   = new QLineEdit();
+    colorLabel = new QLabel;
+
+    formLayout->addRow(new QLabel("Nome"), inputNome);
+    formLayout->addRow(new QLabel("X"), inputX);
+    formLayout->addRow(new QLabel("Y"), inputY);
+    formLayout->addRow(colorButton, colorLabel);
+
+    formLayout->setSpacing(10);
+
+    /*
+    // SX Label Layout
+    QLabel* nome    = new QLabel("Nome");
+    QLabel* x       = new QLabel("X");
+    QLabel* y       = new QLabel("Y");
+    //QLabel* color   = new QLabel("Colore");
+    QPushButton *colorButton = new QPushButton(tr("Colore"));
+    connect(colorButton, &QAbstractButton::clicked, this, &Interfaccia::selectColor);
+
+    sxLabelLayout->addWidget(nome);
+    sxLabelLayout->addWidget(x);
+    sxLabelLayout->addWidget(y);
+    sxLabelLayout->addWidget(colorButton);
+    //sxLabelLayout->addWidget(color);
+
+    QLineEdit* inputNome    = new QLineEdit("P");
+    QLineEdit* inputX       = new QLineEdit;
+    QLineEdit* inputY       = new QLineEdit;
+    QDoubleValidator* validator = new QDoubleValidator(-200.0, 200.0, 2, formDialog);
+    inputX->setValidator(validator);
+    inputY->setValidator(validator);
+    colorLabel = new QLabel;
+    //QLineEdit* inputColor   = new QLineEdit();
 
     dxInputLayout->addWidget(inputNome);
     dxInputLayout->addWidget(inputX);
     dxInputLayout->addWidget(inputY);
-    dxInputLayout->addWidget(inputColor);
-
+    dxInputLayout->addWidget(colorLabel);
+*/
     QDialogButtonBox* bottoni = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     connect(bottoni, SIGNAL(accepted()), formDialog, SLOT(accept()));
     connect(bottoni, SIGNAL(rejected()), formDialog, SLOT(reject()));
 
     buttonLayout->addWidget(bottoni);
 
-    inputLayout->addLayout(sxLabelLayout);
-    inputLayout->addLayout(dxInputLayout);
-    mainLayout->addLayout(inputLayout);
+    //inputLayout->addLayout(sxLabelLayout);
+    //inputLayout->addLayout(dxInputLayout);
+    //mainLayout->addLayout(inputLayout);
+    mainLayout->addItem(formLayout);
     mainLayout->addLayout(buttonLayout);
 
     formDialog->setLayout(mainLayout);
 
-    formDialog->resize(QSize(400, 400));
+    formDialog->resize(QSize(400, 200));
 
     //formDialog->exec();
 
@@ -187,7 +227,7 @@ Vettore<QString> Interfaccia::showNewPuntoDialog() {
             inputNome->text(),
             inputX->text(),
             inputY->text(),
-            inputColor->text()
+            colorLabel->text()
         };
         return results;
     } else
