@@ -6,7 +6,7 @@ WorkSpace::~WorkSpace(){
     //for(auto i: disegni) delete i.get();
 }
 
-void WorkSpace::addDisegno(Disegnabile *disegno) {
+void WorkSpace::addDisegno(Disegnabile* disegno) {
     disegni.push_back(disegno);
 }
 

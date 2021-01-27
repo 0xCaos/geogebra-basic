@@ -8,4 +8,6 @@
 #include "Circonferenza.h"
 #include "Ellisse.h"
 
+#include "DeepPtr.h"
+
 #endif // GERARCHIA_H

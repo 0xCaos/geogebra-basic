@@ -1,13 +1,9 @@
 #include "Model.h"
 
-bool Model::checkNuoviPunti(const Vettore<Punto*>& points) const {
-    bool almenoUno = false;
+void Model::checkNuoviPunti(const Vettore<Punto*>& points) const {
     for(auto point : points)
-        if(workspace->puntoNuovo(point)){
+        if(workspace->puntoNuovo(point))
             workspace->addDisegno(point);
-            almenoUno = true;
-        }
-    return almenoUno;
 }
 
 Model::Model() : workspace(new WorkSpace) {}
@@ -19,45 +15,63 @@ Model::~Model() {
 void Model::addNewSegmento(Punto *A, Punto *B, std::string nome, QColor color) const {
     Creator creator;
     checkNuoviPunti({A, B});
-    workspace->addDisegno(creator.creaSegmento(nome, color, A, B));
+    Segmento* s = creator.creaSegmento(nome, color, A, B);
+    workspace->addDisegno(s);
+    delete s;
+    //workspace->addDisegno(creator.creaSegmento(nome, color, A, B));
 }
 
 void Model::addNewRetta(Punto *A, Punto *B, std::string nome, QColor color) const {
     Creator creator;
     checkNuoviPunti({A, B});
-    workspace->addDisegno(creator.creaRetta(nome, color, A, B));
+    Retta* r = creator.creaRetta(nome, color, A, B);
+    workspace->addDisegno(r);
+    delete r;
+    //workspace->addDisegno(creator.creaRetta(nome, color, A, B));
 }
 
 void Model::addNewPoligono(const Vettore<Punto *> &punti, std::string nome, QColor color) const {
     Creator creator;
     checkNuoviPunti(punti);
-    workspace->addDisegno(creator.creaPoligono(nome, color, punti));
+    Poligono* p = creator.creaPoligono(nome, color, punti);
+    workspace->addDisegno(p);
+    delete p;
+    //workspace->addDisegno(creator.creaPoligono(nome, color, punti));
 }
 
 void Model::addNewRegolare(const std::pair<Punto *, Punto *> &punti, unsigned int numLati, std::string nome, QColor color) const {
     Creator creator;
     checkNuoviPunti({punti.first, punti.second});
-    workspace->addDisegno(creator.creaRegolare(nome, color, punti, numLati));
+    Regolare* r = creator.creaRegolare(nome, color, punti, numLati);
+    workspace->addDisegno(r);
+    delete r;
+    //workspace->addDisegno(creator.creaRegolare(nome, color, punti, numLati));
 }
 
 void Model::addNewEllisse(Punto *centro, double semiAsse1, double semiAsse2, std::string nome, QColor color) const {
     Creator creator;
     checkNuoviPunti({centro});
-    workspace->addDisegno(creator.creaEllisse(nome, color, centro, semiAsse1, semiAsse2));
+    Ellisse* e = creator.creaEllisse(nome, color, centro, semiAsse1, semiAsse2);
+    workspace->addDisegno(e);
+    delete e;
+    //workspace->addDisegno(creator.creaEllisse(nome, color, centro, semiAsse1, semiAsse2));
 }
 
 void Model::addNewCirconferenza(Punto *centro, double raggio, std::string nome, QColor color) const {
     Creator creator;
     checkNuoviPunti({centro});
-    workspace->addDisegno(creator.creaCirconferenza(nome, color, centro, raggio));
+    Circonferenza* c = creator.creaCirconferenza(nome, color, centro, raggio);
+    workspace->addDisegno(c);
+    delete c;
+    //workspace->addDisegno(creator.creaCirconferenza(nome, color, centro, raggio));
 }
 
 void Model::addNewPunto(double x, double y, std::string nome, QColor color) const {
     Creator creator;
     Punto* p = creator.creaPunto(nome, color, x, y);
-    if(!checkNuoviPunti({ p })) {
-        delete p; // se non aggiunto faccio la delete => altrimenti Memory leak
-    }
+    checkNuoviPunti({p});
+    delete p;
+    //checkNuoviPunti({creator.creaPunto(nome, color, x, y)});
 }
 
 void Model::removeDisegno(unsigned int index) const { workspace->removeDisegno(index); }

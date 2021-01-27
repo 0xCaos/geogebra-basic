@@ -2,7 +2,6 @@
 #define WORKSPACE_H
 
 #include "Gerarchia.h"
-#include "DeepPtr.h"
 
 class WorkSpace {
 private:
