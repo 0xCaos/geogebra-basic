@@ -15,6 +15,8 @@
 #include <QValidator>
 #include <QDialogButtonBox>
 #include <QString>
+#include <QColorDialog>
+#include <QFormLayout>
 
 #include "PianoCartesiano.h"
 
@@ -38,6 +40,8 @@ private:
     void buildSxLayout(QHBoxLayout* bodyInterface);
     void buildDxLayout(QHBoxLayout* bodyInterface);
 
+    QLabel *colorLabel;
+
 public:
     explicit Interfaccia(QWidget* parent = nullptr);
     ~Interfaccia() =default;
@@ -45,7 +49,7 @@ public:
     void setController(Controller* c);
 
 
-    //void setColor();
+    void selectColor();
 
     void showSceltaFiguraDialog();
 
