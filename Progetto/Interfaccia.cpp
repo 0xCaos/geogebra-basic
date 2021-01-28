@@ -42,12 +42,21 @@ void Interfaccia::buildSxLayout(QHBoxLayout *bodyInterface) {
     buttonLayout->setContentsMargins(100,20,100,20);
     sxLayout->addLayout(buttonLayout);
 
-    //  Info
-    QLabel* infoOggetti = new QLabel("infoOggetti\ninfoOggetti\ninfoOggetti\ninfoOggetti\ninfoOggetti\ninfoOggetti\ninfoOggetti\ninfoOggetti\n");
-    infoLayout->addWidget(infoOggetti);
+//  Info
+    infoScroll = new QScrollArea;
+    infoBox = new QWidget;
+    //scrollLayout = new QVBoxLayout(infoBox);
+    infoDisegni = new QFormLayout;
+
+    infoScroll->setWidgetResizable(true);
+    infoBox->setLayout(infoDisegni);
+    infoScroll->setWidget(infoBox);
+
+    //listaInfo->setLayout(container);
+    infoLayout->addWidget(new QLabel("Info Oggetti"));
+    infoLayout->addWidget(infoScroll);
     infoLayout->setContentsMargins(30,20,30,20);
     sxLayout->addLayout(infoLayout);
-
     bodyInterface->addLayout(sxLayout);
 }
 
@@ -432,7 +441,9 @@ unsigned int Interfaccia::showRemoveDialog() {
 }
 
 void Interfaccia::addInfoDisegnabile(std::unordered_map<std::string, std::string> info) {
-    for(auto& el : info) {
-        std::cout << el.first << " | " << el.second << std::endl;
+    for(auto el : info) {
+        infoDisegni->addRow(new QLabel(QString::fromStdString(el.first)) ,new QLabel(QString::fromStdString(el.second)));
     }
+    infoBox->setLayout(infoDisegni);
+    infoScroll->setWidget(infoBox);
 }

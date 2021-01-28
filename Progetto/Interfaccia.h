@@ -19,6 +19,7 @@
 #include <QFormLayout>
 #include <QComboBox>
 #include <QMessageBox>
+#include <QScrollArea>
 
 #include "PianoCartesiano.h"
 
@@ -53,6 +54,10 @@ private:
 
     QValidator* validator;
     QDialogButtonBox* bottoni;
+
+    QScrollArea* infoScroll;
+    QWidget* infoBox;
+    QFormLayout* infoDisegni;
 
     void setStandardDialog();
 
