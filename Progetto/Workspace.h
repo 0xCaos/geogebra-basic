@@ -42,6 +42,8 @@ public:
      */
     bool puntoNuovo(const Punto* point) const;
 
+    Vettore<Punto*> tuttiPunti() const;
+
     std::unordered_map<std::string, std::string> getInfoDisegnabile();
 
 };

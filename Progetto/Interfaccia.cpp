@@ -67,6 +67,23 @@ void Interfaccia::buildDxLayout(QHBoxLayout *bodyInterface) {
     bodyInterface->addLayout(dxLayout);
 }
 
+void Interfaccia::setStandardDialog() {
+
+    formDialog     = new QDialog(this);
+    mainLayout     = new QVBoxLayout;
+    buttonLayout   = new QHBoxLayout;
+    formLayout     = new QFormLayout;
+
+    inputNome      = new QLineEdit();
+    colorLabel     = new QLabel;
+    colorButton    = new QPushButton(tr("Colore"));
+    bottoni        = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+
+    connect(colorButton, &QAbstractButton::clicked, this, &Interfaccia::selectColor);
+    connect(bottoni, SIGNAL(accepted()), formDialog, SLOT(accept()));
+    connect(bottoni, SIGNAL(rejected()), formDialog, SLOT(reject()));
+}
+
 Interfaccia::Interfaccia(QWidget *parent) : QWidget(parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout;
 
@@ -89,7 +106,7 @@ Interfaccia::Interfaccia(QWidget *parent) : QWidget(parent) {
     buildDxLayout(bodyInterface);
 
     //qDebug("prima della connect");
-    connect(disegnaButton, &QPushButton::clicked, this, &Interfaccia::showSceltaFiguraDialog);
+    //connect(disegnaButton, &QPushButton::clicked, this, &Interfaccia::showSceltaFiguraDialog);
     //qDebug("dopo della connect");
 
     mainLayout->addLayout(bodyInterface);
@@ -102,7 +119,8 @@ Interfaccia::Interfaccia(QWidget *parent) : QWidget(parent) {
 void Interfaccia::setController(Controller *c) {
     controller = c;
 
-    connect(resetButton, SIGNAL(clicked()), controller, SLOT(removeDisegno()));
+    connect(disegnaButton, &QPushButton::clicked, this, &Interfaccia::showSceltaFiguraDialog);
+    connect(eliminaButton, SIGNAL(clicked()), controller, SLOT(removeDisegno()));
 }
 
 void Interfaccia::selectColor()
@@ -122,18 +140,39 @@ void Interfaccia::showSceltaFiguraDialog() {
 
     QVBoxLayout *verticalLayout = new QVBoxLayout;
 
-    QPushButton* nuovoPunto = new QPushButton("Nuovo Punto");
+    QPushButton* nuovoPunto         = new QPushButton("Punto");
+    QPushButton* nuovoSegmento      = new QPushButton("Segmento");
+    QPushButton* nuovaRetta         = new QPushButton("Retta");
+    QPushButton* nuovoPoligono      = new QPushButton("Poligono");
+    QPushButton* nuovoRegolare      = new QPushButton("Regolare");
+    QPushButton* nuovaEllisse       = new QPushButton("Ellisse");
+    QPushButton* nuovaCirconferenza = new QPushButton("Circonferenza");
+
+
+    connect(nuovoPunto, SIGNAL(clicked()), controller, SLOT(addPunto()));
+    connect(nuovoSegmento, SIGNAL(clicked()), controller, SLOT(addSegmento()));
+    connect(nuovaRetta, SIGNAL(clicked()), controller, SLOT(addRetta()));
+    connect(nuovoPoligono, SIGNAL(clicked()), controller, SLOT(addPoligono()));
+    connect(nuovoRegolare, SIGNAL(clicked()), controller, SLOT(addRegolare()));
+    connect(nuovaEllisse, SIGNAL(clicked()), controller, SLOT(addEllisse()));
+    connect(nuovaCirconferenza, SIGNAL(clicked()), controller, SLOT(addCirconferenza()));
+
     verticalLayout->addWidget(nuovoPunto);
+    verticalLayout->addWidget(nuovoSegmento);
+    verticalLayout->addWidget(nuovaRetta);
+    verticalLayout->addWidget(nuovoPoligono);
+    verticalLayout->addWidget(nuovoRegolare);
+    verticalLayout->addWidget(nuovaEllisse);
+    verticalLayout->addWidget(nuovaCirconferenza);
+
     dialog->setLayout(verticalLayout);
     dialog->resize(QSize(720, 480));
 
-    connect(nuovoPunto, SIGNAL(clicked()), controller, SLOT(addPunto()));
-
     dialog->exec();
-    qDebug("popup chiuso");
 }
 
 void Interfaccia::showWarningDialog(const QString &message) {
+    /*
     QDialog* dialog = new QDialog(this);
 
     dialog->setLayout(new QHBoxLayout);
@@ -141,32 +180,28 @@ void Interfaccia::showWarningDialog(const QString &message) {
     dialog->layout()->setAlignment(Qt::AlignCenter);
     dialog->setMinimumWidth(120);
     dialog->setMaximumWidth(500);
+    dialog->resize(QSize(320,120));
 
     dialog->exec();
+    */
+    QMessageBox msgBox(QMessageBox::Warning, tr("Attenzione"), message, { }, this);
+    //QLabel* warningLabel = new QLabel;
+    msgBox.setDetailedText(message);
+    msgBox.addButton(tr("&Continua"), QMessageBox::AcceptRole);
+    msgBox.exec();
 }
 
 Vettore<QString> Interfaccia::showNewPuntoDialog() {
-    QDialog* formDialog = new QDialog(this);
+    setStandardDialog();
     formDialog->setWindowTitle("Nuovo Punto");
 
-    QVBoxLayout* mainLayout     = new QVBoxLayout;/*
-    QHBoxLayout* inputLayout    = new QHBoxLayout;
-    QVBoxLayout* sxLabelLayout  = new QVBoxLayout;
-    QVBoxLayout* dxInputLayout  = new QVBoxLayout;*/
-    QHBoxLayout* buttonLayout   = new QHBoxLayout;
-
-    QFormLayout* formLayout = new QFormLayout;
-
-    QPushButton *colorButton = new QPushButton(tr("Colore"));
-    connect(colorButton, &QAbstractButton::clicked, this, &Interfaccia::selectColor);
-
-    QLineEdit* inputNome    = new QLineEdit("P");
+    // Set Input section
+    inputNome               = new QLineEdit("P");
     QLineEdit* inputX       = new QLineEdit;
     QLineEdit* inputY       = new QLineEdit;
-    QDoubleValidator* validator = new QDoubleValidator(-200.0, 200.0, 2, formDialog);
+    validator               = new QDoubleValidator(-200.0, 200.0, 2, formDialog); // setto un validator per i double
     inputX->setValidator(validator);
     inputY->setValidator(validator);
-    colorLabel = new QLabel;
 
     formLayout->addRow(new QLabel("Nome"), inputNome);
     formLayout->addRow(new QLabel("X"), inputX);
@@ -175,54 +210,16 @@ Vettore<QString> Interfaccia::showNewPuntoDialog() {
 
     formLayout->setSpacing(10);
 
-    /*
-    // SX Label Layout
-    QLabel* nome    = new QLabel("Nome");
-    QLabel* x       = new QLabel("X");
-    QLabel* y       = new QLabel("Y");
-    //QLabel* color   = new QLabel("Colore");
-    QPushButton *colorButton = new QPushButton(tr("Colore"));
-    connect(colorButton, &QAbstractButton::clicked, this, &Interfaccia::selectColor);
-
-    sxLabelLayout->addWidget(nome);
-    sxLabelLayout->addWidget(x);
-    sxLabelLayout->addWidget(y);
-    sxLabelLayout->addWidget(colorButton);
-    //sxLabelLayout->addWidget(color);
-
-    QLineEdit* inputNome    = new QLineEdit("P");
-    QLineEdit* inputX       = new QLineEdit;
-    QLineEdit* inputY       = new QLineEdit;
-    QDoubleValidator* validator = new QDoubleValidator(-200.0, 200.0, 2, formDialog);
-    inputX->setValidator(validator);
-    inputY->setValidator(validator);
-    colorLabel = new QLabel;
-    //QLineEdit* inputColor   = new QLineEdit();
-
-    dxInputLayout->addWidget(inputNome);
-    dxInputLayout->addWidget(inputX);
-    dxInputLayout->addWidget(inputY);
-    dxInputLayout->addWidget(colorLabel);
-*/
-    QDialogButtonBox* bottoni = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    connect(bottoni, SIGNAL(accepted()), formDialog, SLOT(accept()));
-    connect(bottoni, SIGNAL(rejected()), formDialog, SLOT(reject()));
-
+    // Set Button section
     buttonLayout->addWidget(bottoni);
 
-    //inputLayout->addLayout(sxLabelLayout);
-    //inputLayout->addLayout(dxInputLayout);
-    //mainLayout->addLayout(inputLayout);
     mainLayout->addItem(formLayout);
     mainLayout->addLayout(buttonLayout);
-
     formDialog->setLayout(mainLayout);
 
     formDialog->resize(QSize(400, 200));
 
-    //formDialog->exec();
-
-    if(formDialog->exec()){
+    if(formDialog->exec()){ // se role == accepted => ha premuto OK
         Vettore<QString> results = {
             inputNome->text(),
             inputX->text(),
@@ -232,13 +229,195 @@ Vettore<QString> Interfaccia::showNewPuntoDialog() {
         return results;
     } else
         throw std::runtime_error("Operazione annullata");
-        //return Vettore<QString>();
+}
 
-    /*
-    double ascissa = QString(inputX->text()).toDouble();
-    double ordinata = QString(inputY->text()).toDouble();
-    std::cout << ascissa << " " << ordinata << "\n";
-    */
+Vettore<QString> Interfaccia::showNewLineaDialog(const Vettore<Punto*> punti, bool retta) {
+    setStandardDialog();
+    retta ? formDialog->setWindowTitle("Nuova retta") : formDialog->setWindowTitle("Nuovo segmento");
+
+    // Set QComboBox
+    QComboBox* boxPunti1 = new QComboBox(formDialog);
+    QComboBox* boxPunti2 = new QComboBox(formDialog);
+    for(auto point : punti){
+        boxPunti1->addItem(QString::fromStdString(point->getNome()));
+        boxPunti2->addItem(QString::fromStdString(point->getNome()));
+    }
+
+    formLayout->addRow(new QLabel("Nome"), inputNome);
+    formLayout->addRow(new QLabel("Punto 1"), boxPunti1);
+    formLayout->addRow(new QLabel("Punto 2"), boxPunti2);
+    formLayout->addRow(colorButton, colorLabel);
+
+    formLayout->setSpacing(10);
+
+    // Set Button section
+    buttonLayout->addWidget(bottoni);
+
+    mainLayout->addItem(formLayout);
+    mainLayout->addLayout(buttonLayout);
+    formDialog->setLayout(mainLayout);
+
+    formDialog->resize(QSize(400, 200));
+
+    if(formDialog->exec()){ // se role == accepted => ha premuto OK
+        if(boxPunti1->currentText().toStdString().empty() || boxPunti2->currentText().toStdString().empty())
+            retta ?
+                throw std::runtime_error("Punti insufficienti per identificare una retta sul piano")
+              : throw std::runtime_error("Punti insufficienti per identificare un segmento sul piano");
+        Vettore<QString> results = {
+            inputNome->text(),
+            QString::fromStdString(std::to_string(boxPunti1->currentIndex())),
+            QString::fromStdString(std::to_string(boxPunti2->currentIndex())),
+            colorLabel->text()
+        };
+        return results;
+    } else
+        throw std::runtime_error("Operazione annullata");
+}
+
+Vettore<QString> Interfaccia::showNewRegolareDialog(const Vettore<Punto *> punti) {
+    setStandardDialog();
+    formDialog->setWindowTitle("Nuovo Poligono Regolare");
+
+    // Set Input section
+    QLineEdit* inputLati    = new QLineEdit();
+    validator = new QIntValidator(3, 12, formDialog);
+    inputLati->setValidator(validator);
+
+    // Set QComboBox
+    QComboBox* boxPunti1 = new QComboBox(formDialog);
+    QComboBox* boxPunti2 = new QComboBox(formDialog);
+    for(auto point : punti){
+        boxPunti1->addItem(QString::fromStdString(point->getNome()));
+        boxPunti2->addItem(QString::fromStdString(point->getNome()));
+    }
+
+    formLayout->addRow(new QLabel("Nome"), inputNome);
+    formLayout->addRow(new QLabel("Primo punto"), boxPunti1);
+    formLayout->addRow(new QLabel("Secondo punto"), boxPunti2);
+    formLayout->addRow(new QLabel("Numero vertici"), inputLati);
+    formLayout->addRow(colorButton, colorLabel);
+
+    formLayout->setSpacing(10);
+
+    buttonLayout->addWidget(bottoni);
+    mainLayout->addItem(formLayout);
+    mainLayout->addLayout(buttonLayout);
+    formDialog->setLayout(mainLayout);
+
+    formDialog->resize(QSize(400, 200));
+
+    Vettore<QString> results;
+    if(formDialog->exec()){ // se role == accepted => ha premuto OK
+        if(boxPunti1->currentText().toStdString().empty() || boxPunti2->currentText().toStdString().empty())
+            throw std::runtime_error("Punti insufficienti per creare il poligono");
+        results = {
+            inputNome->text(),
+            QString::fromStdString(std::to_string(boxPunti1->currentIndex())),
+            QString::fromStdString(std::to_string(boxPunti2->currentIndex())),
+            inputLati->text(),
+            colorLabel->text()
+        };
+    }
+    return results;
+}
+
+Vettore<QString> Interfaccia::showNewCirconferenzaDialog(const Vettore<Punto *> punti) {
+    setStandardDialog();
+    formDialog->setWindowTitle("Nuova Circonferenza");
+
+    QLineEdit* inputRaggio  = new QLineEdit();
+    validator = new QDoubleValidator(formDialog);
+    inputRaggio->setValidator(validator);
+
+    // Set QComboBox
+    QComboBox* boxPunti = new QComboBox(formDialog);
+    for(auto point : punti){
+        boxPunti->addItem(QString::fromStdString(point->getNome()));
+    }
+
+    colorLabel = new QLabel;
+
+    formLayout->addRow(new QLabel("Nome"), inputNome);
+    formLayout->addRow(new QLabel("Centro"), boxPunti);
+    formLayout->addRow(new QLabel("Raggio"), inputRaggio);
+    formLayout->addRow(colorButton, colorLabel);
+
+    formLayout->setSpacing(10);
+
+    // Set Button section
+    buttonLayout->addWidget(bottoni);
+
+    mainLayout->addItem(formLayout);
+    mainLayout->addLayout(buttonLayout);
+    formDialog->setLayout(mainLayout);
+
+    formDialog->resize(QSize(400, 200));
+
+    Vettore<QString> results;
+    if(formDialog->exec()){ // se role == accepted => ha premuto OK
+        if(boxPunti->currentText().toStdString().empty())
+            throw std::runtime_error("Impossibile identificare una circonferenza nel piano senza un centro");
+        results = {
+            inputNome->text(),
+            QString::fromStdString(std::to_string(boxPunti->currentIndex())),
+            inputRaggio->text(),
+            colorLabel->text()
+        };
+    } //else
+        //throw std::runtime_error("Operazione annullata");
+    return results;
+}
+
+Vettore<QString> Interfaccia::showNewEllisseDialog(const Vettore<Punto *> punti) {
+    setStandardDialog();
+    formDialog->setWindowTitle("Nuova Ellisse");
+
+    // Set Input section
+    inputNome               = new QLineEdit();
+    QLineEdit* inputRaggio  = new QLineEdit();
+    QLineEdit* inputRaggio2 = new QLineEdit();
+    validator = new QDoubleValidator(formDialog);
+    inputRaggio->setValidator(validator);
+    inputRaggio2->setValidator(validator);
+
+    // Set QComboBox
+    QComboBox* boxPunti = new QComboBox(formDialog);
+    for(auto point : punti){
+        boxPunti->addItem(QString::fromStdString(point->getNome()));
+    }
+
+    formLayout->addRow(new QLabel("Nome"), inputNome);
+    formLayout->addRow(new QLabel("Centro"), boxPunti);
+    formLayout->addRow(new QLabel("Semiasse 1"), inputRaggio);
+    formLayout->addRow(new QLabel("Semiasse 2"), inputRaggio2);
+
+    formLayout->addRow(colorButton, colorLabel);
+
+    formLayout->setSpacing(10);
+
+    // Set Button section
+    buttonLayout->addWidget(bottoni);
+
+    mainLayout->addItem(formLayout);
+    mainLayout->addLayout(buttonLayout);
+    formDialog->setLayout(mainLayout);
+
+    formDialog->resize(QSize(400, 200));
+
+    Vettore<QString> results;
+    if(formDialog->exec()){ // se role == accepted => ha premuto OK
+        if(boxPunti->currentText().toStdString().empty())
+            throw std::runtime_error("Impossibile identificare un'ellisse nel piano senza un centro");
+        results = {
+            inputNome->text(),
+            QString::fromStdString(std::to_string(boxPunti->currentIndex())),
+            inputRaggio->text(),
+            inputRaggio2->text(),
+            colorLabel->text()
+        };
+    }
+    return results;
 }
 
 unsigned int Interfaccia::showRemoveDialog() {
@@ -253,7 +432,7 @@ unsigned int Interfaccia::showRemoveDialog() {
 }
 
 void Interfaccia::addInfoDisegnabile(std::unordered_map<std::string, std::string> info) {
-    for(auto el : info) {
+    for(auto& el : info) {
         std::cout << el.first << " | " << el.second << std::endl;
     }
 }

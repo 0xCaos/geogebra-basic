@@ -91,3 +91,7 @@ std::unordered_map<string, string> Model::getInfoDisegnabile() const {
     return workspace->getInfoDisegnabile();
 }
 
+Vettore<Punto *> Model::getTuttiPunti() const {
+    return workspace->tuttiPunti();
+}
+

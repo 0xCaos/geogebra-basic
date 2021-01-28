@@ -29,6 +29,15 @@ bool WorkSpace::puntoNuovo(const Punto *point) const {
     return true;
 }
 
+Vettore<Punto *> WorkSpace::tuttiPunti() const {
+    Vettore<Punto*> punti;
+    for(auto&& disegno : disegni){
+        if(dynamic_cast<Punto*>(disegno.get()))
+            punti.push_back(static_cast<Punto*>(disegno.get()));
+    }
+    return punti;
+}
+
 std::unordered_map<string, string> WorkSpace::getInfoDisegnabile() {
     return disegni[disegni.size()-1]->getInfo();
 }

@@ -2,6 +2,7 @@
 #define CONTROLLER_H
 
 #include <QObject>
+#include <QString>
 #include "Model.h"
 #include "Interfaccia.h"
 
@@ -21,13 +22,13 @@ public:
 public slots:
 
     void addPunto() const;
-    /*
     void addSegmento() const;
     void addRetta() const;
     void addCirconferenza() const;
     void addEllisse() const;
     void addRegolare() const;
     void addPoligono() const;
+    /*
     */
     void removeDisegno() const;
 };

@@ -101,6 +101,8 @@ public:
 
     std::unordered_map<string, string> getInfoDisegnabile() const;
 
+    Vettore<Punto*> getTuttiPunti() const;
+
 };
 
 #endif // MODEL_H
