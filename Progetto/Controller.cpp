@@ -37,9 +37,11 @@ void Controller::addPunto() const {
                 string nome = dati[0].toStdString();
                 double x = dati[1].toDouble();
                 double y = dati[2].toDouble();
+                QColor c = QColor(dati[3]);
                 // Qt color mancante !!!!
-                model->addNewPunto(x, y, nome);
+                model->addNewPunto(x, y, nome, c);
                 showInfoDisegni();
+                view->refreshPiano();
                 //displayInfo = model->getInfoDisegnabile();
                 //view->addInfoDisegnabile(displayInfo);
             }
@@ -54,14 +56,27 @@ void Controller::addPunto() const {
 void Controller::addSegmento() const {
     try {
         Vettore<Punto*> punti = model->getTuttiPunti();
-        Vettore<QString> dati = view->showNewLineaDialog(punti, false);
+        Vettore<QString> dati = view->showNewLineaDialog(punti, false);/*
+        SAAAAAAAAAAAAAFE
+        std::cout << "vettore punti\n";
+        for(auto i: punti) {
+            std::cout << string(*i) << "\n";
+        }
+        std::cout << "finepausa\n";*/
         if(!dati.empty()){
-            string nome         = dati[0].toStdString();
+            string nome         = dati[0].toStdString();/*
+            std::cout << "SEG: "<< punti[dati[1].toUInt()]->getX() << std::endl;
             unsigned int indexA = dati[1].toUInt();
             unsigned int indexB = dati[2].toUInt();
-            QColor color        = dati[3];
+            QColor color        = QColor(dati[3]);
             std::cout << indexA << " " << indexB << "\n";
-            model->addNewSegmento(punti[indexA], punti[indexB], nome, color);
+            model->addNewSegmento(punti[indexA], punti[indexB], nome, color);*/
+            model->addNewSegmento(punti[dati[1].toUInt()], punti[dati[2].toUInt()], nome, QColor(dati[3]));
+            for(auto i:punti) {
+                std::cout << string(*i) << std::endl;
+            }
+            std::cout << "SEG2X: "<< punti[dati[1].toUInt()]->getX() << std::endl;
+            std::cout << "SEG2Y: "<< punti[dati[1].toUInt()]->getY() << std::endl;
             showInfoDisegni();
         }
     } catch (std::runtime_error& exc) {
@@ -176,6 +191,7 @@ void Controller::removeDisegno() const {
         unsigned int index = view->showRemoveDialog();
         model->removeDisegno(index-1);
         refreshInfoDisegni();
+        view->refreshPiano();
     } catch (std::runtime_error& exc) {
         //std::cout << exc.what();
         view->showWarningDialog(exc.what()); // controllare se effetivamente può avvenire un runtime error
@@ -190,7 +206,12 @@ void Controller::cancellaTutto() const {
     {
         model->cancellaTutto();
         refreshInfoDisegni();
+        view->refreshPiano();
     }
     std::cout << d << " ";
+}
+
+WorkSpace* Controller::getWorkspace() const {
+    return model->getWorkspace();
 }
 

@@ -16,6 +16,7 @@ public:
             std::cout << el->getNome() << " ";
     }
     */
+    const Vettore<DeepPtr<Disegnabile>> getDisegni() const;
 
     unsigned int getNumeroDisegni() const;
 

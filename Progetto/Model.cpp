@@ -103,3 +103,7 @@ Vettore<Punto *> Model::getTuttiPunti() const {
     return workspace->tuttiPunti();
 }
 
+WorkSpace* Model::getWorkspace() const {
+    return workspace;
+}
+

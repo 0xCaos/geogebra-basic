@@ -35,6 +35,7 @@ public slots:
     */
     void removeDisegno() const;
     void cancellaTutto() const;
+    WorkSpace *getWorkspace() const;
 };
 
 #endif // CONTROLLER_H

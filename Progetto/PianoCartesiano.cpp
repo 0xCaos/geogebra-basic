@@ -1,12 +1,10 @@
 #include "PianoCartesiano.h"
 
-PianoCartesiano::PianoCartesiano(QWidget *parent) : QWidget(parent)
-{
+PianoCartesiano::PianoCartesiano(WorkSpace* w, QWidget *parent) :
+    QWidget(parent), workspace(w)
+{}
 
-}
-
-void PianoCartesiano::paintEvent(QPaintEvent* e)
-{
+void PianoCartesiano::paintEvent(QPaintEvent* e) {
     int side = qMin(width(), height());
 
     QPainter p(this);
@@ -51,5 +49,26 @@ void PianoCartesiano::paintEvent(QPaintEvent* e)
     p.drawLine(2, y_arrow+2, 0, y_arrow);
     p.drawLine(-2, y_arrow+2, 0, y_arrow);
 
+    //----------------------------------//
+    qDebug("Pre-Ciclo");
+    pen.setWidth(1);
+    if (workspace) std::cout << workspace->getDisegni().size() << "\n";
+    for(auto& i : workspace->getDisegni()) {
+        pen.setColor(i.get()->getColore());
+        p.setPen(pen);
+        i.get()->disegna(&p);
+    }
+
+    //----------------------------------//
+
     QWidget::paintEvent(e);
+}
+
+void PianoCartesiano::refresh() {
+    setUpdatesEnabled(true);
+    update();
+}
+
+void PianoCartesiano::setWorkspace(WorkSpace *w) {
+    workspace = w;
 }

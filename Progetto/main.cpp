@@ -15,13 +15,13 @@ int main(int argc, char *argv[])
 {
 
     QApplication a(argc, argv);
-        Interfaccia w;
-        Controller c;
-        Model m;
+    Model m;
+    Controller c;
+    c.setModel(&m);
+    Interfaccia w;
 
-        c.setModel(&m);
-        c.setView(&w);
-        w.setController(&c);
+    c.setView(&w);
+    w.setController(&c);
 
     w.show();
     return a.exec();

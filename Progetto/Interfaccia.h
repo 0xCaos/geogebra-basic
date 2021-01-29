@@ -98,6 +98,7 @@ public:
 
     void pulisciInfoDisegni();
     void addInfoDisegnabile(std::unordered_map<string,string>, unsigned int);
+    void refreshPiano();
 };
 
 #endif // INTERFACCIA_H

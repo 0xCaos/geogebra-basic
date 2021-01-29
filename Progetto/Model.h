@@ -115,6 +115,8 @@ public:
      */
     Vettore<Punto*> getTuttiPunti() const;
 
+    WorkSpace* getWorkspace() const;
+
 };
 
 #endif // MODEL_H

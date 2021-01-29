@@ -102,15 +102,16 @@ void Interfaccia::buildSxLayout(QHBoxLayout *bodyInterface) {
 void Interfaccia::buildDxLayout(QHBoxLayout *bodyInterface) {
     QVBoxLayout* dxLayout   = new QVBoxLayout;
 
-    PianoCartesiano* piano  = new PianoCartesiano;
-    piano->setMinimumSize(1100,800);
+    //pianoCartesiano  = new PianoCartesiano(controller->getWorkspace());
+    pianoCartesiano  = new PianoCartesiano(new WorkSpace);
+    pianoCartesiano->setMinimumSize(1100,800);
 
-    QPushButton* zoomIn = new QPushButton("+", piano);
-    QPushButton* zoomOut = new QPushButton("-", piano);
+    QPushButton* zoomIn = new QPushButton("+", pianoCartesiano);
+    QPushButton* zoomOut = new QPushButton("-", pianoCartesiano);
     int buttonSize = 40;
-    zoomIn->setGeometry(piano->width()-buttonSize*2,piano->height()-buttonSize*3,buttonSize,buttonSize);
-    zoomOut->setGeometry(piano->width()-buttonSize*2,piano->height()-buttonSize*2,buttonSize,buttonSize);
-    dxLayout->addWidget(piano);
+    zoomIn->setGeometry(pianoCartesiano->width()-buttonSize*2,pianoCartesiano->height()-buttonSize*3,buttonSize,buttonSize);
+    zoomOut->setGeometry(pianoCartesiano->width()-buttonSize*2,pianoCartesiano->height()-buttonSize*2,buttonSize,buttonSize);
+    dxLayout->addWidget(pianoCartesiano);
 
     bodyInterface->addLayout(dxLayout);
 }
@@ -550,4 +551,11 @@ void Interfaccia::addInfoDisegnabile(std::unordered_map<std::string, std::string
     }
     infoBox->setLayout(infoDisegni);
     infoScroll->setWidget(infoBox);
+}
+
+void Interfaccia::refreshPiano() {
+    //std::cout << "SIZE: " << controller->getWorkspace()->getDisegni().size() << std::endl;
+    //pianoCartesiano = new PianoCartesiano(controller->getWorkspace());
+    pianoCartesiano->setWorkspace(controller->getWorkspace());
+    pianoCartesiano->refresh();
 }

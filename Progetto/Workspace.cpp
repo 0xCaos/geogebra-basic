@@ -6,10 +6,22 @@ WorkSpace::~WorkSpace(){
     //for(auto i: disegni) delete i.get();
 }
 
+const Vettore<DeepPtr<Disegnabile>> WorkSpace::getDisegni() const {
+    return disegni;
+}
+
 unsigned int WorkSpace::getNumeroDisegni() const { return disegni.size(); }
 
-void WorkSpace::addDisegno(Disegnabile* disegno) {
-    disegni.push_back(disegno);
+void WorkSpace::addDisegno(Disegnabile* disegno) {/*
+    std::cout << "pre pushback\n";
+    for(auto i : disegno->getInfo()) {
+        std::cout << i.first << " " << i.second << "\n";
+    }*/
+    disegni.push_back(disegno);/*
+    std::cout << "post pushback\n";
+    for(auto i : disegno->getInfo()) {
+        std::cout << i.first << " " << i.second << "\n";
+    }*/
 }
 
 void WorkSpace::removeDisegno(unsigned int index) { // Valutare se tornare il puntatore o no
@@ -31,9 +43,10 @@ bool WorkSpace::puntoNuovo(const Punto *point) const {
     return true;
 }
 
+//SAFE! :)
 Vettore<Punto *> WorkSpace::tuttiPunti() const {
     Vettore<Punto*> punti;
-    for(auto&& disegno : disegni){
+    for(auto& disegno : disegni){
         if(dynamic_cast<Punto*>(disegno.get()))
             punti.push_back(static_cast<Punto*>(disegno.get()));
     }

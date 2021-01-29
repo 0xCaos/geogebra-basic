@@ -38,6 +38,6 @@ bool Punto::operator==(const Punto &_p) {
     return getX() == _p.getX() && getY() == _p.getY();
 }
 
-void Punto::disegna(QPainter*) const {
-
+void Punto::disegna(QPainter* p) const {
+    p->drawPoint(x*10,-y*10);
 }
