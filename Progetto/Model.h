@@ -99,8 +99,20 @@ public:
      */
     void cancellaTutto();
 
+    /**
+     * @brief getInfoDisegnabile    Get delle info dell'ultimo disegno inserito
+     * @return                      unordered_map con le info
+     */
     std::unordered_map<string, string> getInfoDisegnabile() const;
 
+    Vettore<std::unordered_map<std::string, std::string> > getTutteInfo() const;
+
+    unsigned int getNumeroDisegni() const;
+
+    /**
+     * @brief getTuttiPunti         Ritorna un vettore con tutti i punti nel workspace
+     * @return                      vettore di puntatori ai punti
+     */
     Vettore<Punto*> getTuttiPunti() const;
 
 };

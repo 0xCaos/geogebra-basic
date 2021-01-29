@@ -91,6 +91,14 @@ std::unordered_map<string, string> Model::getInfoDisegnabile() const {
     return workspace->getInfoDisegnabile();
 }
 
+Vettore<std::unordered_map<std::string, std::string> > Model::getTutteInfo() const {
+    return workspace->getTutteInfo();
+}
+
+unsigned int Model::getNumeroDisegni() const {
+    return workspace->getNumeroDisegni();
+}
+
 Vettore<Punto *> Model::getTuttiPunti() const {
     return workspace->tuttiPunti();
 }

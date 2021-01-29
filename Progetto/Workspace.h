@@ -17,6 +17,8 @@ public:
     }
     */
 
+    unsigned int getNumeroDisegni() const;
+
     /**
      * @brief inserisce il disegno alla fine di disegni
      * @param puntatore al disegno da inserire
@@ -44,6 +46,7 @@ public:
 
     Vettore<Punto*> tuttiPunti() const;
 
+    Vettore<std::unordered_map<std::string, std::string>> getTutteInfo();
     std::unordered_map<std::string, std::string> getInfoDisegnabile();
 
 };

@@ -10,12 +10,27 @@ void Controller::setModel(Model *m) { model = m; }
 
 void Controller::setView(Interfaccia *v) { view = v; }
 
+void Controller::refreshInfoDisegni() const {
+    view->pulisciInfoDisegni();
+    unsigned int cont = 1;
+    for(auto&& i : model->getTutteInfo()){
+        view->addInfoDisegnabile(i, cont);
+        cont++;
+    }
+}
+
+void Controller::showInfoDisegni() const {
+    std::unordered_map<string, string> displayInfo;
+    displayInfo = model->getInfoDisegnabile();
+    view->addInfoDisegnabile(displayInfo, model->getNumeroDisegni());
+}
+
 void Controller::addPunto() const {
     //bool ok = false;
     //while(!ok){
         try {
             Vettore<QString> dati = view->showNewPuntoDialog();
-            std::unordered_map<string, string> displayInfo;
+            //std::unordered_map<string, string> displayInfo;
             //for(auto el : dati)
             //    std::cout << el.toStdString() << " ";
             if(!dati.empty()){
@@ -24,8 +39,9 @@ void Controller::addPunto() const {
                 double y = dati[2].toDouble();
                 // Qt color mancante !!!!
                 model->addNewPunto(x, y, nome);
-                displayInfo = model->getInfoDisegnabile();
-                view->addInfoDisegnabile(displayInfo);
+                showInfoDisegni();
+                //displayInfo = model->getInfoDisegnabile();
+                //view->addInfoDisegnabile(displayInfo);
             }
             //ok = true;
         }  catch (std::runtime_error& exc) {
@@ -46,6 +62,7 @@ void Controller::addSegmento() const {
             QColor color        = dati[3];
             std::cout << indexA << " " << indexB << "\n";
             model->addNewSegmento(punti[indexA], punti[indexB], nome, color);
+            showInfoDisegni();
         }
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());
@@ -65,6 +82,7 @@ void Controller::addRetta() const {
             QColor color        = dati[3];
             std::cout << indexA << " " << indexB << "\n";
             model->addNewRetta(punti[indexA], punti[indexB], nome, color);
+            showInfoDisegni();
         }
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());
@@ -83,6 +101,7 @@ void Controller::addCirconferenza() const {
             unsigned int raggio = dati[2].toUInt();
             QColor color        = dati[3];
             model->addNewCirconferenza(punti[indexC], raggio, nome, color);
+            showInfoDisegni();
         }
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());
@@ -102,6 +121,7 @@ void Controller::addEllisse() const {
             double semiB        = dati[3].toDouble();
             QColor color        = dati[4];
             model->addNewEllisse(punti[indexC], semiA, semiB, nome, color);
+            showInfoDisegni();
         }
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());
@@ -123,6 +143,7 @@ void Controller::addRegolare() const
             QColor color            = dati[4];
             std::cout << "Regolare: " << numLati << "\n";
             model->addNewRegolare(std::pair<Punto*, Punto*>(punti[indexA], punti[indexB]), numLati, nome, color);
+            showInfoDisegni();
         }
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());
@@ -142,6 +163,7 @@ void Controller::addPoligono() const
         QColor color        = dati[3];
         std::cout << indexA << " " << indexB << "\n";
         model->addNewRetta(punti[indexA], punti[indexB], nome, color);
+        showInfoDisegni();
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());
     } catch (std::logic_error& log){
@@ -149,12 +171,11 @@ void Controller::addPoligono() const
     }
 }
 
-
-
 void Controller::removeDisegno() const {
     try {
         unsigned int index = view->showRemoveDialog();
         model->removeDisegno(index-1);
+        refreshInfoDisegni();
     } catch (std::runtime_error& exc) {
         //std::cout << exc.what();
         view->showWarningDialog(exc.what()); // controllare se effetivamente può avvenire un runtime error
@@ -163,10 +184,13 @@ void Controller::removeDisegno() const {
     }
 }
 
-
-
-
-
-
-
+void Controller::cancellaTutto() const {
+    int d = view->showConfermaDialog("Attenzione stai per eliminare tutti i disegni inseriti. L'operazione non è annullabile.");
+    if(d == 16384)
+    {
+        model->cancellaTutto();
+        refreshInfoDisegni();
+    }
+    std::cout << d << " ";
+}
 

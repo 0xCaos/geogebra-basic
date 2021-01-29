@@ -6,6 +6,8 @@ WorkSpace::~WorkSpace(){
     //for(auto i: disegni) delete i.get();
 }
 
+unsigned int WorkSpace::getNumeroDisegni() const { return disegni.size(); }
+
 void WorkSpace::addDisegno(Disegnabile* disegno) {
     disegni.push_back(disegno);
 }
@@ -36,6 +38,13 @@ Vettore<Punto *> WorkSpace::tuttiPunti() const {
             punti.push_back(static_cast<Punto*>(disegno.get()));
     }
     return punti;
+}
+
+Vettore<std::unordered_map<std::string, std::string> > WorkSpace::getTutteInfo() {
+    Vettore<std::unordered_map<std::string, std::string> > info;
+    for(auto&& d : disegni)
+        info.push_back(d->getInfo());
+    return info;
 }
 
 std::unordered_map<string, string> WorkSpace::getInfoDisegnabile() {

@@ -31,8 +31,15 @@ private:
     Controller* controller;
     PianoCartesiano* pianoCartesiano;
 
+    QMenuBar*   menuBar;
     QMenu* file;
+    QMenu* disegnaMenu;
+    QMenu* utility;
     QMenu* help;
+
+    QVBoxLayout* infoLayout;
+    QHBoxLayout* buttonLayout;
+    QVBoxLayout* sxLayout;
 
     QPushButton* disegnaButton;
     QPushButton* eliminaButton;
@@ -45,7 +52,7 @@ private:
 
     QDialog* formDialog;
     QVBoxLayout* mainLayout;
-    QHBoxLayout* buttonLayout;
+    QHBoxLayout* dialogButton;
     QFormLayout* formLayout;
     QLabel *colorLabel;
 
@@ -79,7 +86,8 @@ public:
      */
     void showSceltaFiguraDialog();
 
-    void showWarningDialog(const QString& message);
+    int showWarningDialog(const QString& message);
+    int showConfermaDialog(const QString& message);
 
     Vettore<QString> showNewPuntoDialog();
     Vettore<QString> showNewLineaDialog(const Vettore<Punto*> punti, bool retta);
@@ -88,7 +96,8 @@ public:
     Vettore<QString> showNewEllisseDialog(const Vettore<Punto*> punti);
     unsigned int showRemoveDialog();
 
-    void addInfoDisegnabile(std::unordered_map<string,string>);
+    void pulisciInfoDisegni();
+    void addInfoDisegnabile(std::unordered_map<string,string>, unsigned int);
 };
 
 #endif // INTERFACCIA_H

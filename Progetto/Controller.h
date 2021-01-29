@@ -19,6 +19,9 @@ public:
     void setModel(Model* m);
     void setView(Interfaccia* v);
 
+    void refreshInfoDisegni() const;
+    void showInfoDisegni() const;
+
 public slots:
 
     void addPunto() const;
@@ -31,6 +34,7 @@ public slots:
     /*
     */
     void removeDisegno() const;
+    void cancellaTutto() const;
 };
 
 #endif // CONTROLLER_H
