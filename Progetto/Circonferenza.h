@@ -6,7 +6,7 @@
 class Circonferenza : public Curva {
 private:
     double raggio;
-    Punto* centro;
+    Punto centro;
 
 public:
 
@@ -55,7 +55,7 @@ public:
     /**
      * @brief Getter del centro della circonferenza
      */
-    Punto* getCentro() const;
+    const Punto* getCentro() const;
 
     /**
      * @brief override di Disegnabile::disegna()

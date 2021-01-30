@@ -26,31 +26,20 @@ void Controller::showInfoDisegni() const {
 }
 
 void Controller::addPunto() const {
-    //bool ok = false;
-    //while(!ok){
-        try {
-            Vettore<QString> dati = view->showNewPuntoDialog();
-            //std::unordered_map<string, string> displayInfo;
-            //for(auto el : dati)
-            //    std::cout << el.toStdString() << " ";
-            if(!dati.empty()){
-                string nome = dati[0].toStdString();
-                double x = dati[1].toDouble();
-                double y = dati[2].toDouble();
-                QColor c = QColor(dati[3]);
-                // Qt color mancante !!!!
-                model->addNewPunto(x, y, nome, c);
-                showInfoDisegni();
-                view->refreshPiano();
-                //displayInfo = model->getInfoDisegnabile();
-                //view->addInfoDisegnabile(displayInfo);
-            }
-            //ok = true;
-        }  catch (std::runtime_error& exc) {
-            //std::cout << exc.what();
-            view->showWarningDialog(exc.what());
+    try {
+        Vettore<QString> dati = view->showNewPuntoDialog();
+        if(!dati.empty()){
+            string nome = dati[0].toStdString();
+            double x = dati[1].toDouble();
+            double y = dati[2].toDouble();
+            QColor c = QColor(dati[3]);
+            model->addNewPunto(x, y, nome, c);
+            showInfoDisegni();
+            view->refreshPiano();
         }
-    //}
+    }  catch (std::runtime_error& exc) {
+        view->showWarningDialog(exc.what());
+    }
 }
 
 void Controller::addSegmento() const {
@@ -90,12 +79,7 @@ void Controller::addSegmento() const {
 void Controller::addRetta() const {
     try {
         Vettore<Punto*> punti = model->getTuttiPunti();
-        Vettore<QString> dati = view->showNewLineaDialog(punti, true);/*
-        std::cout << "1 vettore punti retta\n";
-        for(auto i: punti) {
-            std::cout << string(*i) << "\n";
-        }
-        std::cout << "1 finepausa retta\n";*/
+        Vettore<QString> dati = view->showNewLineaDialog(punti, true);
         if(!dati.empty()){
             string nome         = dati[0].toStdString();
             unsigned int indexA = dati[1].toUInt();
@@ -105,12 +89,7 @@ void Controller::addRetta() const {
             model->addNewRetta(punti[indexA], punti[indexB], nome, color);
             showInfoDisegni();
             view->refreshPiano();
-        }/*
-        std::cout << "2 vettore punti retta\n";
-        for(auto i: punti) {
-            std::cout << string(*i) << "\n";
         }
-        std::cout << "2 finepausa retta\n";*/
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());
     } catch (std::logic_error& log){
@@ -129,6 +108,7 @@ void Controller::addCirconferenza() const {
             QColor color        = dati[3];
             model->addNewCirconferenza(punti[indexC], raggio, nome, color);
             showInfoDisegni();
+            view->refreshPiano();
         }
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());
@@ -149,6 +129,7 @@ void Controller::addEllisse() const {
             QColor color        = dati[4];
             model->addNewEllisse(punti[indexC], semiA, semiB, nome, color);
             showInfoDisegni();
+            view->refreshPiano();
         }
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());

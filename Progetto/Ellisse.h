@@ -8,7 +8,7 @@ class Ellisse : public Curva
 private:
     double semiAsse1;
     double semiAsse2;
-    Punto* centro;
+    Punto centro;
 public:
     /**
      * @brief Costruttore di Ellisse

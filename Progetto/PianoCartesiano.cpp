@@ -32,6 +32,18 @@ void PianoCartesiano::paintEvent(QPaintEvent* e) {
         p.drawLine(side, i*pixelScale, -side, i*pixelScale);
     }
 
+    //----------------------------------//
+    //qDebug("Pre-Ciclo");
+    pen.setWidth(1);
+    //if (workspace) std::cout << workspace->getDisegni().size() << "\n";
+    for(auto& i : workspace->getDisegni()) {
+        pen.setColor(i.get()->getColore());
+        p.setPen(pen);
+        i.get()->disegna(&p);
+    }
+
+    //----------------------------------//
+
     pen.setWidth(0);
     pen.setColor(Qt::black);
     p.setPen(pen);
@@ -49,17 +61,8 @@ void PianoCartesiano::paintEvent(QPaintEvent* e) {
     p.drawLine(2, y_arrow+2, 0, y_arrow);
     p.drawLine(-2, y_arrow+2, 0, y_arrow);
 
-    //----------------------------------//
-    qDebug("Pre-Ciclo");
-    pen.setWidth(1);
-    if (workspace) std::cout << workspace->getDisegni().size() << "\n";
-    for(auto& i : workspace->getDisegni()) {
-        pen.setColor(i.get()->getColore());
-        p.setPen(pen);
-        i.get()->disegna(&p);
-    }
 
-    //----------------------------------//
+    // Prima posizione
 
     QWidget::paintEvent(e);
 }

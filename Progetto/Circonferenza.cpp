@@ -5,7 +5,7 @@
 Circonferenza::Circonferenza(std::string nome, QColor colore, Punto* _centro, double _raggio) :
     Curva((_raggio<=0) ? throw std::domain_error("Il raggio deve essere positivo.") : nome, colore),
     raggio(_raggio),
-    centro(_centro)
+    centro(*_centro)
 {}
 
 double Circonferenza::diametro() const { return raggio*2; }
@@ -16,15 +16,14 @@ double Circonferenza::area() const { return pow(raggio,2)*M_PI; }
 
 double Circonferenza::eccentricita() const { return 0; }
 
-std::pair<Punto, Punto> Circonferenza::getFuochi() const { return std::pair<Punto,Punto>(*centro, *centro); }
+std::pair<Punto, Punto> Circonferenza::getFuochi() const { return std::pair<Punto,Punto>(centro, centro); }
 
 double Circonferenza::getRaggio() const { return raggio; }
 
-Punto* Circonferenza::getCentro() const { return centro; }
+const Punto* Circonferenza::getCentro() const { return &centro; }
 
-void Circonferenza::disegna(QPainter *) const
-{
-
+void Circonferenza::disegna(QPainter * p) const {
+    p->drawEllipse((centro.getX()-raggio)*10, (-centro.getY()-raggio)*10, 2*raggio*10, 2*raggio*10);
 }
 
 std::unordered_map<std::string, std::string> Circonferenza::getInfo() const {
