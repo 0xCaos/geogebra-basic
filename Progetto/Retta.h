@@ -30,8 +30,6 @@ public:
      */
     double getQ() const;
 
-    double getLunghezza() const =delete; // per una retta non ha senso chiedere la lunghezza
-
     /**
      * @brief Generatore della formula della Retta
      */

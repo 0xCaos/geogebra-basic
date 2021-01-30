@@ -131,10 +131,20 @@ void DeepPtr<T>::reset(T* _p) {
 }
 
 template<class T>
-T& DeepPtr<T>::operator*() const { if (get()) return *get(); }
+T& DeepPtr<T>::operator*() const {
+    if (get())
+        return *get();
+    else
+        return 0;
+}
 
 template<class T>
-T* DeepPtr<T>::operator->() const { if (get()) return get(); }
+T* DeepPtr<T>::operator->() const {
+    if (get())
+        return get();
+    else
+        return 0;
+}
 
 template<class T>
 DeepPtr<T>::operator bool() const { return get()!=nullptr; }

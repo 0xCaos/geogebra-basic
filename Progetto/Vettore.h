@@ -32,7 +32,7 @@ private:
      * ed effettua la copia di tutti gli elementi nel nuovo array
      */
     void rialloca_array();
-    void reserve( int );
+    void reserve( u_int );
 public:
     class iterator {
         friend class Vettore;
@@ -196,6 +196,7 @@ T& Vettore<T>::iterator::operator*() const {
     return *punt;
 }
 /*
+*/
 template<class T>
 void Vettore<T>::rialloca_array() {
     // setto il nuovo valore per la capacità
@@ -222,37 +223,38 @@ void Vettore<T>::push_back(const T& el) {
     arr[vsize] = el;
     vsize++;
 }
-*/
 template<class T>
-void Vettore<T>::reserve( int newCapacity )
+void Vettore<T>::reserve( u_int newCapacity )
 {
     if( newCapacity < vsize )
         return;
 
     T *newArray = new T[ newCapacity ];
-    for( int k = 0; k < vsize; ++k )
-  newArray[ k ] = std::move( arr[ k ] );
+    for( u_int k = 0; k < vsize; ++k )
+        newArray[ k ] = std::move( arr[ k ] );
 
-   vcapacity = newCapacity;
+    vcapacity = newCapacity;
     std::swap( arr, newArray );
-    delete [ ] newArray;
+    //delete [ ] newArray;
 }
 
   // Stacky stuff
+/*
 template<class T>
 void Vettore<T>::push_back( const T& x )
 {
     if( vsize == vcapacity )
         reserve( 2 * vcapacity + 1 );
-    /*
+
      * if( vsize == vcapacity ) {
         if(vcapacity == 0) vcapacity = 1;
         else vcapacity *= 2;
         reserve(vcapacity);
     }
-    */
+
     arr[ vsize++ ] = x;
 }
+*/
 
 template<class T>
 T& Vettore<T>::operator[](u_int pos) const {

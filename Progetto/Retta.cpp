@@ -37,7 +37,7 @@ std::string Retta::getFormula() const
 std::unordered_map<std::string, std::string> Retta::getInfo() const {
     std::unordered_map<string, string> infoRetta;
     infoRetta["Formula"] = getFormula();
-    infoRetta["Passa per"] = string(*getPunti().first) + " e " + string(*getPunti().second);
+    infoRetta["Passa per"] = string(getPunti().first) + " e " + string(getPunti().second);
     infoRetta["Nome"] = getNome();
 
     return infoRetta;
