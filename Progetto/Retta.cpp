@@ -43,6 +43,19 @@ std::unordered_map<std::string, std::string> Retta::getInfo() const {
     return infoRetta;
 }
 
+void Retta::disegna(QPainter *p) const {
+    double x1 = 100;
+    double x2 = -100;
+    double y1 = x1*m+q;
+    double y2 = x2*m+q;
+    p->drawLine(
+        x1*10,
+        -y1*10,
+        x2*10,
+        -y2*10
+    );
+}
+
 Retta *Retta::clone() const {
     return new Retta(*this);
 }

@@ -57,12 +57,12 @@ void Controller::addSegmento() const {
     try {
         Vettore<Punto*> punti = model->getTuttiPunti();
         Vettore<QString> dati = view->showNewLineaDialog(punti, false);/*
-        SAAAAAAAAAAAAAFE
-        std::cout << "vettore punti\n";
+       //SAAAAAAAAAAAAAFE
+        std::cout << "1 vettore punti segmento\n";
         for(auto i: punti) {
             std::cout << string(*i) << "\n";
         }
-        std::cout << "finepausa\n";*/
+        std::cout << "1 finepausa segmento\n";*/
         if(!dati.empty()){
             string nome         = dati[0].toStdString();/*
             std::cout << "SEG: "<< punti[dati[1].toUInt()]->getX() << std::endl;
@@ -72,13 +72,14 @@ void Controller::addSegmento() const {
             std::cout << indexA << " " << indexB << "\n";
             model->addNewSegmento(punti[indexA], punti[indexB], nome, color);*/
             model->addNewSegmento(punti[dati[1].toUInt()], punti[dati[2].toUInt()], nome, QColor(dati[3]));
-            for(auto i:punti) {
-                std::cout << string(*i) << std::endl;
-            }
-            std::cout << "SEG2X: "<< punti[dati[1].toUInt()]->getX() << std::endl;
-            std::cout << "SEG2Y: "<< punti[dati[1].toUInt()]->getY() << std::endl;
             showInfoDisegni();
+            view->refreshPiano();
+        }/*
+        std::cout << "2 vettore punti segmento\n";
+        for(auto i: punti) {
+            std::cout << string(*i) << "\n";
         }
+        std::cout << "2 finepausa segmento\n";*/
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());
     } catch (std::logic_error& log){
@@ -89,7 +90,12 @@ void Controller::addSegmento() const {
 void Controller::addRetta() const {
     try {
         Vettore<Punto*> punti = model->getTuttiPunti();
-        Vettore<QString> dati = view->showNewLineaDialog(punti, true);
+        Vettore<QString> dati = view->showNewLineaDialog(punti, true);/*
+        std::cout << "1 vettore punti retta\n";
+        for(auto i: punti) {
+            std::cout << string(*i) << "\n";
+        }
+        std::cout << "1 finepausa retta\n";*/
         if(!dati.empty()){
             string nome         = dati[0].toStdString();
             unsigned int indexA = dati[1].toUInt();
@@ -98,7 +104,13 @@ void Controller::addRetta() const {
             std::cout << indexA << " " << indexB << "\n";
             model->addNewRetta(punti[indexA], punti[indexB], nome, color);
             showInfoDisegni();
+            view->refreshPiano();
+        }/*
+        std::cout << "2 vettore punti retta\n";
+        for(auto i: punti) {
+            std::cout << string(*i) << "\n";
         }
+        std::cout << "2 finepausa retta\n";*/
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());
     } catch (std::logic_error& log){
@@ -159,6 +171,7 @@ void Controller::addRegolare() const
             std::cout << "Regolare: " << numLati << "\n";
             model->addNewRegolare(std::pair<Punto*, Punto*>(punti[indexA], punti[indexB]), numLati, nome, color);
             showInfoDisegni();
+            view->refreshPiano();
         }
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());

@@ -19,7 +19,7 @@ Model::~Model() {
 
 void Model::addNewSegmento(Punto *A, Punto *B, std::string nome, QColor color) const {
     Creator creator;
-    checkNuoviPunti({A, B});
+    //checkNuoviPunti({A, B});
     Segmento* s = creator.creaSegmento(nome, color, A, B);
     workspace->addDisegno(s);
     delete s;
@@ -28,7 +28,7 @@ void Model::addNewSegmento(Punto *A, Punto *B, std::string nome, QColor color) c
 
 void Model::addNewRetta(Punto *A, Punto *B, string nome, QColor color) const {
     Creator creator;
-    checkNuoviPunti({A, B});
+    //checkNuoviPunti({A, B});
     Retta* r = creator.creaRetta(nome, color, A, B);
     workspace->addDisegno(r);
     delete r;
@@ -37,7 +37,7 @@ void Model::addNewRetta(Punto *A, Punto *B, string nome, QColor color) const {
 
 void Model::addNewPoligono(const Vettore<Punto *> &punti, string nome, QColor color) const {
     Creator creator;
-    checkNuoviPunti(punti);
+    //checkNuoviPunti(punti);
     Poligono* p = creator.creaPoligono(nome, color, punti);
     workspace->addDisegno(p);
     delete p;
@@ -46,7 +46,7 @@ void Model::addNewPoligono(const Vettore<Punto *> &punti, string nome, QColor co
 
 void Model::addNewRegolare(const std::pair<Punto *, Punto *> &punti, unsigned int numLati, string nome, QColor color) const {
     Creator creator;
-    checkNuoviPunti({punti.first, punti.second});
+    //checkNuoviPunti({punti.first, punti.second});
     Regolare* r = creator.creaRegolare(nome, color, punti, numLati);
     workspace->addDisegno(r);
     delete r;
@@ -55,7 +55,7 @@ void Model::addNewRegolare(const std::pair<Punto *, Punto *> &punti, unsigned in
 
 void Model::addNewEllisse(Punto *centro, double semiAsse1, double semiAsse2, string nome, QColor color) const {
     Creator creator;
-    checkNuoviPunti({centro});
+    //checkNuoviPunti({centro});
     Ellisse* e = creator.creaEllisse(nome, color, centro, semiAsse1, semiAsse2);
     workspace->addDisegno(e);
     delete e;
@@ -64,7 +64,7 @@ void Model::addNewEllisse(Punto *centro, double semiAsse1, double semiAsse2, str
 
 void Model::addNewCirconferenza(Punto *centro, double raggio, string nome, QColor color) const {
     Creator creator;
-    checkNuoviPunti({centro});
+    //checkNuoviPunti({centro});
     Circonferenza* c = creator.creaCirconferenza(nome, color, centro, raggio);
     workspace->addDisegno(c);
     delete c;

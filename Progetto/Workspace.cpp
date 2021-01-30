@@ -14,13 +14,15 @@ unsigned int WorkSpace::getNumeroDisegni() const { return disegni.size(); }
 
 void WorkSpace::addDisegno(Disegnabile* disegno) {/*
     std::cout << "pre pushback\n";
-    for(auto i : disegno->getInfo()) {
-        std::cout << i.first << " " << i.second << "\n";
+    for(auto j : disegni) {
+        for(auto i : j->getInfo())
+            std::cout << i.first << " " << i.second << "\n";
     }*/
     disegni.push_back(disegno);/*
     std::cout << "post pushback\n";
-    for(auto i : disegno->getInfo()) {
-        std::cout << i.first << " " << i.second << "\n";
+    for(auto j : disegni) {
+        for(auto i : j->getInfo())
+            std::cout << i.first << " " << i.second << "\n";
     }*/
 }
 
@@ -46,7 +48,7 @@ bool WorkSpace::puntoNuovo(const Punto *point) const {
 //SAFE! :)
 Vettore<Punto *> WorkSpace::tuttiPunti() const {
     Vettore<Punto*> punti;
-    for(auto& disegno : disegni){
+    for(auto&& disegno : disegni){
         if(dynamic_cast<Punto*>(disegno.get()))
             punti.push_back(static_cast<Punto*>(disegno.get()));
     }

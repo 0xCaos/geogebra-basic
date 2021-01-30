@@ -1,6 +1,7 @@
 #include "Model.h"
 #include "Controller.h"
 #include "Interfaccia.h"
+#include "vector"
 
 #include <QApplication>
 #include <unordered_map>
@@ -13,7 +14,7 @@ using std::endl;
 
 int main(int argc, char *argv[])
 {
-
+    //std::vector<int> a;
     QApplication a(argc, argv);
     Model m;
     Controller c;

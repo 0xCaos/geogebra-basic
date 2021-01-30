@@ -14,10 +14,10 @@ Segmento *Segmento::clone() const {
 
 void Segmento::disegna(QPainter *p) const {
     p->drawLine(
-        getPunti().first->getX(),
-        getPunti().first->getY(),
-        getPunti().second->getX(),
-        getPunti().second->getY()
+        getPunti().first->getX()*10,
+        -getPunti().first->getY()*10,
+        getPunti().second->getX()*10,
+        -getPunti().second->getY()*10
     );
 }
 
