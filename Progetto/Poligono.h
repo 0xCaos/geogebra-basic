@@ -7,7 +7,7 @@
 
 class Poligono : public Figura {
 private:
-    Vettore<Punto*> vertici;
+    Vettore<Punto> vertici;
 
     static bool crossProductSign(const Punto&, const Punto&, const Punto&);
 public:

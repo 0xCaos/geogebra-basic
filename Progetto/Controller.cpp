@@ -165,14 +165,18 @@ void Controller::addPoligono() const
 {
     try {
         Vettore<Punto*> punti = model->getTuttiPunti();
-        Vettore<QString> dati = view->showNewLineaDialog(punti, true);
-        string nome         = dati[0].toStdString();
-        unsigned int indexA = dati[1].toUInt();
-        unsigned int indexB = dati[2].toUInt();
-        QColor color        = dati[3];
-        std::cout << indexA << " " << indexB << "\n";
-        model->addNewRetta(punti[indexA], punti[indexB], nome, color);
-        showInfoDisegni();
+        Vettore<QString> dati = view->showNewPoligonoDialog(punti);
+        if(!dati.empty()){
+            string nome     = dati[0].toStdString();
+            Vettore<Punto*> puntiScelti;
+            for(unsigned int j = 1; j < dati.size()-1; j++){
+                puntiScelti.push_back(punti[dati[j].toUInt()]);
+                //std::cout << dati[j].toUInt() << " ";
+            }
+            QColor color    = *(dati.end()-1);
+            model->addNewPoligono(puntiScelti, nome, color);
+            showInfoDisegni();
+        }
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());
     } catch (std::logic_error& log){

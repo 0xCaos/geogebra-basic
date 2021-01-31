@@ -66,10 +66,20 @@ private:
     QWidget* infoBox;
     QFormLayout* infoDisegni;
 
+    QPushButton* addPuntiBox;
+    QPushButton* removePuntiBox;
+
+    QComboBox* boxPunti1;
+    QComboBox* boxPunti2;
+    QWidget* comboboxLayout;
+
     void setStandardDialog();
+    void popolaComboBox(const Vettore<Punto*>& punti, const Vettore<QComboBox*>& comboBox);
 
 private slots:
     void selectColor();
+    void addRowPuntiBox();
+    void removeRowPuntiBox();
 
 public:
     explicit Interfaccia(QWidget* parent = nullptr);
@@ -92,6 +102,7 @@ public:
     Vettore<QString> showNewPuntoDialog();
     Vettore<QString> showNewLineaDialog(const Vettore<Punto*> punti, bool retta);
     Vettore<QString> showNewRegolareDialog(const Vettore<Punto*> punti);
+    Vettore<QString> showNewPoligonoDialog(const Vettore<Punto*> punti);
     Vettore<QString> showNewCirconferenzaDialog(const Vettore<Punto*> punti);
     Vettore<QString> showNewEllisseDialog(const Vettore<Punto*> punti);
     unsigned int showRemoveDialog();

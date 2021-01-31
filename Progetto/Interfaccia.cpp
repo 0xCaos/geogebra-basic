@@ -131,6 +131,19 @@ void Interfaccia::setStandardDialog() {
     connect(colorButton, &QAbstractButton::clicked, this, &Interfaccia::selectColor);
     connect(bottoni, SIGNAL(accepted()), formDialog, SLOT(accept()));
     connect(bottoni, SIGNAL(rejected()), formDialog, SLOT(reject()));
+
+    if(addPuntiBox){
+        qDebug("test");
+        //connect(addPuntiBox, &QAbstractButton::clicked, this, &Interfaccia::addRowPuntiBox);
+    }
+}
+
+void Interfaccia::popolaComboBox(const Vettore<Punto *> &punti, const Vettore<QComboBox *> &comboBox) {
+    for(auto& cb : comboBox){
+        for(auto& p : punti){
+            cb->addItem(QString::fromStdString(p->getNome()));
+        }
+    }
 }
 
 Interfaccia::Interfaccia(QWidget *parent) : QWidget(parent) {
@@ -194,6 +207,25 @@ void Interfaccia::selectColor()
         colorLabel->setPalette(QPalette(color));
         colorLabel->setAutoFillBackground(true);
     }
+}
+
+void Interfaccia::addRowPuntiBox() {
+    qDebug("add");
+    QComboBox* boxPunti = new QComboBox(boxPunti1);
+
+    for(int i = 0; i < boxPunti1->count(); i++){
+        boxPunti->addItem(boxPunti1->itemText(i));
+    }
+
+    formLayout->insertRow(formLayout->rowCount()-2, boxPunti);
+
+}
+
+void Interfaccia::removeRowPuntiBox() {
+    if(formLayout->rowCount() > 7){
+        formLayout->removeRow(formLayout->rowCount()-3);
+    }
+    formDialog->resize(QSize(400, 200));
 }
 
 void Interfaccia::showSceltaFiguraDialog() {
@@ -395,6 +427,79 @@ Vettore<QString> Interfaccia::showNewRegolareDialog(const Vettore<Punto *> punti
     return results;
 }
 
+Vettore<QString> Interfaccia::showNewPoligonoDialog(const Vettore<Punto *> punti) {
+    setStandardDialog();
+    formDialog->setWindowTitle("Nuovo Poligono Irregolare");
+
+    addPuntiBox = new QPushButton("Aggiungi Punti");
+    removePuntiBox = new QPushButton("Togli Punti");
+
+    connect(addPuntiBox, &QAbstractButton::clicked, this, &Interfaccia::addRowPuntiBox);
+    connect(removePuntiBox, &QAbstractButton::clicked, this, &Interfaccia::removeRowPuntiBox);
+
+    // Set QComboBox
+    boxPunti1 = new QComboBox(formDialog);
+    boxPunti2 = new QComboBox(formDialog);
+    QComboBox* boxPunti3 = new QComboBox(formDialog);
+
+    popolaComboBox(punti, {boxPunti1, boxPunti2, boxPunti3});
+
+    formLayout->addRow(new QLabel("Nome"), inputNome);
+    formLayout->addRow(new QLabel("Seleziona almeno 3 Punti"));
+    formLayout->addRow(boxPunti1);
+    formLayout->addRow(boxPunti2);
+    formLayout->addRow(boxPunti3);
+    formLayout->addRow(addPuntiBox, removePuntiBox);
+    formLayout->addRow(colorButton, colorLabel);
+
+    formLayout->setSpacing(10);
+
+    dialogButton->addWidget(bottoni);
+    mainLayout->addLayout(formLayout);
+    //comboboxLayout->setLayout(formLayout);
+    //mainLayout->addWidget(comboboxLayout);
+    mainLayout->addLayout(dialogButton);
+    formDialog->setLayout(mainLayout);
+
+    formDialog->resize(QSize(400, 200));
+
+    Vettore<QString> results;
+    if(formDialog->exec()){ // se role == accepted => ha premuto OK
+        if(boxPunti1->currentText().toStdString().empty() || boxPunti2->currentText().toStdString().empty())
+            throw std::runtime_error("Punti insufficienti per creare il poligono");
+        /*
+        results = {
+            inputNome->text(),
+            QString::fromStdString(std::to_string(boxPunti1->currentIndex())),
+            QString::fromStdString(std::to_string(boxPunti2->currentIndex())),
+            QString::fromStdString(std::to_string(boxPunti3->currentIndex())),
+            colorLabel->text()
+        };
+        */
+        results.push_back(inputNome->text());
+        std::cout << formLayout->rowCount() << "\n";
+        if(formLayout->rowCount() > 7){
+            for(int i = 0; i < formLayout->rowCount(); i++){
+                QFormLayout::TakeRowResult box = formLayout->takeRow(i);
+                if(dynamic_cast<QComboBox*>(box.fieldItem->widget())){
+                    QComboBox* b = dynamic_cast<QComboBox*>(box.fieldItem->widget());
+                    std::cout << b->currentText().toStdString() << " " << i << " ";
+                    //results.insert(results.begin()+(i-1), QString::fromStdString(std::to_string(b->currentIndex())));
+                    results.push_back(QString::fromStdString(std::to_string(b->currentIndex())));
+                }
+            }
+        }
+        std::cout << "\n";
+        results.push_back(colorLabel->text());
+
+        for(auto& j : results){
+            std::cout << j.toStdString() << " ";
+        }
+
+    }
+    return results;
+}
+
 Vettore<QString> Interfaccia::showNewCirconferenzaDialog(const Vettore<Punto *> punti) {
     setStandardDialog();
     formDialog->setWindowTitle("Nuova Circonferenza");
@@ -508,26 +613,6 @@ void Interfaccia::pulisciInfoDisegni() {
     if(infoScroll->widget())
         infoScroll->deleteLater();
 
-    //delete infoScroll;
-    //delete infoBox;
-    //delete infoDisegni;
-
-    // Riassegno un nuovo Layout pulito
-    /*
-    infoScroll = new QScrollArea;
-    infoBox = new QWidget;
-    infoDisegni = new QFormLayout;
-
-    infoScroll->setWidgetResizable(true);
-    infoBox->setLayout(infoDisegni);
-    infoScroll->setWidget(infoBox);
-    infoLayout->addWidget(new QLabel("Info Oggetti"));
-    infoLayout->addWidget(infoScroll);
-    infoLayout->setContentsMargins(30,20,30,20);
-    sxLayout->addLayout(infoLayout);
-
-    infoLayout->addWidget(infoScroll);
-    */
     infoScroll  = new QScrollArea;
     infoBox     = new QWidget;
     infoDisegni = new QFormLayout;
