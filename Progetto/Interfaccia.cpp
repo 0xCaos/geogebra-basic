@@ -131,11 +131,6 @@ void Interfaccia::setStandardDialog() {
     connect(colorButton, &QAbstractButton::clicked, this, &Interfaccia::selectColor);
     connect(bottoni, SIGNAL(accepted()), formDialog, SLOT(accept()));
     connect(bottoni, SIGNAL(rejected()), formDialog, SLOT(reject()));
-
-    if(addPuntiBox){
-        qDebug("test");
-        //connect(addPuntiBox, &QAbstractButton::clicked, this, &Interfaccia::addRowPuntiBox);
-    }
 }
 
 void Interfaccia::popolaComboBox(const Vettore<Punto *> &punti, const Vettore<QComboBox *> &comboBox) {
@@ -478,7 +473,25 @@ Vettore<QString> Interfaccia::showNewPoligonoDialog(const Vettore<Punto *> punti
         */
         results.push_back(inputNome->text());
         std::cout << formLayout->rowCount() << "\n";
-        if(formLayout->rowCount() > 7){
+        //if(formLayout->rowCount() > 7){      Con questo IF se ho meno di 7 righe non entra e non mette nemmeno un punto
+            for(int i = 0; i < formLayout->rowCount(); i++){
+                std::cout << i << " ";
+                QLayoutItem* box = formLayout->itemAt(i); // itemAt è più corretto, takeRow nella documentazione dice che toglie le righe dal form (annullano la addRow la insert per esempio)
+                if(QComboBox* b = qobject_cast<QComboBox*>(box->widget())){ // tentativo di downcast QWidget* -> QComboBox*
+                    std::cout << " *" << std::to_string(b->currentIndex()) << "* ";
+                    results.push_back(QString::fromStdString(std::to_string(b->currentIndex())));
+                }
+            }
+
+            /*
+             * Se provi a leggere la documentazione ho notato che formLayout ritorna un QlayoutItem* e questo deriva da Qlayout
+             * che non ha niente a che vedere con le QComboBox che derivano da QObject se non sbaglio.
+             * Quindi non abbastanza sorpreso che prima funzionasse.
+             * Infatti qui faccio proprio il cast di Qt su QLayoutItem->widget() che teoricamente è un QWidget* e dovrebbe poter essere
+             * convertibile a QComboBox.
+             */
+
+            /*
             for(int i = 0; i < formLayout->rowCount(); i++){
                 QFormLayout::TakeRowResult box = formLayout->takeRow(i);
                 if(dynamic_cast<QComboBox*>(box.fieldItem->widget())){
@@ -488,13 +501,15 @@ Vettore<QString> Interfaccia::showNewPoligonoDialog(const Vettore<Punto *> punti
                     results.push_back(QString::fromStdString(std::to_string(b->currentIndex())));
                 }
             }
-        }
+            */
+        //}
         std::cout << "\n";
         results.push_back(colorLabel->text());
 
         for(auto& j : results){
             std::cout << j.toStdString() << " ";
         }
+        std::cout << "\n";
 
     }
     return results;
