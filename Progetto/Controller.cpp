@@ -176,6 +176,7 @@ void Controller::addPoligono() const
             QColor color    = *(dati.end()-1);
             model->addNewPoligono(puntiScelti, nome, color);
             showInfoDisegni();
+            view->refreshPiano();
         }
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());

@@ -205,15 +205,14 @@ void Interfaccia::selectColor()
 }
 
 void Interfaccia::addRowPuntiBox() {
-    qDebug("add");
-    QComboBox* boxPunti = new QComboBox(boxPunti1);
+    //qDebug("add");
+    QComboBox* boxPunti = new QComboBox(formDialog);
 
     for(int i = 0; i < boxPunti1->count(); i++){
         boxPunti->addItem(boxPunti1->itemText(i));
     }
 
-    formLayout->insertRow(formLayout->rowCount()-2, boxPunti);
-
+    formLayout->insertRow(formLayout->rowCount(), boxPunti);
 }
 
 void Interfaccia::removeRowPuntiBox() {
@@ -423,94 +422,108 @@ Vettore<QString> Interfaccia::showNewRegolareDialog(const Vettore<Punto *> punti
 }
 
 Vettore<QString> Interfaccia::showNewPoligonoDialog(const Vettore<Punto *> punti) {
-    setStandardDialog();
-    formDialog->setWindowTitle("Nuovo Poligono Irregolare");
-
-    addPuntiBox = new QPushButton("Aggiungi Punti");
-    removePuntiBox = new QPushButton("Togli Punti");
-
-    connect(addPuntiBox, &QAbstractButton::clicked, this, &Interfaccia::addRowPuntiBox);
-    connect(removePuntiBox, &QAbstractButton::clicked, this, &Interfaccia::removeRowPuntiBox);
-
-    // Set QComboBox
-    boxPunti1 = new QComboBox(formDialog);
-    boxPunti2 = new QComboBox(formDialog);
-    QComboBox* boxPunti3 = new QComboBox(formDialog);
-
-    popolaComboBox(punti, {boxPunti1, boxPunti2, boxPunti3});
-
-    formLayout->addRow(new QLabel("Nome"), inputNome);
-    formLayout->addRow(new QLabel("Seleziona almeno 3 Punti"));
-    formLayout->addRow(boxPunti1);
-    formLayout->addRow(boxPunti2);
-    formLayout->addRow(boxPunti3);
-    formLayout->addRow(addPuntiBox, removePuntiBox);
-    formLayout->addRow(colorButton, colorLabel);
-
-    formLayout->setSpacing(10);
-
-    dialogButton->addWidget(bottoni);
-    mainLayout->addLayout(formLayout);
-    //comboboxLayout->setLayout(formLayout);
-    //mainLayout->addWidget(comboboxLayout);
-    mainLayout->addLayout(dialogButton);
-    formDialog->setLayout(mainLayout);
-
-    formDialog->resize(QSize(400, 200));
-
+    bool ok = false;
     Vettore<QString> results;
-    if(formDialog->exec()){ // se role == accepted => ha premuto OK
-        if(boxPunti1->currentText().toStdString().empty() || boxPunti2->currentText().toStdString().empty())
-            throw std::runtime_error("Punti insufficienti per creare il poligono");
-        /*
-        results = {
-            inputNome->text(),
-            QString::fromStdString(std::to_string(boxPunti1->currentIndex())),
-            QString::fromStdString(std::to_string(boxPunti2->currentIndex())),
-            QString::fromStdString(std::to_string(boxPunti3->currentIndex())),
-            colorLabel->text()
-        };
-        */
-        results.push_back(inputNome->text());
-        std::cout << formLayout->rowCount() << "\n";
-        //if(formLayout->rowCount() > 7){      Con questo IF se ho meno di 7 righe non entra e non mette nemmeno un punto
-            for(int i = 0; i < formLayout->rowCount(); i++){
-                std::cout << i << " ";
-                QLayoutItem* box = formLayout->itemAt(i); // itemAt è più corretto, takeRow nella documentazione dice che toglie le righe dal form (annullano la addRow la insert per esempio)
-                if(QComboBox* b = qobject_cast<QComboBox*>(box->widget())){ // tentativo di downcast QWidget* -> QComboBox*
-                    std::cout << " *" << std::to_string(b->currentIndex()) << "* ";
-                    results.push_back(QString::fromStdString(std::to_string(b->currentIndex())));
-                }
+    unsigned int n =
+            QInputDialog::getInt(this, tr("Numero Vertici Poligono"),
+                         "Inserire il numero di vertici (almeno 3): ", 1, 3, 2147483647, 1, &ok);
+    if(ok) {
+
+        setStandardDialog();
+        formDialog->setWindowTitle("Nuovo Poligono Irregolare");
+
+        addPuntiBox = new QPushButton("Aggiungi Punti");
+        removePuntiBox = new QPushButton("Togli Punti");
+
+        connect(addPuntiBox, &QAbstractButton::clicked, this, &Interfaccia::addRowPuntiBox);
+        connect(removePuntiBox, &QAbstractButton::clicked, this, &Interfaccia::removeRowPuntiBox);
+
+        // Set QComboBox
+        //boxPunti1 = new QComboBox(formDialog);
+        //boxPunti2 = new QComboBox(formDialog);
+        QComboBox* boxPunti = new QComboBox;
+
+        popolaComboBox(punti, {boxPunti});
+
+        formLayout->addRow(new QLabel("Nome"), inputNome);
+        //formLayout->addRow(new QLabel("Seleziona almeno 3 Punti"));
+        //formLayout->addRow(boxPunti1);
+        //formLayout->addRow(boxPunti2);
+
+        for(unsigned int k=0; k<n; ++k) {
+            QComboBox* boxPunti1 = new QComboBox(formDialog);
+            for(int i = 0; i < boxPunti->count(); i++){
+                boxPunti1->addItem(boxPunti->itemText(i));
             }
-
-            /*
-             * Se provi a leggere la documentazione ho notato che formLayout ritorna un QlayoutItem* e questo deriva da Qlayout
-             * che non ha niente a che vedere con le QComboBox che derivano da QObject se non sbaglio.
-             * Quindi non abbastanza sorpreso che prima funzionasse.
-             * Infatti qui faccio proprio il cast di Qt su QLayoutItem->widget() che teoricamente è un QWidget* e dovrebbe poter essere
-             * convertibile a QComboBox.
-             */
-
-            /*
-            for(int i = 0; i < formLayout->rowCount(); i++){
-                QFormLayout::TakeRowResult box = formLayout->takeRow(i);
-                if(dynamic_cast<QComboBox*>(box.fieldItem->widget())){
-                    QComboBox* b = dynamic_cast<QComboBox*>(box.fieldItem->widget());
-                    std::cout << b->currentText().toStdString() << " " << i << " ";
-                    //results.insert(results.begin()+(i-1), QString::fromStdString(std::to_string(b->currentIndex())));
-                    results.push_back(QString::fromStdString(std::to_string(b->currentIndex())));
-                }
-            }
-            */
-        //}
-        std::cout << "\n";
-        results.push_back(colorLabel->text());
-
-        for(auto& j : results){
-            std::cout << j.toStdString() << " ";
+            formLayout->addRow(boxPunti1);
         }
-        std::cout << "\n";
 
+        //formLayout->addRow(addPuntiBox, removePuntiBox);
+        formLayout->addRow(colorButton, colorLabel);
+        formLayout->setSpacing(10);
+
+        dialogButton->addWidget(bottoni);
+        mainLayout->addLayout(formLayout);
+        //comboboxLayout->setLayout(formLayout);
+        //mainLayout->addWidget(comboboxLayout);
+        mainLayout->addLayout(dialogButton);
+        formDialog->setLayout(mainLayout);
+
+        formDialog->resize(QSize(400, 200));
+
+        if(formDialog->exec()) { // se role == accepted => ha premuto OK
+            /*if(boxPunti1->currentText().toStdString().empty() || boxPunti2->currentText().toStdString().empty())
+                throw std::runtime_error("Punti insufficienti per creare il poligono");*/
+            /*
+            results = {
+                inputNome->text(),
+                QString::fromStdString(std::to_string(boxPunti1->currentIndex())),
+                QString::fromStdString(std::to_string(boxPunti2->currentIndex())),
+                QString::fromStdString(std::to_string(boxPunti3->currentIndex())),
+                colorLabel->text()
+            };
+            */
+            results.push_back(inputNome->text());
+            std::cout << "ROWCOUNT: " << formLayout->rowCount() << "\n";
+            //if(formLayout->rowCount() > 7){      Con questo IF se ho meno di 7 righe non entra e non mette nemmeno un punto
+                for(int i = 0; i < formLayout->rowCount(); i++){
+                    QLayoutItem* box = formLayout->itemAt(i); // itemAt è più corretto, takeRow nella documentazione dice che toglie le righe dal form (annullano la addRow la insert per esempio)
+                    QComboBox* b = qobject_cast<QComboBox*>(box->widget());
+                    std::cout << "CICLO " << i << " Tipo: " << typeid(b).name() << " | ";
+                    if(b) { // tentativo di downcast QWidget* -> QComboBox*
+                        std::cout << " *" << std::to_string(b->currentIndex()) << "* \n";
+                        results.push_back(QString::fromStdString(std::to_string(b->currentIndex())));
+                    }
+                }
+
+                /*
+                 * Se provi a leggere la documentazione ho notato che formLayout ritorna un QlayoutItem* e questo deriva da Qlayout
+                 * che non ha niente a che vedere con le QComboBox che derivano da QObject se non sbaglio.
+                 * Quindi non abbastanza sorpreso che prima funzionasse.
+                 * Infatti qui faccio proprio il cast di Qt su QLayoutItem->widget() che teoricamente è un QWidget* e dovrebbe poter essere
+                 * convertibile a QComboBox.
+                 */
+
+                /*
+                for(int i = 0; i < formLayout->rowCount(); i++){
+                    QFormLayout::TakeRowResult box = formLayout->takeRow(i);
+                    if(dynamic_cast<QComboBox*>(box.fieldItem->widget())){
+                        QComboBox* b = dynamic_cast<QComboBox*>(box.fieldItem->widget());
+                        std::cout << b->currentText().toStdString() << " " << i << " ";
+                        //results.insert(results.begin()+(i-1), QString::fromStdString(std::to_string(b->currentIndex())));
+                        results.push_back(QString::fromStdString(std::to_string(b->currentIndex())));
+                    }
+                }
+                */
+            //}
+            std::cout << "\n";
+            results.push_back(colorLabel->text());\
+            for(auto& j : results){
+                std::cout << j.toStdString() << " ";
+            }
+            std::cout << "\n";
+
+        }
     }
     return results;
 }
