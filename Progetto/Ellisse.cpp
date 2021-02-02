@@ -39,8 +39,8 @@ std::pair<Punto, Punto> Ellisse::getFuochi() const
     return std::pair<Punto, Punto>(f1,f2);
 }
 
-void Ellisse::disegna(QPainter * p) const {
-    p->drawEllipse((centro.getX()-semiAsse1)*10, (-centro.getY()-semiAsse2)*10, 2*semiAsse1*10, 2*semiAsse2*10);
+void Ellisse::disegna(QPainter * p, int scala) const {
+    p->drawEllipse((centro.getX()-semiAsse1)*scala, (-centro.getY()-semiAsse2)*scala, 2*semiAsse1*scala, 2*semiAsse2*scala);
 }
 
 std::unordered_map<std::string, std::string> Ellisse::getInfo() const {

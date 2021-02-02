@@ -12,12 +12,12 @@ Segmento *Segmento::clone() const {
     return new Segmento(*this);
 }
 
-void Segmento::disegna(QPainter *p) const {
+void Segmento::disegna(QPainter *p, int scala) const {
     p->drawLine(
-        getPunti().first.getX()*10,
-        -getPunti().first.getY()*10,
-        getPunti().second.getX()*10,
-        -getPunti().second.getY()*10
+        getPunti().first.getX()*scala,
+        -getPunti().first.getY()*scala,
+        getPunti().second.getX()*scala,
+        -getPunti().second.getY()*scala
     );
 }
 

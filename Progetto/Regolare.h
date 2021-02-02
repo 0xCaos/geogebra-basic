@@ -4,11 +4,13 @@
 #include "Figura.h"
 #include "Vettore.h"
 
+# define M_PIl          3.141592653589793238462643383279502884L /* pi */
+
 Vettore<double> const costantiAree = {0.433, 1, 1.720, 2.598, 3.634, 4.828, 6.182, 7.694, 11.196};
 
 class Regolare : public Figura {
 private:
-    std::pair<Punto*, Punto*> punti;
+    std::pair<Punto, Punto> punti;
     double lato;
     unsigned int numLati;
 
@@ -39,7 +41,7 @@ public:
     /**
      * @brief disegna override di Disegnabile::disegna()
      */
-    void disegna(QPainter*) const override;
+    void disegna(QPainter*, int) const override;
 
     /**
      * @brief getInfo override di Disegnabile::getInfo()

@@ -54,7 +54,7 @@ public:
     /**
      * @brief Override di Disegnabile::disegna()
      */
-    void disegna(QPainter*) const override;
+    void disegna(QPainter*, int) const override;
 
     /**
      * @brief getInfo override di Disegnabile::getInfo()

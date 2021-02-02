@@ -96,6 +96,8 @@ void Interfaccia::buildSxLayout(QHBoxLayout *bodyInterface) {
     infoLayout->addWidget(infoScroll);
     infoLayout->setContentsMargins(20, 20, 30, 20);
     sxLayout->addLayout(infoLayout);
+
+    infoScroll->setMaximumSize(400, 16777215);
     bodyInterface->addLayout(sxLayout);
 }
 
@@ -106,11 +108,29 @@ void Interfaccia::buildDxLayout(QHBoxLayout *bodyInterface) {
     pianoCartesiano  = new PianoCartesiano(new WorkSpace);
     pianoCartesiano->setMinimumSize(1100,800);
 
+    //QVBoxLayout* zoomButtons = new QVBoxLayout(pianoCartesiano);
     QPushButton* zoomIn = new QPushButton("+", pianoCartesiano);
     QPushButton* zoomOut = new QPushButton("-", pianoCartesiano);
+
+    connect(zoomIn, &QPushButton::clicked, this, &Interfaccia::setZoomIn);
+    connect(zoomOut, &QPushButton::clicked, this, &Interfaccia::setZoomOut);
+
     int buttonSize = 40;
-    zoomIn->setGeometry(pianoCartesiano->width()-buttonSize*2,pianoCartesiano->height()-buttonSize*3,buttonSize,buttonSize);
-    zoomOut->setGeometry(pianoCartesiano->width()-buttonSize*2,pianoCartesiano->height()-buttonSize*2,buttonSize,buttonSize);
+    //zoomIn->setGeometry(pianoCartesiano->width()-buttonSize*2,pianoCartesiano->height()-buttonSize*3,buttonSize,buttonSize);
+    //zoomOut->setGeometry(pianoCartesiano->width()-buttonSize*2,pianoCartesiano->height()-buttonSize*2,buttonSize,buttonSize);
+    zoomIn->setGeometry(5, 5, buttonSize, buttonSize);
+    zoomOut->setGeometry(5, 50, buttonSize, buttonSize);
+    //zoomIn->setFixedSize(40,40);
+    //zoomOut->setFixedSize(40,40);
+
+    //QSpacerItem* spaziature = new QSpacerItem(pianoCartesiano->width()-buttonSize*2, pianoCartesiano->height()-buttonSize*2, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    //QRect(pianoCartesiano->width()-buttonSize*2,pianoCartesiano->height()-buttonSize*2,buttonSize,buttonSize);
+    //spaziature->setGeometry(QRect(pianoCartesiano->width()-buttonSize*2,pianoCartesiano->height()-buttonSize*2,buttonSize,buttonSize));
+    //zoomButtons->addWidget(zoomIn);
+    //zoomButtons->addWidget(zoomOut);
+
+    //zoomButtons->addSpacerItem(spaziature);
+
     dxLayout->addWidget(pianoCartesiano);
 
     bodyInterface->addLayout(dxLayout);
@@ -128,7 +148,7 @@ void Interfaccia::setStandardDialog() {
     colorButton    = new QPushButton(tr("Colore"));
     bottoni        = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
-    connect(colorButton, &QAbstractButton::clicked, this, &Interfaccia::selectColor);
+    connect(colorButton, &QPushButton::clicked, this, &Interfaccia::selectColor);
     connect(bottoni, SIGNAL(accepted()), formDialog, SLOT(accept()));
     connect(bottoni, SIGNAL(rejected()), formDialog, SLOT(reject()));
 }
@@ -205,14 +225,15 @@ void Interfaccia::selectColor()
 }
 
 void Interfaccia::addRowPuntiBox() {
-    //qDebug("add");
+    qDebug("add");
     QComboBox* boxPunti = new QComboBox(formDialog);
 
     for(int i = 0; i < boxPunti1->count(); i++){
         boxPunti->addItem(boxPunti1->itemText(i));
     }
 
-    formLayout->insertRow(formLayout->rowCount(), boxPunti);
+    formLayout->insertRow(formLayout->rowCount()-2, boxPunti);
+
 }
 
 void Interfaccia::removeRowPuntiBox() {
@@ -220,6 +241,15 @@ void Interfaccia::removeRowPuntiBox() {
         formLayout->removeRow(formLayout->rowCount()-3);
     }
     formDialog->resize(QSize(400, 200));
+}
+
+void Interfaccia::setZoomIn() {
+    pianoCartesiano->modificaScala(5);
+}
+
+
+void Interfaccia::setZoomOut() {
+    pianoCartesiano->modificaScala(-5);
 }
 
 void Interfaccia::showSceltaFiguraDialog() {
@@ -533,7 +563,7 @@ Vettore<QString> Interfaccia::showNewCirconferenzaDialog(const Vettore<Punto *> 
     formDialog->setWindowTitle("Nuova Circonferenza");
 
     QLineEdit* inputRaggio  = new QLineEdit();
-    validator = new QDoubleValidator(formDialog);
+    validator = new QDoubleValidator(0.1,50,4,formDialog);
     inputRaggio->setValidator(validator);
 
     // Set QComboBox

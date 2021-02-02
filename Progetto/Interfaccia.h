@@ -81,6 +81,9 @@ private slots:
     void addRowPuntiBox();
     void removeRowPuntiBox();
 
+    void setZoomIn();
+    void setZoomOut();
+
 public:
     explicit Interfaccia(QWidget* parent = nullptr);
     ~Interfaccia() =default;

@@ -3,7 +3,7 @@
 #include "math.h"
 
 Circonferenza::Circonferenza(std::string nome, QColor colore, Punto* _centro, double _raggio) :
-    Curva((_raggio<=0) ? throw std::domain_error("Il raggio deve essere positivo.") : nome, colore),
+    Curva((_raggio <= 0) ? throw std::domain_error("Il raggio deve essere positivo.") : nome, colore),
     raggio(_raggio),
     centro(*_centro)
 {}
@@ -22,8 +22,8 @@ double Circonferenza::getRaggio() const { return raggio; }
 
 const Punto* Circonferenza::getCentro() const { return &centro; }
 
-void Circonferenza::disegna(QPainter * p) const {
-    p->drawEllipse((centro.getX()-raggio)*10, (-centro.getY()-raggio)*10, 2*raggio*10, 2*raggio*10);
+void Circonferenza::disegna(QPainter * p, int scala) const {
+    p->drawEllipse((centro.getX()-raggio)*scala, (-centro.getY()-raggio)*scala, 2*raggio*scala, 2*raggio*scala);
 }
 
 std::unordered_map<std::string, std::string> Circonferenza::getInfo() const {

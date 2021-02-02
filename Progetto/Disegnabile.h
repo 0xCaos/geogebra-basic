@@ -22,7 +22,7 @@ public:
     QColor getColore() const;
 
     virtual Disegnabile* clone() const =0;
-    virtual void disegna(QPainter*) const =0;
+    virtual void disegna(QPainter*, int) const =0;
     virtual std::unordered_map<string,string> getInfo() const =0;
     virtual ~Disegnabile() =default;
 };

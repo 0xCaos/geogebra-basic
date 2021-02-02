@@ -1,7 +1,7 @@
 #include "PianoCartesiano.h"
 
 PianoCartesiano::PianoCartesiano(WorkSpace* w, QWidget *parent) :
-    QWidget(parent), workspace(w)
+    QWidget(parent), pixelScale(10), workspace(w)
 {}
 
 void PianoCartesiano::paintEvent(QPaintEvent* e) {
@@ -16,17 +16,19 @@ void PianoCartesiano::paintEvent(QPaintEvent* e) {
     pen.setColor(QColor::fromRgb(217, 217, 217));
     p.setPen(pen);
 
-    //griglia
-    for (int i=-side; i<side; ++i) {
-        p.drawLine(side, i*pixelScale/5, -side, i*pixelScale/5);
-        p.drawLine(i*pixelScale/5, side, i*pixelScale/5, -side);
+    //griglia main
+    if(pixelScale > 5){
+        for (int i=-side; i<side; ++i) {
+            p.drawLine(side, i*pixelScale/5, -side, i*pixelScale/5);
+            p.drawLine(i*pixelScale/5, side, i*pixelScale/5, -side);
+        }
     }
 
     pen.setColor(QColor::fromRgb(186, 186, 186));
     pen.setWidth(0);
     p.setPen(pen);
 
-    //trattini
+    //trattini grigi
     for (int i=-side; i<side; ++i) {
         p.drawLine(i*pixelScale, side, i*pixelScale, -side);
         p.drawLine(side, i*pixelScale, -side, i*pixelScale);
@@ -39,7 +41,7 @@ void PianoCartesiano::paintEvent(QPaintEvent* e) {
     for(auto& i : workspace->getDisegni()) {
         pen.setColor(i.get()->getColore());
         p.setPen(pen);
-        i.get()->disegna(&p);
+        i.get()->disegna(&p, pixelScale);
     }
 
     //----------------------------------//
@@ -65,6 +67,15 @@ void PianoCartesiano::paintEvent(QPaintEvent* e) {
     // Prima posizione
 
     QWidget::paintEvent(e);
+}
+
+void PianoCartesiano::modificaScala(int val) {
+    if(pixelScale > 5 || val > 0){
+        pixelScale += val;
+    } else {
+        pixelScale = 2;
+    }
+    refresh();
 }
 
 void PianoCartesiano::refresh() {

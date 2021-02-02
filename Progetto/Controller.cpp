@@ -104,7 +104,7 @@ void Controller::addCirconferenza() const {
         if(!dati.empty()){
             string nome         = dati[0].toStdString();
             unsigned int indexC = dati[1].toUInt();
-            unsigned int raggio = dati[2].toUInt();
+            double raggio = dati[2].toDouble();
             QColor color        = dati[3];
             model->addNewCirconferenza(punti[indexC], raggio, nome, color);
             showInfoDisegni();
@@ -176,7 +176,6 @@ void Controller::addPoligono() const
             QColor color    = *(dati.end()-1);
             model->addNewPoligono(puntiScelti, nome, color);
             showInfoDisegni();
-            view->refreshPiano();
         }
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());

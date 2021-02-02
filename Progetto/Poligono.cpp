@@ -17,16 +17,16 @@ bool Poligono::concavo() const {
     else return true; // concavo
 }
 
-void Poligono::disegna(QPainter *p) const {
+void Poligono::disegna(QPainter *p, int scala) const {
     int n = vertici.size();
     for(u_int i=0; i < vertici.size(); ++i) {
         Punto A = vertici[i];
         Punto B = vertici[(i+1)%n];
         p->drawLine(
-            A.getX()*10,
-            -A.getY()*10,
-            B.getX()*10,
-            -B.getY()*10
+            A.getX()*scala,
+            -A.getY()*scala,
+            B.getX()*scala,
+            -B.getY()*scala
         );
     }
 }
