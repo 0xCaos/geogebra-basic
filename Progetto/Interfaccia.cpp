@@ -706,20 +706,41 @@ void Interfaccia::refreshPiano() {
 
 QString Interfaccia::showSaveFile()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
-           tr("Salva disegni"), "",
-           tr("Disegni (*.json);;All Files (*)"));
-    if (fileName.isEmpty())
-            return 0;
+    QFileDialog saveDialog(this);
+    QString fileName = saveDialog.getSaveFileName(
+        this,
+        tr("Salva disegni"), "",
+        tr(".json (*.json)")
+    );
+    if (fileName == "")
+       throw std::runtime_error("Nessun file selezionato: operazione annullata.");
+    if (!fileName.endsWith(".json"))
+        fileName += ".json";
     return fileName;
 }
 
 QString Interfaccia::showLoadFile()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,
-           tr("Apri file disegni"), "",
-           tr("Disegni (*.json);;All Files (*)"));
-    if (fileName.isEmpty())
-            return 0;
+    QString fileName = QFileDialog::getOpenFileName(
+        this,
+        tr("Apri il file"), "",
+        tr(".json (*.json)")
+    );
+    if (fileName == "")
+        throw std::runtime_error("Nessun file selezionato: operazione annullata.");
     return fileName;
+}
+
+void Interfaccia::closeEvent(QCloseEvent *event) {
+    if (!pianoCartesiano->pianocartesianoVuoto()) {
+        event->ignore();
+        QMessageBox::StandardButton risposta = QMessageBox::question(
+                                                    this, "Attenzione", "Vuoi salvare prima di chiudere?",
+                                                    QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        if (risposta == QMessageBox::Cancel)
+            return;
+        if (risposta == QMessageBox::Yes)
+            controller->saveToFile();
+        event->accept();
+    }
 }

@@ -67,3 +67,6 @@ std::unordered_map<string, string> WorkSpace::getInfoDisegnabile() {
 }
 
 
+bool WorkSpace::workspaceVuota() const {
+    return disegni.empty();
+}

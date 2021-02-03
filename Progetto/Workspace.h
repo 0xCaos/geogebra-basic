@@ -50,6 +50,7 @@ public:
     Vettore<std::unordered_map<std::string, std::string>> getTutteInfo();
     std::unordered_map<std::string, std::string> getInfoDisegnabile();
 
+    bool workspaceVuota() const;
 };
 
 #endif // WORKSPACE_H

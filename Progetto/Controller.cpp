@@ -231,36 +231,30 @@ void Controller::read(const QJsonObject& jObj) const
 
 void Controller::saveToFile() const
 {
-    QString fileName = view->showSaveFile();
-    if (fileName.isEmpty())
-            return;
-    QFile saveFile(fileName);
-
-    if (!saveFile.open(QIODevice::WriteOnly)) {
-        qWarning("Impossibile aprire il file.");
-        return;
+    try {
+        QString fileName = view->showSaveFile();
+        QFile saveFile(fileName);
+        if (!saveFile.open(QIODevice::WriteOnly)) {
+            throw std::runtime_error("Impossibile aprire il file.");
+        }
+        QJsonObject sessionObject;
+        write(sessionObject);
+        saveFile.write(QJsonDocument(sessionObject).toJson());
+    }  catch (std::runtime_error& e) {
+        e.what();
     }
-
-    QJsonObject sessionObject;
-    write(sessionObject);
-    saveFile.write(QJsonDocument(sessionObject).toJson());
-    std::cout << "FILE SALVATO: " << fileName.toStdString() << std::endl;
 }
 
 void Controller::loadFromFile() const
 {
-    QFile loadFile(view->showLoadFile());
-
-    if (!loadFile.open(QIODevice::ReadOnly)) {
-        qWarning("Couldn't open save file.");
-        return;
+    try {
+        QFile loadFile(view->showLoadFile());
+        if (!loadFile.open(QIODevice::ReadOnly))
+            throw std::runtime_error("Impossibile aprire il file.");
+        QByteArray saveData = loadFile.readAll();
+        QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+        read(loadDoc.object());
+    }  catch (std::runtime_error& e) {
+        e.what();
     }
-
-    QByteArray saveData = loadFile.readAll();
-
-    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
-
-    read(loadDoc.object());
-
-    QTextStream(stdout) << "File caricato usando JSON" << "...\n";
 }
