@@ -32,6 +32,7 @@ std::unordered_map<std::string, std::string> Circonferenza::getInfo() const {
     infoCirconferenza["Perimetro"] = std::to_string(perimetro());
     infoCirconferenza["Diametro"] = std::to_string(diametro());
     infoCirconferenza["Centro"] = *getCentro();
+    infoCirconferenza["Colore"] = getColore().name().toStdString();
     infoCirconferenza["Nome"] = getNome();
 
     return infoCirconferenza;

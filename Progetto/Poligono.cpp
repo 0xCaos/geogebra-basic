@@ -37,7 +37,7 @@ std::unordered_map<std::string, std::string> Poligono::getInfo() const {
     infoPoligono["Area"] = std::to_string(area());
     infoPoligono["Perimetro"] = std::to_string(perimetro());
     infoPoligono["Vertici"] = std::to_string(vertici.size());
-    infoPoligono["Colore"] = "Nero";
+    infoPoligono["Colore"] = getColore().name().toStdString();;
     infoPoligono["Nome"] = getNome();
 
     return infoPoligono;

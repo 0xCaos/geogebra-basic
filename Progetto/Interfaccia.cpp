@@ -1,13 +1,11 @@
 #include "Interfaccia.h"
-
 #include "Controller.h"
-
 
 void Interfaccia::addMenu(QVBoxLayout *mainLayout) {
     menuBar             = new QMenuBar(this);
     file                = new QMenu("File", menuBar);
-    disegnaMenu         = new QMenu("Disegna", menuBar);
-    utility             = new QMenu("Utility", menuBar);
+    disegnaMenu         = new QMenu("Disegno", menuBar);
+    utility             = new QMenu("Cancellazione", menuBar);
     help                = new QMenu("Help", menuBar);
 
     menuBar->addMenu(file);
@@ -36,7 +34,7 @@ void Interfaccia::addMenu(QVBoxLayout *mainLayout) {
     // Menu "Help"
     help->addAction(new QAction("Tutorial", help));
 
-    connect(file->actions()[2], SIGNAL(triggered()), this, SLOT(close()));
+    connect(file->actions().at(2), SIGNAL(triggered()), this, SLOT(close()));
 
     mainLayout->addWidget(menuBar);
 }
@@ -47,44 +45,20 @@ void Interfaccia::buildSxLayout(QHBoxLayout *bodyInterface) {
     infoLayout     = new QVBoxLayout;
 
     // Bottoni
-    QPushButton* importa = new QPushButton("Importa");
+    importa        = new QPushButton("Importa");
     disegnaButton  = new QPushButton("Disegna");
     eliminaButton  = new QPushButton("Elimina");
     resetButton    = new QPushButton("Reset");
 
-    QColor myRed;
-    myRed.setRgb(217,36,0);
-    QColor myGreen;
-    myGreen.setRgb(21,194,27);
+    // Settaggio dei pulsanti
+    setMainButtons();
 
-    disegnaButton->setAutoFillBackground(true);
-    QPalette palette = disegnaButton->palette();
-    palette.setColor(QPalette::Button, myGreen);
-    palette.setColor(QPalette::ButtonText, QColor(Qt::white));
-    disegnaButton->setPalette(palette);
-
-    eliminaButton->setAutoFillBackground(true);
-    palette = eliminaButton->palette();
-    palette.setColor(QPalette::Button, myRed);
-    palette.setColor(QPalette::ButtonText, QColor(Qt::white));
-    eliminaButton->setPalette(palette);
-
-    importa->setFixedSize(100,50);
-    disegnaButton->setFixedSize(100,50);
-    eliminaButton->setFixedSize(100,50);
-    resetButton->setFixedSize(100,50);
-
-    buttonLayout->addWidget(importa);
-    buttonLayout->addWidget(disegnaButton);
-    buttonLayout->addWidget(eliminaButton);
-    buttonLayout->addWidget(resetButton);
     buttonLayout->setContentsMargins(20,30,30,30);
     sxLayout->addLayout(buttonLayout);
 
-    //  Info
+    //  Info disegni
     infoScroll = new QScrollArea;
     infoBox = new QWidget;
-    //scrollLayout = new QVBoxLayout(infoBox);
     infoDisegni = new QFormLayout;
 
     infoScroll->setBackgroundRole(QPalette::Light);
@@ -97,18 +71,27 @@ void Interfaccia::buildSxLayout(QHBoxLayout *bodyInterface) {
     infoLayout->setContentsMargins(20, 20, 30, 20);
     sxLayout->addLayout(infoLayout);
 
-    infoScroll->setMaximumSize(400, 16777215);
+    infoScroll->setMaximumSize(400, 16777215); // set della size w=400 MAX, h=MAX_QT
+
     bodyInterface->addLayout(sxLayout);
 }
 
 void Interfaccia::buildDxLayout(QHBoxLayout *bodyInterface) {
     QVBoxLayout* dxLayout   = new QVBoxLayout;
+    dxLayout->setMargin(0);
 
-    //pianoCartesiano  = new PianoCartesiano(controller->getWorkspace());
+    QFrame* frame = new QFrame;
+    frame->setLayout(dxLayout);
+
+    frame->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
+    frame->setLineWidth(1);
+    frame->setContentsMargins(1,30,30,20);
+
+    // Creazione del piano cartesiano
     pianoCartesiano  = new PianoCartesiano(new WorkSpace);
     pianoCartesiano->setMinimumSize(1100,800);
 
-    //QVBoxLayout* zoomButtons = new QVBoxLayout(pianoCartesiano);
+    // Pulsanti per lo zoom "+" e "-"
     QPushButton* zoomIn = new QPushButton("+", pianoCartesiano);
     QPushButton* zoomOut = new QPushButton("-", pianoCartesiano);
 
@@ -123,21 +106,69 @@ void Interfaccia::buildDxLayout(QHBoxLayout *bodyInterface) {
     //zoomIn->setFixedSize(40,40);
     //zoomOut->setFixedSize(40,40);
 
-    //QSpacerItem* spaziature = new QSpacerItem(pianoCartesiano->width()-buttonSize*2, pianoCartesiano->height()-buttonSize*2, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    //QRect(pianoCartesiano->width()-buttonSize*2,pianoCartesiano->height()-buttonSize*2,buttonSize,buttonSize);
-    //spaziature->setGeometry(QRect(pianoCartesiano->width()-buttonSize*2,pianoCartesiano->height()-buttonSize*2,buttonSize,buttonSize));
-    //zoomButtons->addWidget(zoomIn);
-    //zoomButtons->addWidget(zoomOut);
-
-    //zoomButtons->addSpacerItem(spaziature);
-
+    //frame->setLayout(dxLayout);
     dxLayout->addWidget(pianoCartesiano);
 
-    bodyInterface->addLayout(dxLayout);
+    //bodyInterface->addLayout(dxLayout);
+    bodyInterface->addWidget(frame);
+}
+
+void Interfaccia::setMainButtons() {
+    // Creazione dei colori personalizzati
+    QColor myRed;
+    myRed.setRgb(186,34,4);
+    QColor myGreen;
+    myGreen.setRgb(13,158,17);
+    QColor myBlue;
+    myBlue.setRgb(32,97,201);
+    QColor myYellow;
+    myYellow.setRgb(191,173,4);
+
+    QPalette palette;
+
+    // "Importa"
+    importa->setAutoFillBackground(true);
+    palette = importa->palette();
+    palette.setColor(QPalette::Button, myBlue);
+    palette.setColor(QPalette::ButtonText, QColor(Qt::white));
+    importa->setPalette(palette);
+
+    // "Disegna"
+    disegnaButton->setAutoFillBackground(true);
+    palette = disegnaButton->palette();
+    palette.setColor(QPalette::Button, myGreen);
+    palette.setColor(QPalette::ButtonText, QColor(Qt::white));
+    disegnaButton->setPalette(palette);
+
+    // "Elimina"
+    eliminaButton->setAutoFillBackground(true);
+    palette = eliminaButton->palette();
+    palette.setColor(QPalette::Button, myRed);
+    palette.setColor(QPalette::ButtonText, QColor(Qt::white));
+    eliminaButton->setPalette(palette);
+
+    // "Reset"
+    resetButton->setAutoFillBackground(true);
+    palette = resetButton->palette();
+    palette.setColor(QPalette::Button, myYellow);
+    palette.setColor(QPalette::ButtonText, QColor(Qt::white));
+    resetButton->setPalette(palette);
+
+    // Set della size dei pulsanti
+    importa->setFixedSize(100,50);
+    disegnaButton->setFixedSize(100,50);
+    eliminaButton->setFixedSize(100,50);
+    resetButton->setFixedSize(100,50);
+
+    // Aggiunta al rispettivo layout
+    buttonLayout->addWidget(importa);
+    buttonLayout->addWidget(disegnaButton);
+    buttonLayout->addWidget(eliminaButton);
+    buttonLayout->addWidget(resetButton);
 }
 
 void Interfaccia::setStandardDialog() {
-
+    // Creazione dei componenti standard per ogni layout di Input
     formDialog     = new QDialog(this);
     mainLayout     = new QVBoxLayout;
     dialogButton   = new QHBoxLayout;
@@ -172,6 +203,8 @@ Interfaccia::Interfaccia(QWidget *parent) : QWidget(parent) {
      *          buttonLayout
      *          infoLayout
      *      dxLayout
+     *          pianocartesiano
+     *          zoomButtons
      * */
 
     addMenu(mainLayout);
@@ -182,31 +215,31 @@ Interfaccia::Interfaccia(QWidget *parent) : QWidget(parent) {
     buildSxLayout(bodyInterface);
     buildDxLayout(bodyInterface);
 
-    //qDebug("prima della connect");
-    //connect(disegnaButton, &QPushButton::clicked, this, &Interfaccia::showSceltaFiguraDialog);
-    //qDebug("dopo della connect");
-
     mainLayout->addLayout(bodyInterface);
 
     mainLayout->setSpacing(0);
     setLayout(mainLayout);
-    resize(QSize(1024, 720));
+    resize(QSize(1024, 720)); // resize ottimale alla prima apertura
 }
 
 void Interfaccia::setController(Controller *c) {
+    // Set del controller
     controller = c;
 
-    connect(disegnaMenu->actions()[0], SIGNAL(triggered()), controller, SLOT(addPunto()));
-    connect(disegnaMenu->actions()[1], SIGNAL(triggered()), controller, SLOT(addSegmento()));
-    connect(disegnaMenu->actions()[2], SIGNAL(triggered()), controller, SLOT(addRetta()));
-    connect(disegnaMenu->actions()[3], SIGNAL(triggered()), controller, SLOT(addPoligono()));
-    connect(disegnaMenu->actions()[4], SIGNAL(triggered()), controller, SLOT(addRegolare()));
-    connect(disegnaMenu->actions()[5], SIGNAL(triggered()), controller, SLOT(addCirconferenza()));
-    connect(disegnaMenu->actions()[6], SIGNAL(triggered()), controller, SLOT(addEllisse()));
+    // Connessioni SIGNAL => SLOT
+    // Menu "Disegna"
+    connect(disegnaMenu->actions().at(0), SIGNAL(triggered()), controller, SLOT(addPunto()));
+    connect(disegnaMenu->actions().at(1), SIGNAL(triggered()), controller, SLOT(addSegmento()));
+    connect(disegnaMenu->actions().at(2), SIGNAL(triggered()), controller, SLOT(addRetta()));
+    connect(disegnaMenu->actions().at(3), SIGNAL(triggered()), controller, SLOT(addPoligono()));
+    connect(disegnaMenu->actions().at(4), SIGNAL(triggered()), controller, SLOT(addRegolare()));
+    connect(disegnaMenu->actions().at(5), SIGNAL(triggered()), controller, SLOT(addCirconferenza()));
+    connect(disegnaMenu->actions().at(6), SIGNAL(triggered()), controller, SLOT(addEllisse()));
+    // Menu "Cancellazione"
+    connect(utility->actions().at(0), SIGNAL(triggered()), controller, SLOT(removeDisegno()));
+    connect(utility->actions().at(1), SIGNAL(triggered()), controller, SLOT(cancellaTutto()));
 
-    connect(utility->actions()[0], SIGNAL(triggered()), controller, SLOT(removeDisegno()));
-    connect(utility->actions()[1], SIGNAL(triggered()), controller, SLOT(cancellaTutto()));
-
+    // Main Buttons
     connect(disegnaButton, &QPushButton::clicked, this, &Interfaccia::showSceltaFiguraDialog);
     connect(eliminaButton, SIGNAL(clicked()), controller, SLOT(removeDisegno()));
     connect(resetButton, SIGNAL(clicked()), controller, SLOT(cancellaTutto()));
@@ -214,7 +247,6 @@ void Interfaccia::setController(Controller *c) {
 
 void Interfaccia::selectColor()
 {
-    //QColorDialog::ColorDialogOptions options;
     QColor color = QColorDialog::getColor(Qt::black, this, "Seleziona colore");
 
     if (color.isValid()) {
@@ -224,27 +256,8 @@ void Interfaccia::selectColor()
     }
 }
 
-void Interfaccia::addRowPuntiBox() {
-    qDebug("add");
-    QComboBox* boxPunti = new QComboBox(formDialog);
-
-    for(int i = 0; i < boxPunti1->count(); i++){
-        boxPunti->addItem(boxPunti1->itemText(i));
-    }
-
-    formLayout->insertRow(formLayout->rowCount()-2, boxPunti);
-
-}
-
-void Interfaccia::removeRowPuntiBox() {
-    if(formLayout->rowCount() > 7){
-        formLayout->removeRow(formLayout->rowCount()-3);
-    }
-    formDialog->resize(QSize(400, 200));
-}
-
 void Interfaccia::setZoomIn() {
-    pianoCartesiano->modificaScala(5);
+    pianoCartesiano->modificaScala(5);  // +5 e -5 sono i valori ottimali per la modifica della scala
 }
 
 
@@ -264,7 +277,6 @@ void Interfaccia::showSceltaFiguraDialog() {
     QPushButton* nuovoRegolare      = new QPushButton("Regolare");
     QPushButton* nuovaEllisse       = new QPushButton("Ellisse");
     QPushButton* nuovaCirconferenza = new QPushButton("Circonferenza");
-
 
     connect(nuovoPunto, SIGNAL(clicked()), controller, SLOT(addPunto()));
     connect(nuovoSegmento, SIGNAL(clicked()), controller, SLOT(addSegmento()));
@@ -289,30 +301,13 @@ void Interfaccia::showSceltaFiguraDialog() {
 }
 
 int Interfaccia::showWarningDialog(const QString &message) {
-    /*
-    QDialog* dialog = new QDialog(this);
-
-    dialog->setLayout(new QHBoxLayout);
-    dialog->layout()->addWidget(new QLabel(message, dialog));
-    dialog->layout()->setAlignment(Qt::AlignCenter);
-    dialog->setMinimumWidth(120);
-    dialog->setMaximumWidth(500);
-    dialog->resize(QSize(320,120));
-
-    dialog->exec();
-    */
     QMessageBox msgBox(QMessageBox::Warning, tr("Attenzione"), message, { }, this);
     msgBox.setDetailedText(message);
     msgBox.addButton(tr("&Continua"), QMessageBox::AcceptRole);
     return msgBox.exec();
-    //QMessageBox::ButtonRole
 }
 
 int Interfaccia::showConfermaDialog(const QString &message) {
-    /*QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, tr("Attenzione!"),
-                                    message,
-                                    QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);*/
     QMessageBox msgQBox(QMessageBox::Question, tr("Attenzione"),
                         message,
                         QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
@@ -348,16 +343,17 @@ Vettore<QString> Interfaccia::showNewPuntoDialog() {
 
     formDialog->resize(QSize(400, 200));
 
+    Vettore<QString> results;
     if(formDialog->exec()){ // se role == accepted => ha premuto OK
-        Vettore<QString> results = {
+        results = {
             inputNome->text(),
             inputX->text(),
             inputY->text(),
             colorLabel->text()
         };
-        return results;
-    } else
-        throw std::runtime_error("Operazione annullata");
+    }
+
+    return results;
 }
 
 Vettore<QString> Interfaccia::showNewLineaDialog(const Vettore<Punto*> punti, bool retta) {
@@ -365,12 +361,10 @@ Vettore<QString> Interfaccia::showNewLineaDialog(const Vettore<Punto*> punti, bo
     retta ? formDialog->setWindowTitle("Nuova retta") : formDialog->setWindowTitle("Nuovo segmento");
 
     // Set QComboBox
-    QComboBox* boxPunti1 = new QComboBox(formDialog);
-    QComboBox* boxPunti2 = new QComboBox(formDialog);
-    for(auto point : punti){
-        boxPunti1->addItem(QString::fromStdString(point->getNome()));
-        boxPunti2->addItem(QString::fromStdString(point->getNome()));
-    }
+    boxPunti1 = new QComboBox(formDialog);
+    boxPunti2 = new QComboBox(formDialog);
+
+    popolaComboBox(punti, {boxPunti1, boxPunti2});
 
     formLayout->addRow(new QLabel("Nome"), inputNome);
     formLayout->addRow(new QLabel("Punto 1"), boxPunti1);
@@ -388,20 +382,20 @@ Vettore<QString> Interfaccia::showNewLineaDialog(const Vettore<Punto*> punti, bo
 
     formDialog->resize(QSize(400, 200));
 
+    Vettore<QString> results;
     if(formDialog->exec()){ // se role == accepted => ha premuto OK
         if(boxPunti1->currentText().toStdString().empty() || boxPunti2->currentText().toStdString().empty())
             retta ?
                 throw std::runtime_error("Punti insufficienti per identificare una retta sul piano")
               : throw std::runtime_error("Punti insufficienti per identificare un segmento sul piano");
-        Vettore<QString> results = {
+        results = {
             inputNome->text(),
             QString::fromStdString(std::to_string(boxPunti1->currentIndex())),
             QString::fromStdString(std::to_string(boxPunti2->currentIndex())),
             colorLabel->text()
         };
-        return results;
-    } else
-        throw std::runtime_error("Operazione annullata");
+    }
+    return results;
 }
 
 Vettore<QString> Interfaccia::showNewRegolareDialog(const Vettore<Punto *> punti) {
@@ -414,12 +408,10 @@ Vettore<QString> Interfaccia::showNewRegolareDialog(const Vettore<Punto *> punti
     inputLati->setValidator(validator);
 
     // Set QComboBox
-    QComboBox* boxPunti1 = new QComboBox(formDialog);
-    QComboBox* boxPunti2 = new QComboBox(formDialog);
-    for(auto point : punti){
-        boxPunti1->addItem(QString::fromStdString(point->getNome()));
-        boxPunti2->addItem(QString::fromStdString(point->getNome()));
-    }
+    boxPunti1 = new QComboBox(formDialog);
+    boxPunti2 = new QComboBox(formDialog);
+
+    popolaComboBox(punti, {boxPunti1, boxPunti2});
 
     formLayout->addRow(new QLabel("Nome"), inputNome);
     formLayout->addRow(new QLabel("Primo punto"), boxPunti1);
@@ -462,23 +454,11 @@ Vettore<QString> Interfaccia::showNewPoligonoDialog(const Vettore<Punto *> punti
         setStandardDialog();
         formDialog->setWindowTitle("Nuovo Poligono Irregolare");
 
-        addPuntiBox = new QPushButton("Aggiungi Punti");
-        removePuntiBox = new QPushButton("Togli Punti");
-
-        connect(addPuntiBox, &QAbstractButton::clicked, this, &Interfaccia::addRowPuntiBox);
-        connect(removePuntiBox, &QAbstractButton::clicked, this, &Interfaccia::removeRowPuntiBox);
-
-        // Set QComboBox
-        //boxPunti1 = new QComboBox(formDialog);
-        //boxPunti2 = new QComboBox(formDialog);
-        QComboBox* boxPunti = new QComboBox;
-
-        popolaComboBox(punti, {boxPunti});
-
         formLayout->addRow(new QLabel("Nome"), inputNome);
-        //formLayout->addRow(new QLabel("Seleziona almeno 3 Punti"));
-        //formLayout->addRow(boxPunti1);
-        //formLayout->addRow(boxPunti2);
+
+        // ComboBox da copiare nelle altre CB
+        QComboBox* boxPunti = new QComboBox;
+        popolaComboBox(punti, {boxPunti});
 
         for(unsigned int k=0; k<n; ++k) {
             QComboBox* boxPunti1 = new QComboBox(formDialog);
@@ -488,71 +468,33 @@ Vettore<QString> Interfaccia::showNewPoligonoDialog(const Vettore<Punto *> punti
             formLayout->addRow(boxPunti1);
         }
 
-        //formLayout->addRow(addPuntiBox, removePuntiBox);
         formLayout->addRow(colorButton, colorLabel);
         formLayout->setSpacing(10);
 
         dialogButton->addWidget(bottoni);
         mainLayout->addLayout(formLayout);
-        //comboboxLayout->setLayout(formLayout);
-        //mainLayout->addWidget(comboboxLayout);
         mainLayout->addLayout(dialogButton);
         formDialog->setLayout(mainLayout);
 
         formDialog->resize(QSize(400, 200));
 
-        if(formDialog->exec()) { // se role == accepted => ha premuto OK
-            /*if(boxPunti1->currentText().toStdString().empty() || boxPunti2->currentText().toStdString().empty())
-                throw std::runtime_error("Punti insufficienti per creare il poligono");*/
-            /*
-            results = {
-                inputNome->text(),
-                QString::fromStdString(std::to_string(boxPunti1->currentIndex())),
-                QString::fromStdString(std::to_string(boxPunti2->currentIndex())),
-                QString::fromStdString(std::to_string(boxPunti3->currentIndex())),
-                colorLabel->text()
-            };
-            */
+        if(formDialog->exec()) { // se role == accepted => ha premuto OK          
             results.push_back(inputNome->text());
-            std::cout << "ROWCOUNT: " << formLayout->rowCount() << "\n";
-            //if(formLayout->rowCount() > 7){      Con questo IF se ho meno di 7 righe non entra e non mette nemmeno un punto
-                for(int i = 0; i < formLayout->rowCount(); i++){
-                    QLayoutItem* box = formLayout->itemAt(i); // itemAt è più corretto, takeRow nella documentazione dice che toglie le righe dal form (annullano la addRow la insert per esempio)
-                    QComboBox* b = qobject_cast<QComboBox*>(box->widget());
-                    std::cout << "CICLO " << i << " Tipo: " << typeid(b).name() << " | ";
-                    if(b) { // tentativo di downcast QWidget* -> QComboBox*
-                        std::cout << " *" << std::to_string(b->currentIndex()) << "* \n";
-                        results.push_back(QString::fromStdString(std::to_string(b->currentIndex())));
-                    }
+            /*  Ciclo per prendere i valori da tutte le QComboBox dei punti
+             *
+             * 1 <= i <= rowCount()
+             * perchè:
+             *  - in posizione 0 ho il QLineEdit di nome
+             *  - in posizione rowCount() ho la color label
+             */
+            for(int i = 1; i < formLayout->rowCount(); i++){
+                QLayoutItem* box = formLayout->itemAt(i);
+                QComboBox* b = qobject_cast<QComboBox*>(box->widget()); // tentativo di downcast QWidget* -> QComboBox*
+                if(b) {
+                    results.push_back(QString::fromStdString(std::to_string(b->currentIndex())));
                 }
-
-                /*
-                 * Se provi a leggere la documentazione ho notato che formLayout ritorna un QlayoutItem* e questo deriva da Qlayout
-                 * che non ha niente a che vedere con le QComboBox che derivano da QObject se non sbaglio.
-                 * Quindi non abbastanza sorpreso che prima funzionasse.
-                 * Infatti qui faccio proprio il cast di Qt su QLayoutItem->widget() che teoricamente è un QWidget* e dovrebbe poter essere
-                 * convertibile a QComboBox.
-                 */
-
-                /*
-                for(int i = 0; i < formLayout->rowCount(); i++){
-                    QFormLayout::TakeRowResult box = formLayout->takeRow(i);
-                    if(dynamic_cast<QComboBox*>(box.fieldItem->widget())){
-                        QComboBox* b = dynamic_cast<QComboBox*>(box.fieldItem->widget());
-                        std::cout << b->currentText().toStdString() << " " << i << " ";
-                        //results.insert(results.begin()+(i-1), QString::fromStdString(std::to_string(b->currentIndex())));
-                        results.push_back(QString::fromStdString(std::to_string(b->currentIndex())));
-                    }
-                }
-                */
-            //}
-            std::cout << "\n";
-            results.push_back(colorLabel->text());\
-            for(auto& j : results){
-                std::cout << j.toStdString() << " ";
             }
-            std::cout << "\n";
-
+            results.push_back(colorLabel->text());
         }
     }
     return results;
@@ -567,15 +509,14 @@ Vettore<QString> Interfaccia::showNewCirconferenzaDialog(const Vettore<Punto *> 
     inputRaggio->setValidator(validator);
 
     // Set QComboBox
-    QComboBox* boxPunti = new QComboBox(formDialog);
-    for(auto point : punti){
-        boxPunti->addItem(QString::fromStdString(point->getNome()));
-    }
+    boxPunti1   = new QComboBox(formDialog);
+
+    popolaComboBox(punti, {boxPunti1});
 
     colorLabel = new QLabel;
 
     formLayout->addRow(new QLabel("Nome"), inputNome);
-    formLayout->addRow(new QLabel("Centro"), boxPunti);
+    formLayout->addRow(new QLabel("Centro"), boxPunti1);
     formLayout->addRow(new QLabel("Raggio"), inputRaggio);
     formLayout->addRow(colorButton, colorLabel);
 
@@ -592,16 +533,15 @@ Vettore<QString> Interfaccia::showNewCirconferenzaDialog(const Vettore<Punto *> 
 
     Vettore<QString> results;
     if(formDialog->exec()){ // se role == accepted => ha premuto OK
-        if(boxPunti->currentText().toStdString().empty())
+        if(boxPunti1->currentText().toStdString().empty())
             throw std::runtime_error("Impossibile identificare una circonferenza nel piano senza un centro");
         results = {
             inputNome->text(),
-            QString::fromStdString(std::to_string(boxPunti->currentIndex())),
+            QString::fromStdString(std::to_string(boxPunti1->currentIndex())),
             inputRaggio->text(),
             colorLabel->text()
         };
-    } //else
-        //throw std::runtime_error("Operazione annullata");
+    }
     return results;
 }
 
@@ -618,13 +558,12 @@ Vettore<QString> Interfaccia::showNewEllisseDialog(const Vettore<Punto *> punti)
     inputRaggio2->setValidator(validator);
 
     // Set QComboBox
-    QComboBox* boxPunti = new QComboBox(formDialog);
-    for(auto point : punti){
-        boxPunti->addItem(QString::fromStdString(point->getNome()));
-    }
+    boxPunti1 = new QComboBox(formDialog);
+
+    popolaComboBox(punti, {boxPunti1});
 
     formLayout->addRow(new QLabel("Nome"), inputNome);
-    formLayout->addRow(new QLabel("Centro"), boxPunti);
+    formLayout->addRow(new QLabel("Centro"), boxPunti1);
     formLayout->addRow(new QLabel("Semiasse 1"), inputRaggio);
     formLayout->addRow(new QLabel("Semiasse 2"), inputRaggio2);
 
@@ -643,11 +582,11 @@ Vettore<QString> Interfaccia::showNewEllisseDialog(const Vettore<Punto *> punti)
 
     Vettore<QString> results;
     if(formDialog->exec()){ // se role == accepted => ha premuto OK
-        if(boxPunti->currentText().toStdString().empty())
+        if(boxPunti1->currentText().toStdString().empty())
             throw std::runtime_error("Impossibile identificare un'ellisse nel piano senza un centro");
         results = {
             inputNome->text(),
-            QString::fromStdString(std::to_string(boxPunti->currentIndex())),
+            QString::fromStdString(std::to_string(boxPunti1->currentIndex())),
             inputRaggio->text(),
             inputRaggio2->text(),
             colorLabel->text()
@@ -681,24 +620,48 @@ void Interfaccia::pulisciInfoDisegni() {
     infoBox->setLayout(infoDisegni);
     infoScroll->setWidget(infoBox);
 
-    //infoLayout->addWidget(new QLabel("Info Oggetti"));
     infoLayout->addWidget(infoScroll);
-    //infoLayout->setContentsMargins(30,20,30,20);
-    //sxLayout->addLayout(infoLayout);
+
+    infoScroll->setMaximumSize(400, 16777215);
 }
 
 void Interfaccia::addInfoDisegnabile(std::unordered_map<std::string, std::string> info, unsigned int index) {
+    QFrame* frame = new QFrame;
+    QFormLayout* box = new QFormLayout(frame);
     for(auto&& el : info) {
+        if(el.first == "Nome")
+            box->addRow(new QLabel("N#"), new QLabel(QString::fromStdString(std::to_string(index))));
+
+        if((el.first == "Colore")){
+            QColor color = QString::fromStdString(el.second);
+            QLabel* colorLabel = new QLabel;
+            //if (color.isValid()) {
+                colorLabel->setPalette(QPalette(color));
+                colorLabel->setAutoFillBackground(true);
+            //}
+            colorLabel->setFixedSize(20,20);
+            box->addRow(new QLabel(QString::fromStdString(el.first)), colorLabel);
+        }
+        else {
+            box->addRow(new QLabel(QString::fromStdString(el.first)), new QLabel(QString::fromStdString(el.second)));
+        }
+
+        /*
         if(el.first == "Nome") infoDisegni->addRow(new QLabel("Numero"), new QLabel(QString::fromStdString(std::to_string(index))));
         infoDisegni->addRow(new QLabel(QString::fromStdString(el.first)), new QLabel(QString::fromStdString(el.second)));
+        */
     }
+
+    frame->setLayout(box);
+    frame->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
+    frame->setLineWidth(1);
+
+    infoDisegni->addRow(frame);
     infoBox->setLayout(infoDisegni);
     infoScroll->setWidget(infoBox);
 }
 
 void Interfaccia::refreshPiano() {
-    //std::cout << "SIZE: " << controller->getWorkspace()->getDisegni().size() << std::endl;
-    //pianoCartesiano = new PianoCartesiano(controller->getWorkspace());
     pianoCartesiano->setWorkspace(controller->getWorkspace());
     pianoCartesiano->refresh();
 }

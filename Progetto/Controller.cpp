@@ -30,6 +30,8 @@ void Controller::addPunto() const {
         Vettore<QString> dati = view->showNewPuntoDialog();
         if(!dati.empty()){
             string nome = dati[0].toStdString();
+            if(dati[1].contains(",") || dati[2].contains(","))
+                throw std::logic_error("Per inserire un valore decimale usare il \".\". La \",\" non è accettata.");
             double x = dati[1].toDouble();
             double y = dati[2].toDouble();
             QColor c = QColor(dati[3]);
@@ -39,36 +41,24 @@ void Controller::addPunto() const {
         }
     }  catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());
+    }  catch (std::logic_error& log) {
+        view->showWarningDialog(log.what());
     }
 }
 
 void Controller::addSegmento() const {
     try {
         Vettore<Punto*> punti = model->getTuttiPunti();
-        Vettore<QString> dati = view->showNewLineaDialog(punti, false);/*
-       //SAAAAAAAAAAAAAFE
-        std::cout << "1 vettore punti segmento\n";
-        for(auto i: punti) {
-            std::cout << string(*i) << "\n";
-        }
-        std::cout << "1 finepausa segmento\n";*/
+        Vettore<QString> dati = view->showNewLineaDialog(punti, false);
         if(!dati.empty()){
-            string nome         = dati[0].toStdString();/*
-            std::cout << "SEG: "<< punti[dati[1].toUInt()]->getX() << std::endl;
+            string nome         = dati[0].toStdString();
             unsigned int indexA = dati[1].toUInt();
             unsigned int indexB = dati[2].toUInt();
             QColor color        = QColor(dati[3]);
-            std::cout << indexA << " " << indexB << "\n";
-            model->addNewSegmento(punti[indexA], punti[indexB], nome, color);*/
-            model->addNewSegmento(punti[dati[1].toUInt()], punti[dati[2].toUInt()], nome, QColor(dati[3]));
+            model->addNewSegmento(punti[indexA], punti[indexB], nome, color);
             showInfoDisegni();
             view->refreshPiano();
-        }/*
-        std::cout << "2 vettore punti segmento\n";
-        for(auto i: punti) {
-            std::cout << string(*i) << "\n";
         }
-        std::cout << "2 finepausa segmento\n";*/
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());
     } catch (std::logic_error& log){
@@ -104,6 +94,8 @@ void Controller::addCirconferenza() const {
         if(!dati.empty()){
             string nome         = dati[0].toStdString();
             unsigned int indexC = dati[1].toUInt();
+            if(dati[2].contains(","))
+                throw std::logic_error("Per inserire un valore decimale usare il \".\". La \",\" non è accettata.");
             double raggio = dati[2].toDouble();
             QColor color        = dati[3];
             model->addNewCirconferenza(punti[indexC], raggio, nome, color);
@@ -124,6 +116,8 @@ void Controller::addEllisse() const {
         if(!dati.empty()){
             string nome         = dati[0].toStdString();
             unsigned int indexC = dati[1].toUInt();
+            if(dati[2].contains(",") || dati[3].contains(","))
+                throw std::logic_error("Per inserire un valore decimale usare il \".\". La \",\" non è accettata.");
             double semiA        = dati[2].toDouble();
             double semiB        = dati[3].toDouble();
             QColor color        = dati[4];
@@ -147,9 +141,10 @@ void Controller::addRegolare() const
             string nome             = dati[0].toStdString();
             unsigned int indexA     = dati[1].toUInt();
             unsigned int indexB     = dati[2].toUInt();
+            if(dati[3].contains("."))
+                throw std::logic_error("Per favore inserire un numero intero positivo.");
             unsigned int numLati    = dati[3].toUInt();
             QColor color            = dati[4];
-            std::cout << "Regolare: " << numLati << "\n";
             model->addNewRegolare(std::pair<Punto*, Punto*>(punti[indexA], punti[indexB]), numLati, nome, color);
             showInfoDisegni();
             view->refreshPiano();
@@ -171,11 +166,11 @@ void Controller::addPoligono() const
             Vettore<Punto*> puntiScelti;
             for(unsigned int j = 1; j < dati.size()-1; j++){
                 puntiScelti.push_back(punti[dati[j].toUInt()]);
-                //std::cout << dati[j].toUInt() << " ";
             }
             QColor color    = *(dati.end()-1);
             model->addNewPoligono(puntiScelti, nome, color);
             showInfoDisegni();
+            view->refreshPiano();
         }
     } catch (std::runtime_error& exc) {
         view->showWarningDialog(exc.what());
@@ -191,7 +186,6 @@ void Controller::removeDisegno() const {
         refreshInfoDisegni();
         view->refreshPiano();
     } catch (std::runtime_error& exc) {
-        //std::cout << exc.what();
         view->showWarningDialog(exc.what()); // controllare se effetivamente può avvenire un runtime error
     } catch (std::out_of_range& exc) {
         view->showWarningDialog(exc.what());
@@ -200,13 +194,12 @@ void Controller::removeDisegno() const {
 
 void Controller::cancellaTutto() const {
     int d = view->showConfermaDialog("Attenzione stai per eliminare tutti i disegni inseriti. L'operazione non è annullabile.");
-    if(d == 16384)
+    if(d == 16384) // 16384 => coincide con il numero intero della Accept
     {
         model->cancellaTutto();
         refreshInfoDisegni();
         view->refreshPiano();
     }
-    std::cout << d << " ";
 }
 
 WorkSpace* Controller::getWorkspace() const {

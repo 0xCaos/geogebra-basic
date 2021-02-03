@@ -73,7 +73,8 @@ void PianoCartesiano::modificaScala(int val) {
     if(pixelScale > 5 || val > 0){
         pixelScale += val;
     } else {
-        pixelScale = 2;
+        if(val > 0) pixelScale++;
+        else pixelScale = 2;
     }
     refresh();
 }

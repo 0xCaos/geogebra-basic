@@ -26,6 +26,7 @@ std::unordered_map<std::string, std::string> Segmento::getInfo() const {
     infoSegmento["Lunghezza"] = std::to_string(getLunghezza());
     infoSegmento["Secondo Punto"] = getPunti().second;
     infoSegmento["Primo Punto"] = getPunti().first;
+    infoSegmento["Colore"] = getColore().name().toStdString();
     infoSegmento["Nome"] = getNome();
 
     return infoSegmento;

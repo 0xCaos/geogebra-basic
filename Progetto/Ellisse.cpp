@@ -45,6 +45,7 @@ void Ellisse::disegna(QPainter * p, int scala) const {
 
 std::unordered_map<std::string, std::string> Ellisse::getInfo() const {
     std::unordered_map<string, string> infoEllisse;
+    infoEllisse["Colore"] = getColore().name().toStdString();
     infoEllisse["Eccentricità"] = std::to_string(eccentricita());
     infoEllisse["Area"] = std::to_string(area());
     infoEllisse["Perimetro"] = std::to_string(perimetro());

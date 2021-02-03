@@ -75,7 +75,7 @@ std::unordered_map<string, string> Regolare::getInfo() const {
     infoRegolare["Area"] = std::to_string(area());
     infoRegolare["Perimetro"] = std::to_string(perimetro());
     infoRegolare["Vertici"] = std::to_string(numLati);
-    infoRegolare["Colore"] = "Nero";
+    infoRegolare["Colore"] = getColore().name().toStdString();
     infoRegolare["Nome"] = getNome();
 
     return infoRegolare;
