@@ -12,8 +12,9 @@ private:
 public:
     /**
      * @brief Costruttore di Ellisse
+     * @default         costruisco una circonferenza goniometrica
      */
-    Ellisse(std::string nome="", QColor colore=Qt::black, Punto* centro=new Punto, double raggio1=1, double raggio2=1);
+    Ellisse(std::string nome="", string colore="#000000", Punto* centro=new Punto, double raggio1=1, double raggio2=1);
 
     ~Ellisse() =default;
 

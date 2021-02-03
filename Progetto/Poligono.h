@@ -15,7 +15,7 @@ public:
      * @brief Poligono
      * Costruttore di Poligono
      */
-    Poligono(string ="", QColor =Qt::black, const Vettore<Punto*>& = Vettore<Punto*>());
+    Poligono(string ="", string ="#000000", const Vettore<Punto*>& = Vettore<Punto*>());
 
     ~Poligono() = default;
 

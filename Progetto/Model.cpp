@@ -17,7 +17,7 @@ Model::~Model() {
     delete workspace;
 }
 
-void Model::addNewSegmento(Punto *A, Punto *B, std::string nome, QColor color) const {
+void Model::addNewSegmento(Punto *A, Punto *B, std::string nome, string color) const {
     Creator creator;
     //checkNuoviPunti({A, B});
     Segmento* s = creator.creaSegmento(nome, color, A, B);
@@ -26,7 +26,7 @@ void Model::addNewSegmento(Punto *A, Punto *B, std::string nome, QColor color) c
     //workspace->addDisegno(creator.creaSegmento(nome, color, A, B));
 }
 
-void Model::addNewRetta(Punto *A, Punto *B, string nome, QColor color) const {
+void Model::addNewRetta(Punto *A, Punto *B, string nome, string color) const {
     Creator creator;
     //checkNuoviPunti({A, B});
     Retta* r = creator.creaRetta(nome, color, A, B);
@@ -35,7 +35,7 @@ void Model::addNewRetta(Punto *A, Punto *B, string nome, QColor color) const {
     //workspace->addDisegno(creator.creaRetta(nome, color, A, B));
 }
 
-void Model::addNewPoligono(const Vettore<Punto *> &punti, string nome, QColor color) const {
+void Model::addNewPoligono(const Vettore<Punto *> &punti, string nome, string color) const {
     Creator creator;
     //checkNuoviPunti(punti);
     Poligono* p = creator.creaPoligono(nome, color, punti);
@@ -44,7 +44,7 @@ void Model::addNewPoligono(const Vettore<Punto *> &punti, string nome, QColor co
     //workspace->addDisegno(creator.creaPoligono(nome, color, punti));
 }
 
-void Model::addNewRegolare(const std::pair<Punto *, Punto *> &punti, unsigned int numLati, string nome, QColor color) const {
+void Model::addNewRegolare(const std::pair<Punto *, Punto *> &punti, unsigned int numLati, string nome, string color) const {
     Creator creator;
     //checkNuoviPunti({punti.first, punti.second});
     Regolare* r = creator.creaRegolare(nome, color, punti, numLati);
@@ -53,7 +53,7 @@ void Model::addNewRegolare(const std::pair<Punto *, Punto *> &punti, unsigned in
     //workspace->addDisegno(creator.creaRegolare(nome, color, punti, numLati));
 }
 
-void Model::addNewEllisse(Punto *centro, double semiAsse1, double semiAsse2, string nome, QColor color) const {
+void Model::addNewEllisse(Punto *centro, double semiAsse1, double semiAsse2, string nome, string color) const {
     Creator creator;
     //checkNuoviPunti({centro});
     Ellisse* e = creator.creaEllisse(nome, color, centro, semiAsse1, semiAsse2);
@@ -62,7 +62,7 @@ void Model::addNewEllisse(Punto *centro, double semiAsse1, double semiAsse2, str
     //workspace->addDisegno(creator.creaEllisse(nome, color, centro, semiAsse1, semiAsse2));
 }
 
-void Model::addNewCirconferenza(Punto *centro, double raggio, string nome, QColor color) const {
+void Model::addNewCirconferenza(Punto *centro, double raggio, string nome, string color) const {
     Creator creator;
     //checkNuoviPunti({centro});
     Circonferenza* c = creator.creaCirconferenza(nome, color, centro, raggio);
@@ -71,7 +71,7 @@ void Model::addNewCirconferenza(Punto *centro, double raggio, string nome, QColo
     //workspace->addDisegno(creator.creaCirconferenza(nome, color, centro, raggio));
 }
 
-void Model::addNewPunto(double x, double y, string nome, QColor color) const {
+void Model::addNewPunto(double x, double y, string nome, string color) const {
     Creator creator;
     Punto* p = creator.creaPunto(nome, color, x, y);
     //std::cout << string(*p) << "\n";

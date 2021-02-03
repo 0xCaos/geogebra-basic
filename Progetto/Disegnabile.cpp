@@ -1,11 +1,11 @@
 #include "Disegnabile.h"
 
-Disegnabile::Disegnabile(std::string nome, QColor colore) : nome(nome), colore(colore) {}
+Disegnabile::Disegnabile(string nome, string colore) : nome(nome), colore(colore) {}
 
 std::string Disegnabile::getNome() const { return nome; }
 
-QColor Disegnabile::getColore() const { return colore; }
+string Disegnabile::getColore() const { return colore; }
 
 void Disegnabile::setNome(std::string _nome) { nome = _nome; }
 
-void Disegnabile::setColor(QString _colore) { colore = QColor(_colore); }
+void Disegnabile::setColor(string _colore) { colore = _colore; }

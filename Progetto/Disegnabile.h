@@ -3,7 +3,6 @@
 
 #include "string"
 #include <unordered_map>
-#include <QColor>
 #include <QJsonObject>
 #include <QJsonArray>
 
@@ -13,15 +12,15 @@ using std::string;
 
 class Disegnabile {
 protected:
-    Disegnabile(string = "Disegno", QColor = Qt::black);
+    Disegnabile(string = "Disegno", string = "#000000");
 
 private:
     string nome;
-    QColor colore;
+    string colore;
 
 public:
     string getNome() const;
-    QColor getColore() const;
+    string getColore() const;
 
     virtual Disegnabile* clone() const =0;
     virtual void disegna(QPainter*, int) const =0;
@@ -32,7 +31,7 @@ public:
     virtual void write(QJsonObject&) const = 0;
 
     void setNome(string);
-    void setColor(QString);
+    void setColor(string);
 };
 
 #endif // DISEGNABILE_H

@@ -1,7 +1,7 @@
 #include "PianoCartesiano.h"
 
 PianoCartesiano::PianoCartesiano(WorkSpace* w, QWidget *parent) :
-    QWidget(parent), pixelScale(10), workspace(w)
+    QWidget(parent), pixelScale(15), workspace(w)
 {}
 
 void PianoCartesiano::paintEvent(QPaintEvent* e) {
@@ -9,7 +9,8 @@ void PianoCartesiano::paintEvent(QPaintEvent* e) {
 
     QPainter p(this);
     p.setViewport((width()-side)/2, (height()-side)/2, side, side);
-    p.setWindow(-100,-100,200,200);
+    //p.setWindow(-100,-100,200,200);
+    p.setWindow(-400,-400,800,800);
 
     QPen pen;
     pen.setWidth(0);
@@ -28,10 +29,21 @@ void PianoCartesiano::paintEvent(QPaintEvent* e) {
     pen.setWidth(0);
     p.setPen(pen);
 
+    unsigned int fontSize = 2;
+    if(pixelScale<10)
+        fontSize = 2;
+
     //trattini grigi
     for (int i=-side; i<side; ++i) {
+        pen.setColor(QColor::fromRgb(186, 186, 186));
+        pen.setWidth(0);
+        p.setPen(pen);
         p.drawLine(i*pixelScale, side, i*pixelScale, -side);
         p.drawLine(side, i*pixelScale, -side, i*pixelScale);
+        p.setPen(Qt::black);
+        p.setFont(QFont(QString("Verdana"), fontSize));
+        p.drawText(i*pixelScale+1, 4, QString::fromStdString(std::to_string(i)));
+        if(i!=0) p.drawText(-3, i*pixelScale, QString::fromStdString(std::to_string(i)));
     }
 
     //----------------------------------//
@@ -39,7 +51,7 @@ void PianoCartesiano::paintEvent(QPaintEvent* e) {
     pen.setWidth(1);
     //if (workspace) std::cout << workspace->getDisegni().size() << "\n";
     for(auto& i : workspace->getDisegni()) {
-        pen.setColor(i.get()->getColore());
+        pen.setColor(QString::fromStdString(i.get()->getColore()));
         p.setPen(pen);
         i.get()->disegna(&p, pixelScale);
     }
@@ -56,13 +68,14 @@ void PianoCartesiano::paintEvent(QPaintEvent* e) {
     p.drawLine(0,side,0,-side);
 
     //arrows
+    /*
     int x_arrow = 144;
     p.drawLine(x_arrow-2, 2, x_arrow, 0);
     p.drawLine(x_arrow-2, -2, x_arrow, 0);
     int y_arrow = -100;
     p.drawLine(2, y_arrow+2, 0, y_arrow);
     p.drawLine(-2, y_arrow+2, 0, y_arrow);
-
+    */
 
     // Prima posizione
 
@@ -70,13 +83,10 @@ void PianoCartesiano::paintEvent(QPaintEvent* e) {
 }
 
 void PianoCartesiano::modificaScala(int val) {
-    if(pixelScale > 5 || val > 0){
+    if(pixelScale > 10 || val > 0){
         pixelScale += val;
-    } else {
-        if(val > 0) pixelScale++;
-        else pixelScale = 2;
+        refresh();
     }
-    refresh();
 }
 
 void PianoCartesiano::refresh() {

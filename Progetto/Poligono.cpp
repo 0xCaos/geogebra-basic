@@ -36,13 +36,13 @@ std::unordered_map<std::string, std::string> Poligono::getInfo() const {
     infoPoligono["Area"] = std::to_string(area());
     infoPoligono["Perimetro"] = std::to_string(perimetro());
     infoPoligono["Vertici"] = std::to_string(vertici.size());
-    infoPoligono["Colore"] = getColore().name().toStdString();;
+    infoPoligono["Colore"] = getColore();
     infoPoligono["Nome"] = getNome();
 
     return infoPoligono;
 }
 
-Poligono::Poligono(std::string nome , QColor color, const Vettore<Punto*>& vettVertici) :
+Poligono::Poligono(std::string nome , string color, const Vettore<Punto*>& vettVertici) :
     Figura(nome,color)
 {
     bool duplicati = false;
@@ -98,7 +98,7 @@ const Vettore<Punto> &Poligono::getVettorePunti() const {
 void Poligono::read(const QJsonObject& jObj)
 {
     setNome(jObj["nome"].toString().toStdString());
-    setColor(jObj["color"].toString());
+    setColor(jObj["color"].toString().toStdString());
     QJsonArray vettPunti = jObj["vettPunti"].toArray();
     vertici.clear();
     vertici.resize(vettPunti.size());
@@ -114,9 +114,9 @@ void Poligono::write(QJsonObject& jObj) const
 {
     jObj["class"] = 2;
     jObj["nome"] = QString::fromStdString(getNome());
-    jObj["color"] = getColore().name();
+    jObj["color"] = QString::fromStdString(getColore());
     QJsonArray vettPunti;
-    for(auto v : vertici) {
+    for(auto& v : vertici) {
         QJsonObject punto;
         v.write(punto);
         vettPunti.append(punto);

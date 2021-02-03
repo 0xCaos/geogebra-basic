@@ -2,7 +2,7 @@
 
 #include "math.h"
 
-Ellisse::Ellisse(std::string nome, QColor colore, Punto* _centro, double _raggio1, double _raggio2) :
+Ellisse::Ellisse(std::string nome, string colore, Punto* _centro, double _raggio1, double _raggio2) :
     Curva((_raggio1<=0 || _raggio2<=0) ? throw std::domain_error("I due semiassi devono essere entrambi positivi.") : nome, colore),
     semiAsse1(_raggio1),
     semiAsse2(_raggio2),
@@ -30,11 +30,11 @@ std::pair<Punto, Punto> Ellisse::getFuochi() const
     Punto f2;
     double c = sqrt(getSemidistanzaFocale());
     if (semiAsse1 > semiAsse2) {
-        f1 = Punto("Fuoco 1", Qt::black, centro.getX()-c, centro.getY());
-        f2 = Punto("Fuoco 2", Qt::black, centro.getX()+c, centro.getY());
+        f1 = Punto("Fuoco 1", "#000000", centro.getX()-c, centro.getY());
+        f2 = Punto("Fuoco 2", "#000000", centro.getX()+c, centro.getY());
     } else {
-        f1 = Punto("Fuoco 1", Qt::black, centro.getX(), centro.getY()-c);
-        f2 = Punto("Fuoco 2", Qt::black, centro.getX(), centro.getY()+c);
+        f1 = Punto("Fuoco 1", "#000000", centro.getX(), centro.getY()-c);
+        f2 = Punto("Fuoco 2", "#000000", centro.getX(), centro.getY()+c);
     }
     return std::pair<Punto, Punto>(f1,f2);
 }
@@ -45,11 +45,11 @@ void Ellisse::disegna(QPainter * p, int scala) const {
 
 std::unordered_map<std::string, std::string> Ellisse::getInfo() const {
     std::unordered_map<string, string> infoEllisse;
-    infoEllisse["Colore"] = getColore().name().toStdString();
     infoEllisse["Eccentricità"] = std::to_string(eccentricita());
     infoEllisse["Area"] = std::to_string(area());
     infoEllisse["Perimetro"] = std::to_string(perimetro());
     infoEllisse["Fuochi"] = string(getFuochi().first) + " " + string(getFuochi().second);
+    infoEllisse["Colore"] = getColore();
     infoEllisse["Nome"] = getNome();
 
     return infoEllisse;
@@ -62,7 +62,7 @@ Ellisse *Ellisse::clone() const {
 void Ellisse::read(const QJsonObject& jObj)
 {
     setNome(jObj["nome"].toString().toStdString());
-    setColor(jObj["color"].toString());
+    setColor(jObj["color"].toString().toStdString());
     Punto p;
     QJsonObject jCentro = jObj["centro"].toObject();
     p.read(jCentro);
@@ -75,7 +75,7 @@ void Ellisse::write(QJsonObject& jObj) const
 {
     jObj["class"] = 4;
     jObj["nome"] = QString::fromStdString(getNome());
-    jObj["color"] = getColore().name();
+    jObj["color"] = QString::fromStdString(getColore());
     QJsonObject jCentro;
     centro.write(jCentro);
     jObj["centro"] = jCentro;

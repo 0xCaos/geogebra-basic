@@ -1,6 +1,6 @@
 #include "Retta.h"
 
-Retta::Retta(string nome, QColor colore, Punto* a, Punto* b) :
+Retta::Retta(string nome, string colore, Punto* a, Punto* b) :
     Linea(nome, colore, a, b),
     paralleloX(a->getY() == b->getY()),
     paralleloY(a->getX() == b->getX())
@@ -38,7 +38,7 @@ std::unordered_map<std::string, std::string> Retta::getInfo() const {
     std::unordered_map<string, string> infoRetta;
     infoRetta["Formula"] = getFormula();
     infoRetta["Passa per"] = string(getPunti().first) + " e " + string(getPunti().second);
-    infoRetta["Colore"] = getColore().name().toStdString();
+    infoRetta["Colore"] = getColore();
     infoRetta["Nome"] = getNome();
 
     return infoRetta;
@@ -59,4 +59,38 @@ void Retta::disegna(QPainter *p, int scala) const {
 
 Retta *Retta::clone() const {
     return new Retta(*this);
+}
+
+void Retta::read(const QJsonObject& jObj)
+{
+    setNome(jObj["nome"].toString().toStdString());
+    setColor(jObj["color"].toString().toStdString());
+    QJsonArray pairPunti = jObj["pairPunti"].toArray();
+    QJsonObject puntoA = pairPunti[0].toObject();
+    QJsonObject puntoB = pairPunti[1].toObject();
+    Punto A,B;
+    A.read(puntoA);
+    B.read(puntoB);
+    setPunti(A,B);
+    m = jObj["m"].toDouble();
+    q = jObj["q"].toDouble();
+    paralleloX = jObj["paralleloX"].toBool();
+    paralleloY = jObj["paralleloY"].toBool();
+}
+
+void Retta::write(QJsonObject& jObj) const {
+    jObj["class"] = 1;
+    jObj["nome"] = QString::fromStdString(getNome());
+    jObj["color"] = QString::fromStdString(getColore());
+    QJsonArray pairPunti;
+    QJsonObject puntoAobj, puntoBobj;
+    getPunti().first.write(puntoAobj);
+    getPunti().second.write(puntoBobj);
+    pairPunti.append(puntoAobj);
+    pairPunti.append(puntoBobj);
+    jObj["pairPunti"] = pairPunti;
+    jObj["m"] = m;
+    jObj["q"] = q;
+    jObj["paralleloX"] = paralleloX;
+    jObj["paralleloY"] = paralleloY;
 }

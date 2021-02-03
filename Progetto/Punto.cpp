@@ -5,7 +5,7 @@
 #include <math.h>
 #include "Punto.h"
 
-Punto::Punto(string nome, QColor colore, double _x, double _y) : Disegnabile(nome, colore), x(_x), y(_y) {}
+Punto::Punto(string nome, string colore, double _x, double _y) : Disegnabile(nome, colore), x(_x), y(_y) {}
 
 double Punto::getX() const { return x; }
 
@@ -40,11 +40,14 @@ bool Punto::operator==(const Punto &_p) {
 
 void Punto::disegna(QPainter* p, int scala) const {
     p->drawPoint(x*scala,-y*scala);
+    p->setPen(QColor(Qt::black));
+    p->setFont(QFont(QString("Verdana"), 3));
+    p->drawText((x-0.1)*scala, -((y+0.3)*scala), QString::fromStdString(getNome()));
 }
 
 void Punto::read(const QJsonObject& jObj) {
     setNome(jObj["nome"].toString().toStdString());
-    setColor(jObj["color"].toString());
+    setColor(jObj["color"].toString().toStdString());
     x = jObj["x"].toDouble();
     y = jObj["y"].toDouble();
 }
@@ -52,7 +55,7 @@ void Punto::read(const QJsonObject& jObj) {
 void Punto::write(QJsonObject& jObj) const {
     jObj["class"] = 6;
     jObj["nome"] = QString::fromStdString(getNome());
-    jObj["color"] = getColore().name();
+    jObj["color"] = QString::fromStdString(getColore());
     jObj["x"] = x;
     jObj["y"] = y;
 }

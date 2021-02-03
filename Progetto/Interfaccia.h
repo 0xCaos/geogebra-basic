@@ -21,6 +21,7 @@
 #include <QScrollArea>
 #include <QFileDialog>
 #include <QJsonDocument>
+#include <QScrollBar>
 
 #include "PianoCartesiano.h"
 

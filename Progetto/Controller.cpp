@@ -34,7 +34,7 @@ void Controller::addPunto() const {
                 throw std::logic_error("Per inserire un valore decimale usare il \".\". La \",\" non è accettata.");
             double x = dati[1].toDouble();
             double y = dati[2].toDouble();
-            QColor c = QColor(dati[3]);
+            string c = dati[3].toStdString();
             model->addNewPunto(x, y, nome, c);
             showInfoDisegni();
             view->refreshPiano();
@@ -54,7 +54,7 @@ void Controller::addSegmento() const {
             string nome         = dati[0].toStdString();
             unsigned int indexA = dati[1].toUInt();
             unsigned int indexB = dati[2].toUInt();
-            QColor color        = QColor(dati[3]);
+            string color        = dati[3].toStdString();
             model->addNewSegmento(punti[indexA], punti[indexB], nome, color);
             showInfoDisegni();
             view->refreshPiano();
@@ -74,7 +74,7 @@ void Controller::addRetta() const {
             string nome         = dati[0].toStdString();
             unsigned int indexA = dati[1].toUInt();
             unsigned int indexB = dati[2].toUInt();
-            QColor color        = dati[3];
+            string color        = dati[3].toStdString();
             std::cout << indexA << " " << indexB << "\n";
             model->addNewRetta(punti[indexA], punti[indexB], nome, color);
             showInfoDisegni();
@@ -97,7 +97,7 @@ void Controller::addCirconferenza() const {
             if(dati[2].contains(","))
                 throw std::logic_error("Per inserire un valore decimale usare il \".\". La \",\" non è accettata.");
             double raggio = dati[2].toDouble();
-            QColor color        = dati[3];
+            string color        = dati[3].toStdString();
             model->addNewCirconferenza(punti[indexC], raggio, nome, color);
             showInfoDisegni();
             view->refreshPiano();
@@ -120,7 +120,7 @@ void Controller::addEllisse() const {
                 throw std::logic_error("Per inserire un valore decimale usare il \".\". La \",\" non è accettata.");
             double semiA        = dati[2].toDouble();
             double semiB        = dati[3].toDouble();
-            QColor color        = dati[4];
+            string color        = dati[4].toStdString();
             model->addNewEllisse(punti[indexC], semiA, semiB, nome, color);
             showInfoDisegni();
             view->refreshPiano();
@@ -144,7 +144,7 @@ void Controller::addRegolare() const
             if(dati[3].contains("."))
                 throw std::logic_error("Per favore inserire un numero intero positivo.");
             unsigned int numLati    = dati[3].toUInt();
-            QColor color            = dati[4];
+            string color            = dati[4].toStdString();
             model->addNewRegolare(std::pair<Punto*, Punto*>(punti[indexA], punti[indexB]), numLati, nome, color);
             showInfoDisegni();
             view->refreshPiano();
@@ -167,7 +167,7 @@ void Controller::addPoligono() const
             for(unsigned int j = 1; j < dati.size()-1; j++){
                 puntiScelti.push_back(punti[dati[j].toUInt()]);
             }
-            QColor color    = *(dati.end()-1);
+            string color    = (*(dati.end()-1)).toStdString();
             model->addNewPoligono(puntiScelti, nome, color);
             showInfoDisegni();
             view->refreshPiano();
@@ -209,7 +209,7 @@ WorkSpace* Controller::getWorkspace() const {
 void Controller::write(QJsonObject& jObj) const
 {
     QJsonArray arrayDisegnabili;
-    for (auto v : model->getDisegni()) {
+    for (auto& v : model->getDisegni()) {
         QJsonObject disegnabile;
         v->write(disegnabile);
         arrayDisegnabili.append(disegnabile);

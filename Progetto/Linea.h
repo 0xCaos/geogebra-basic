@@ -9,7 +9,7 @@ private:
     std::pair<Punto, Punto> punti;
 
 protected:
-    Linea(string, QColor, Punto*, Punto*);
+    Linea(string, string, Punto*, Punto*);
 
 public:
     /**

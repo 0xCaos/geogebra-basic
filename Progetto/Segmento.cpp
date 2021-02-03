@@ -1,10 +1,6 @@
-//
-// Created by matteo on 23/01/21.
-//
-
 #include "Segmento.h"
 
-Segmento::Segmento(std::string nome, QColor colore, Punto* a, Punto* b) : Linea(nome, colore, a, b) {}
+Segmento::Segmento(std::string _nome, string _colore, Punto* a, Punto* b) : Linea(_nome, _colore, a, b) {}
 
 double Segmento::getLunghezza() const { return getPunti().first.getDistanza(getPunti().second); }
 
@@ -26,7 +22,7 @@ std::unordered_map<std::string, std::string> Segmento::getInfo() const {
     infoSegmento["Lunghezza"] = std::to_string(getLunghezza());
     infoSegmento["Secondo Punto"] = getPunti().second;
     infoSegmento["Primo Punto"] = getPunti().first;
-    infoSegmento["Colore"] = getColore().name().toStdString();
+    infoSegmento["Colore"] = getColore();
     infoSegmento["Nome"] = getNome();
 
     return infoSegmento;
@@ -35,7 +31,7 @@ std::unordered_map<std::string, std::string> Segmento::getInfo() const {
 void Segmento::read(const QJsonObject& jObj)
 {
     setNome(jObj["nome"].toString().toStdString());
-    setColor(jObj["color"].toString());
+    setColor(jObj["color"].toString().toStdString());
     QJsonArray pairPunti = jObj["pairPunti"].toArray();
     QJsonObject puntoA = pairPunti[0].toObject();
     QJsonObject puntoB = pairPunti[1].toObject();
@@ -48,7 +44,7 @@ void Segmento::read(const QJsonObject& jObj)
 void Segmento::write(QJsonObject& jObj) const {
     jObj["class"] = 0;
     jObj["nome"] = QString::fromStdString(getNome());
-    jObj["color"] = getColore().name();
+    jObj["color"] = QString::fromStdString(getColore());
     QJsonArray pairPunti;
     QJsonObject puntoAobj, puntoBobj;
     getPunti().first.write(puntoAobj);

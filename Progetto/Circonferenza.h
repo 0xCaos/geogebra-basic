@@ -13,7 +13,7 @@ public:
     /**
      * @brief Costruttore di Circonferenza
      */
-    Circonferenza(string nome="", QColor colore=Qt::black, Punto* centro=new Punto, double raggio=1);
+    Circonferenza(string nome="", string colore="#000000", Punto* centro=new Punto, double raggio=1);
 
     ~Circonferenza() =default;
 

@@ -78,7 +78,39 @@ void Interfaccia::buildDxLayout(QHBoxLayout *bodyInterface) {
     QVBoxLayout* dxLayout   = new QVBoxLayout;
     dxLayout->setMargin(0);
 
+    QScrollArea* pianoScroll = new QScrollArea;
+    //QWidget* boxPiano = new QWidget;
+
+    // Creazione del piano cartesiano
+        pianoCartesiano  = new PianoCartesiano(new WorkSpace);
+        pianoCartesiano->setMinimumSize(3000,3000);
+
+        // Pulsanti per lo zoom "+" e "-"
+        QPushButton* zoomIn = new QPushButton("+", pianoScroll);
+        QPushButton* zoomOut = new QPushButton("-", pianoScroll);
+
+        connect(zoomIn, &QPushButton::clicked, this, &Interfaccia::setZoomIn);
+        connect(zoomOut, &QPushButton::clicked, this, &Interfaccia::setZoomOut);
+
+        int buttonSize = 40;
+        zoomIn->setGeometry(5, 5, buttonSize, buttonSize);
+        zoomOut->setGeometry(5, 50, buttonSize, buttonSize);
+
+    dxLayout->setContentsMargins(1,30,20,20);
+
+    pianoScroll->setWidgetResizable(true);
+    pianoScroll->setWidget(pianoCartesiano);
+
+    pianoScroll->horizontalScrollBar()->setValue(950);
+    pianoScroll->verticalScrollBar()->setValue(950);
+
+    dxLayout->addWidget(pianoScroll);
+
+
+    /*
     QFrame* frame = new QFrame;
+    QScrollArea* pianoScroll = new QScrollArea;
+    //pianoScroll->setLayout(dxLayout);
     frame->setLayout(dxLayout);
 
     frame->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
@@ -103,12 +135,12 @@ void Interfaccia::buildDxLayout(QHBoxLayout *bodyInterface) {
     zoomOut->setGeometry(5, 50, buttonSize, buttonSize);
     //zoomIn->setFixedSize(40,40);
     //zoomOut->setFixedSize(40,40);
-
     //frame->setLayout(dxLayout);
     dxLayout->addWidget(pianoCartesiano);
+    */
 
-    //bodyInterface->addLayout(dxLayout);
-    bodyInterface->addWidget(frame);
+    bodyInterface->addLayout(dxLayout);
+    //bodyInterface->addWidget(frame);
 }
 
 void Interfaccia::setMainButtons() {
@@ -217,7 +249,7 @@ Interfaccia::Interfaccia(QWidget *parent) : QWidget(parent) {
 
     mainLayout->setSpacing(0);
     setLayout(mainLayout);
-    resize(QSize(1024, 720)); // resize ottimale alla prima apertura
+    resize(QSize(1600, 1200)); // resize ottimale alla prima apertura
 }
 
 void Interfaccia::setController(Controller *c) {
@@ -324,7 +356,9 @@ Vettore<QString> Interfaccia::showNewPuntoDialog() {
     formDialog->setWindowTitle("Nuovo Punto");
 
     // Set Input section
-    inputNome               = new QLineEdit("P");
+    inputNome               = new QLineEdit;
+    inputNome->setMaxLength(1);
+    validator               = new QRegularExpressionValidator(QRegularExpression("[A-Z][^A-Z]"), formDialog);
     QLineEdit* inputX       = new QLineEdit;
     QLineEdit* inputY       = new QLineEdit;
     validator               = new QDoubleValidator(-200.0, 200.0, 2, formDialog); // setto un validator per i double

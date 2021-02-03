@@ -5,7 +5,7 @@ double Regolare::getCostanteArea(unsigned int id) const {
     return costantiAree[id-3];
 }
 
-Regolare::Regolare(std::string nome, QColor color, std::pair<Punto*, Punto*> _punti, unsigned int numVertici) :
+Regolare::Regolare(std::string nome, string color, std::pair<Punto*, Punto*> _punti, unsigned int numVertici) :
     Figura(nome, color)
 {
     if (numVertici<3 || numVertici>12)
@@ -31,8 +31,6 @@ void Regolare::disegna(QPainter *p, int scala) const {
     double xB = punti.second.getX();
     double yA = punti.first.getY();
     double yB = punti.second.getY();
-    //double xM = (xA+xB)/2;
-    //double yM = (yA+yB)/2;
 
     double coseno = cos((180/numLati)*M_PI/180);
 
@@ -46,13 +44,7 @@ void Regolare::disegna(QPainter *p, int scala) const {
     double xC = xA + raggio * (cos((f1+f2)*M_PI/180));
     double yC = yA + raggio * (sin((f1+f2)*M_PI/180));
 
-    std::cout << "A " << string(punti.first) << "\n";
-    std::cout << "B " << string(punti.second) << "\n";
-    std::cout << "f1 = " << f1 << "  " << "f2 = " << f2 << "\n";
-    std::cout << "raggio: " << raggio << "\n"
-                << "C (x:" << xC << ", y:" << yC << ")\n";
-
-    double d = punti.first.getDistanza(Punto("P",Qt::black, xC, yC+raggio));
+    double d = punti.first.getDistanza(Punto("P","#000000", xC, yC+raggio));
     double angolo = acos((2*pow(raggio,2)-pow(d,2))/(2*pow(raggio,2))) * 180/M_PIl;
 
     for (unsigned int i=0; i<numLati; ++i) {
@@ -66,7 +58,6 @@ void Regolare::disegna(QPainter *p, int scala) const {
             xP2*scala,
             -yP2*scala
         );
-        std::cout << "\n P1(" << xP1 << ", " << yP1 << ") angolo+: " << angolo;
     }
 }
 
@@ -75,7 +66,7 @@ std::unordered_map<string, string> Regolare::getInfo() const {
     infoRegolare["Area"] = std::to_string(area());
     infoRegolare["Perimetro"] = std::to_string(perimetro());
     infoRegolare["Vertici"] = std::to_string(numLati);
-    infoRegolare["Colore"] = getColore().name().toStdString();
+    infoRegolare["Colore"] = getColore();
     infoRegolare["Nome"] = getNome();
 
     return infoRegolare;
@@ -88,7 +79,7 @@ Regolare *Regolare::clone() const {
 void Regolare::read(const QJsonObject& jObj)
 {
     setNome(jObj["nome"].toString().toStdString());
-    setColor(jObj["color"].toString());
+    setColor(jObj["color"].toString().toStdString());
     QJsonArray pairPunti = jObj["pairPunti"].toArray();
     QJsonObject puntoA = pairPunti[0].toObject();
     QJsonObject puntoB = pairPunti[1].toObject();
@@ -105,7 +96,7 @@ void Regolare::write(QJsonObject& jObj) const
 {
     jObj["class"] = 3;
     jObj["nome"] = QString::fromStdString(getNome());
-    jObj["color"] = getColore().name();
+    jObj["color"] = QString::fromStdString(getColore());
     QJsonArray pairPunti;
     QJsonObject puntoAobj, puntoBobj;
     punti.first.write(puntoAobj);

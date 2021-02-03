@@ -1,7 +1,3 @@
-//
-// Created by matteo on 19/01/21.
-//
-
 #ifndef PUNTO_PUNTO_H
 #define PUNTO_PUNTO_H
 
@@ -16,7 +12,7 @@ public:
     /**
      * @brief Costruttore di Punto
      */
-    Punto(string ="Punto", QColor =Qt::black, double =0, double =0);
+    Punto(string ="Punto", string ="#000000", double =0, double =0);
 
     ~Punto() = default;
 

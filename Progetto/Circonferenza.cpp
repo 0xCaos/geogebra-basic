@@ -2,8 +2,8 @@
 
 #include "math.h"
 
-Circonferenza::Circonferenza(std::string nome, QColor colore, Punto* _centro, double _raggio) :
-    Curva((_raggio <= 0) ? throw std::domain_error("Il raggio deve essere positivo.") : nome, colore),
+Circonferenza::Circonferenza(std::string _nome, string _colore, Punto* _centro, double _raggio) :
+    Curva((_raggio <= 0) ? throw std::domain_error("Il raggio deve essere positivo.") : _nome, _colore),
     raggio(_raggio),
     centro(*_centro)
 {}
@@ -32,7 +32,7 @@ std::unordered_map<std::string, std::string> Circonferenza::getInfo() const {
     infoCirconferenza["Perimetro"] = std::to_string(perimetro());
     infoCirconferenza["Diametro"] = std::to_string(diametro());
     infoCirconferenza["Centro"] = *getCentro();
-    infoCirconferenza["Colore"] = getColore().name().toStdString();
+    infoCirconferenza["Colore"] = getColore();
     infoCirconferenza["Nome"] = getNome();
 
     return infoCirconferenza;
@@ -45,7 +45,7 @@ Circonferenza *Circonferenza::clone() const {
 void Circonferenza::read(const QJsonObject& jObj)
 {
     setNome(jObj["nome"].toString().toStdString());
-    setColor(jObj["color"].toString());
+    setColor(jObj["color"].toString().toStdString());
     Punto p;
     QJsonObject jCentro = jObj["centro"].toObject();
     p.read(jCentro);
@@ -57,7 +57,7 @@ void Circonferenza::write(QJsonObject& jObj) const
 {
     jObj["class"] = 5;
     jObj["nome"] = QString::fromStdString(getNome());
-    jObj["color"] = getColore().name();
+    jObj["color"] = QString::fromStdString(getColore());
     QJsonObject jCentro;
     centro.write(jCentro);
     jObj["centro"] = jCentro;

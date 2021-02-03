@@ -6,7 +6,7 @@
 
 class Figura : public Disegnabile {
 protected:
-    Figura(string, QColor);
+    Figura(string, string);
 public:
     virtual double perimetro() const =0;
     virtual double area() const =0;

@@ -1,7 +1,3 @@
-//
-// Created by matteo on 23/01/21.
-//
-
 #ifndef SEGMENTO_SEGMENTO_H
 #define SEGMENTO_SEGMENTO_H
 
@@ -15,7 +11,7 @@ public:
      * @param Punto 1
      * @param Punto 2
      */
-    Segmento(string ="", QColor =Qt::black, Punto* =new Punto(), Punto* =new Punto());
+    Segmento(string ="", string ="#000000", Punto* =new Punto(), Punto* =new Punto());
 
     ~Segmento() =default;
 

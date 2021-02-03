@@ -22,7 +22,7 @@ public:
      * @param color                 Colore del segmento
      * @throw std::logic_error      se A == B (i punti devono essere diversi, altrimenti il segmento collassa su un punto)
      */
-    void addNewSegmento(Punto* A, Punto* B, string nome= "segmento", QColor color= Qt::black) const;
+    void addNewSegmento(Punto* A, Punto* B, string nome= "segmento", string color= "#000000") const;
 
     /**
      * @brief addNewRetta           Aggiunge una nuova retta al Model
@@ -32,7 +32,7 @@ public:
      * @param color                 Colore della retta
      * @throw std::logic_error      se A == B (i punti devono essere diversi, altrimenti non è possibile identificare una retta)
      */
-    void addNewRetta(Punto* A, Punto* B, string nome="retta", QColor color= Qt::black) const;
+    void addNewRetta(Punto* A, Punto* B, string nome="retta", string color= "#000000") const;
 
     /**
      * @brief addNewPoligono        Aggiunge un nuovo poligono al Model
@@ -41,7 +41,7 @@ public:
      * @param color                 Colore del poligono
      * @throw std::logic_error      se punti contiene due punti uguali
      */
-    void addNewPoligono(const Vettore<Punto*>& punti, string nome="poligono", QColor color= Qt::black) const;
+    void addNewPoligono(const Vettore<Punto*>& punti, string nome="poligono", string color= "#000000") const;
 
     /**
      * @brief addNewRegolare        Aggiunge un nuovo regolare al Model
@@ -51,7 +51,7 @@ public:
      * @param color                 Colore del regolare
      * @throw std::logic_error      se numLati < 3 || numLati > 12
      */
-    void addNewRegolare(const std::pair<Punto*, Punto*>& punti, unsigned int numLati, string nome="regolare", QColor color= Qt::black) const;
+    void addNewRegolare(const std::pair<Punto*, Punto*>& punti, unsigned int numLati, string nome="regolare", string color= "#000000") const;
 
     /**
      * @brief addNewEllisse         Aggiunge una nuova ellisse al Model
@@ -62,7 +62,7 @@ public:
      * @param color                 Colore dell'ellisse
      * @throw std::domain_error     se semiAsse1 < 0 || semiAsse2 < 0 (non posso avere dei semi-assi negativi
      */
-    void addNewEllisse(Punto* centro, double semiAsse1, double semiAsse2, string nome="ellisse", QColor color= Qt::black) const;
+    void addNewEllisse(Punto* centro, double semiAsse1, double semiAsse2, string nome="ellisse", string color= "#000000") const;
 
     /**
      * @brief addNewCirconferenza   Aggiunge una nuova circonferenza al Model
@@ -72,7 +72,7 @@ public:
      * @param color                 Colore della circonferenza
      * @throw std::domain_error     se raggio <= 0
      */
-    void addNewCirconferenza(Punto* centro, double raggio, string nome="circonferenza", QColor color= Qt::black) const;
+    void addNewCirconferenza(Punto* centro, double raggio, string nome="circonferenza", string color= "#000000") const;
 
     /**
      * @brief addNewPunto           Aggiunge un nuovo punto al Model
@@ -81,7 +81,7 @@ public:
      * @param nome                  Nome del punto
      * @param color                 Colore del punto
      */
-    void addNewPunto(double x, double y, string nome="P", QColor color= Qt::black) const;
+    void addNewPunto(double x, double y, string nome="P", string color= "#000000") const;
 
     /**
      * @brief removeDisegno         Rimuove un Disegno in posizione index-esima dal Model
