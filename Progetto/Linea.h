@@ -19,6 +19,8 @@ public:
     const std::pair<Punto, Punto>& getPunti() const;
 
     ~Linea() =default;
+
+    void setPunti(Punto, Punto);
 };
 
 #endif // LINEA_H

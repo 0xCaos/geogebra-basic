@@ -19,6 +19,8 @@
 #include <QComboBox>
 #include <QMessageBox>
 #include <QScrollArea>
+#include <QFileDialog>
+#include <QJsonDocument>
 
 #include "PianoCartesiano.h"
 
@@ -165,6 +167,9 @@ public:
      *                              piano cartesiano
      */
     void refreshPiano();
+
+    QString showSaveFile();
+    QString showLoadFile();
 };
 
 #endif // INTERFACCIA_H

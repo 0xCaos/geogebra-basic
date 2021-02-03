@@ -59,3 +59,27 @@ Ellisse *Ellisse::clone() const {
     return new Ellisse(*this);
 }
 
+void Ellisse::read(const QJsonObject& jObj)
+{
+    setNome(jObj["nome"].toString().toStdString());
+    setColor(jObj["color"].toString());
+    Punto p;
+    QJsonObject jCentro = jObj["centro"].toObject();
+    p.read(jCentro);
+    centro = p;
+    semiAsse1 = jObj["semiAsse1"].toDouble();
+    semiAsse2 = jObj["semiAsse2"].toDouble();
+}
+
+void Ellisse::write(QJsonObject& jObj) const
+{
+    jObj["class"] = 4;
+    jObj["nome"] = QString::fromStdString(getNome());
+    jObj["color"] = getColore().name();
+    QJsonObject jCentro;
+    centro.write(jCentro);
+    jObj["centro"] = jCentro;
+    jObj["semiAsse1"] = semiAsse1;
+    jObj["semiAsse2"] = semiAsse2;
+}
+

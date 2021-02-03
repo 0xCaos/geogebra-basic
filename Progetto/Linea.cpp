@@ -7,3 +7,7 @@ Linea::Linea(std::string nome, QColor color, Punto* A, Punto* B) :
 {}
 
 const std::pair<Punto, Punto>& Linea::getPunti() const { return punti; }
+
+void Linea::setPunti(Punto A, Punto B) {
+    punti = {A,B};
+}

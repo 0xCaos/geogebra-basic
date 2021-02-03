@@ -31,3 +31,29 @@ std::unordered_map<std::string, std::string> Segmento::getInfo() const {
 
     return infoSegmento;
 }
+
+void Segmento::read(const QJsonObject& jObj)
+{
+    setNome(jObj["nome"].toString().toStdString());
+    setColor(jObj["color"].toString());
+    QJsonArray pairPunti = jObj["pairPunti"].toArray();
+    QJsonObject puntoA = pairPunti[0].toObject();
+    QJsonObject puntoB = pairPunti[1].toObject();
+    Punto A,B;
+    A.read(puntoA);
+    B.read(puntoB);
+    setPunti(A,B);
+}
+
+void Segmento::write(QJsonObject& jObj) const {
+    jObj["class"] = 0;
+    jObj["nome"] = QString::fromStdString(getNome());
+    jObj["color"] = getColore().name();
+    QJsonArray pairPunti;
+    QJsonObject puntoAobj, puntoBobj;
+    getPunti().first.write(puntoAobj);
+    getPunti().second.write(puntoBobj);
+    pairPunti.append(puntoAobj);
+    pairPunti.append(puntoBobj);
+    jObj["pairPunti"] = pairPunti;
+}

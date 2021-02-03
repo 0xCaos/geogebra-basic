@@ -84,3 +84,36 @@ std::unordered_map<string, string> Regolare::getInfo() const {
 Regolare *Regolare::clone() const {
     return new Regolare(*this);
 }
+
+void Regolare::read(const QJsonObject& jObj)
+{
+    setNome(jObj["nome"].toString().toStdString());
+    setColor(jObj["color"].toString());
+    QJsonArray pairPunti = jObj["pairPunti"].toArray();
+    QJsonObject puntoA = pairPunti[0].toObject();
+    QJsonObject puntoB = pairPunti[1].toObject();
+    Punto A,B;
+    A.read(puntoA);
+    B.read(puntoB);
+    punti.first = A;
+    punti.second = B;
+    lato = A.getDistanza(B);
+    numLati = jObj["numLati"].toInt();
+}
+
+void Regolare::write(QJsonObject& jObj) const
+{
+    jObj["class"] = 3;
+    jObj["nome"] = QString::fromStdString(getNome());
+    jObj["color"] = getColore().name();
+    QJsonArray pairPunti;
+    QJsonObject puntoAobj, puntoBobj;
+    punti.first.write(puntoAobj);
+    punti.second.write(puntoBobj);
+    pairPunti.append(puntoAobj);
+    pairPunti.append(puntoBobj);
+    jObj["pairPunti"] = pairPunti;
+    jObj["lato"] = lato;
+    QVariant QVariantNumLati = QVariant::fromValue(numLati);
+    jObj["numLati"] = QVariantNumLati.toInt();
+}

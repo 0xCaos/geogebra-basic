@@ -13,7 +13,7 @@ public:
     /**
      * @brief Costruttore di Ellisse
      */
-    Ellisse(std::string nome, QColor colore, Punto* centro, double raggio1, double raggio2);
+    Ellisse(std::string nome="", QColor colore=Qt::black, Punto* centro=new Punto, double raggio1=1, double raggio2=1);
 
     ~Ellisse() =default;
 
@@ -69,6 +69,9 @@ public:
      * @return un puntatore alla nuova Ellisse clonata
      */
     Ellisse* clone() const override;
+
+    void read(const QJsonObject&) override;
+    void write(QJsonObject&) const override;
 };
 
 #endif // ELLISSE_H

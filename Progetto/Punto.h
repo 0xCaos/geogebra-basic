@@ -67,6 +67,9 @@ public:
      * @return true se i due punti hanno le stesse coordinate, altrimenti false
      */
     bool operator==(const Punto& _p);
+
+    void read(const QJsonObject&) override;
+    void write(QJsonObject&) const override;
 };
 
 

@@ -18,10 +18,9 @@ bool Poligono::concavo() const {
 }
 
 void Poligono::disegna(QPainter *p, int scala) const {
-    int n = vertici.size();
     for(u_int i=0; i < vertici.size(); ++i) {
         Punto A = vertici[i];
-        Punto B = vertici[(i+1)%n];
+        Punto B = vertici[(i+1)%vertici.size()];
         p->drawLine(
             A.getX()*scala,
             -A.getY()*scala,
@@ -92,4 +91,36 @@ Poligono *Poligono::clone() const {
     return new Poligono(*this);
 }
 
+const Vettore<Punto> &Poligono::getVettorePunti() const {
+    return vertici;
+}
+
+void Poligono::read(const QJsonObject& jObj)
+{
+    setNome(jObj["nome"].toString().toStdString());
+    setColor(jObj["color"].toString());
+    QJsonArray vettPunti = jObj["vettPunti"].toArray();
+    vertici.clear();
+    vertici.resize(vettPunti.size());
+    for(int i=0; i<vettPunti.size(); ++i) {
+        QJsonObject punto = vettPunti[i].toObject();
+        Punto p;
+        p.read(punto);
+        vertici.push_back(p);
+    }
+}
+
+void Poligono::write(QJsonObject& jObj) const
+{
+    jObj["class"] = 2;
+    jObj["nome"] = QString::fromStdString(getNome());
+    jObj["color"] = getColore().name();
+    QJsonArray vettPunti;
+    for(auto v : vertici) {
+        QJsonObject punto;
+        v.write(punto);
+        vettPunti.append(punto);
+    }
+    jObj["vettPunti"] = vettPunti;
+}
 

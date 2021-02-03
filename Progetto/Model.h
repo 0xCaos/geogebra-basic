@@ -9,6 +9,7 @@ private:
     WorkSpace* workspace;
 
     bool checkNuoviPunti(const Vettore<Punto*>& points) const;
+    enum className { segmento =0, retta =1, poligono =2, regolare=3, ellisse=4, circonferenza=5, punto=6 };
 public:
     Model();
     ~Model();
@@ -117,6 +118,10 @@ public:
 
     WorkSpace* getWorkspace() const;
 
+    const Vettore<DeepPtr<Disegnabile>> getDisegni() const;
+    void addDisegnabile(Disegnabile*) const;
+
+    void convertiOggettiJson(QJsonObject);
 };
 
 #endif // MODEL_H

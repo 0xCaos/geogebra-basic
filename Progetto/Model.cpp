@@ -107,3 +107,67 @@ WorkSpace* Model::getWorkspace() const {
     return workspace;
 }
 
+const Vettore<DeepPtr<Disegnabile> > Model::getDisegni() const
+{
+    return workspace->getDisegni();
+}
+
+void Model::addDisegnabile(Disegnabile *d) const
+{
+    workspace->addDisegno(d);
+}
+
+void Model::convertiOggettiJson(QJsonObject disegnabile)
+{
+    className classe = className(disegnabile["class"].toInt());
+    switch (classe) {
+    case segmento: {
+        Segmento* s = new Segmento;
+        s->read(disegnabile);
+        addDisegnabile(s);
+        delete s;
+        break;
+    }
+    case retta: {
+        Retta* r = new Retta;
+        r->read(disegnabile);
+        addDisegnabile(r);
+        delete r;
+        break;
+    }
+    case poligono: {
+        Poligono* p = new Poligono;
+        p->read(disegnabile);
+        addDisegnabile(p);
+        delete p;
+        break;
+    }
+    case regolare: {
+        Regolare* r = new Regolare;
+        r->read(disegnabile);
+        addDisegnabile(r);
+        delete r;
+        break;
+    }
+    case ellisse: {
+        Ellisse* e = new Ellisse;
+        e->read(disegnabile);
+        addDisegnabile(e);
+        delete e;
+        break;
+    }
+    case circonferenza: {
+        Circonferenza* c = new Circonferenza;
+        c->read(disegnabile);
+        addDisegnabile(c);
+        delete c;
+        break;
+    }
+    case punto:
+        Punto p;
+        p.read(disegnabile);
+        addNewPunto(p.getX(), p.getY(), p.getNome(), p.getColore());
+        break;
+    }
+
+}

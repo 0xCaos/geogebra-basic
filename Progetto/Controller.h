@@ -36,6 +36,11 @@ public slots:
     void removeDisegno() const;
     void cancellaTutto() const;
     WorkSpace *getWorkspace() const;
+    
+    void write(QJsonObject&) const;
+    void read(const QJsonObject&) const;
+    void saveToFile() const;
+    void loadFromFile() const;
 };
 
 #endif // CONTROLLER_H

@@ -34,8 +34,6 @@ void Interfaccia::addMenu(QVBoxLayout *mainLayout) {
     // Menu "Help"
     help->addAction(new QAction("Tutorial", help));
 
-    connect(file->actions().at(2), SIGNAL(triggered()), this, SLOT(close()));
-
     mainLayout->addWidget(menuBar);
 }
 
@@ -227,6 +225,12 @@ void Interfaccia::setController(Controller *c) {
     controller = c;
 
     // Connessioni SIGNAL => SLOT
+
+    // Menu "File"
+    connect(file->actions().at(0), SIGNAL(triggered()), controller, SLOT(saveToFile()));
+    connect(file->actions().at(1), SIGNAL(triggered()), controller, SLOT(loadFromFile()));
+    connect(file->actions().at(2), SIGNAL(triggered()), this, SLOT(close()));
+
     // Menu "Disegna"
     connect(disegnaMenu->actions().at(0), SIGNAL(triggered()), controller, SLOT(addPunto()));
     connect(disegnaMenu->actions().at(1), SIGNAL(triggered()), controller, SLOT(addSegmento()));
@@ -664,4 +668,24 @@ void Interfaccia::addInfoDisegnabile(std::unordered_map<std::string, std::string
 void Interfaccia::refreshPiano() {
     pianoCartesiano->setWorkspace(controller->getWorkspace());
     pianoCartesiano->refresh();
+}
+
+QString Interfaccia::showSaveFile()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+           tr("Salva disegni"), "",
+           tr("Disegni (*.json);;All Files (*)"));
+    if (fileName.isEmpty())
+            return 0;
+    return fileName;
+}
+
+QString Interfaccia::showLoadFile()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+           tr("Apri file disegni"), "",
+           tr("Disegni (*.json);;All Files (*)"));
+    if (fileName.isEmpty())
+            return 0;
+    return fileName;
 }

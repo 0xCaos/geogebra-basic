@@ -15,7 +15,7 @@ public:
      * @param Punto 1
      * @param Punto 2
      */
-    Segmento(string, QColor, Punto*, Punto*);
+    Segmento(string ="", QColor =Qt::black, Punto* =new Punto(), Punto* =new Punto());
 
     ~Segmento() =default;
 
@@ -41,6 +41,9 @@ public:
      * @return unordered_map con "Nome proprietà" => valore
      */
     std::unordered_map<string,string> getInfo() const override;
+
+    void read(const QJsonObject&) override;
+    void write(QJsonObject&) const override;
 
 
 };

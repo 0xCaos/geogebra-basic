@@ -41,3 +41,18 @@ bool Punto::operator==(const Punto &_p) {
 void Punto::disegna(QPainter* p, int scala) const {
     p->drawPoint(x*scala,-y*scala);
 }
+
+void Punto::read(const QJsonObject& jObj) {
+    setNome(jObj["nome"].toString().toStdString());
+    setColor(jObj["color"].toString());
+    x = jObj["x"].toDouble();
+    y = jObj["y"].toDouble();
+}
+
+void Punto::write(QJsonObject& jObj) const {
+    jObj["class"] = 6;
+    jObj["nome"] = QString::fromStdString(getNome());
+    jObj["color"] = getColore().name();
+    jObj["x"] = x;
+    jObj["y"] = y;
+}

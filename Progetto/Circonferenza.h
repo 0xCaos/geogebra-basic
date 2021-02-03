@@ -13,7 +13,7 @@ public:
     /**
      * @brief Costruttore di Circonferenza
      */
-    Circonferenza(string nome, QColor colore, Punto* centro, double raggio);
+    Circonferenza(string nome="", QColor colore=Qt::black, Punto* centro=new Punto, double raggio=1);
 
     ~Circonferenza() =default;
 
@@ -73,6 +73,9 @@ public:
      * @return un puntatore alla nuova Circonferenza clonata
      */
     Circonferenza* clone() const override;
+
+    void read(const QJsonObject&) override;
+    void write(QJsonObject&) const override;
 };
 
 #endif // CIRCONFERENZA_H

@@ -4,6 +4,8 @@
 #include "string"
 #include <unordered_map>
 #include <QColor>
+#include <QJsonObject>
+#include <QJsonArray>
 
 using std::string;
 
@@ -25,6 +27,12 @@ public:
     virtual void disegna(QPainter*, int) const =0;
     virtual std::unordered_map<string,string> getInfo() const =0;
     virtual ~Disegnabile() =default;
+    
+    virtual void read(const QJsonObject&) = 0;
+    virtual void write(QJsonObject&) const = 0;
+
+    void setNome(string);
+    void setColor(QString);
 };
 
 #endif // DISEGNABILE_H

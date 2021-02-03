@@ -206,3 +206,61 @@ WorkSpace* Controller::getWorkspace() const {
     return model->getWorkspace();
 }
 
+void Controller::write(QJsonObject& jObj) const
+{
+    QJsonArray arrayDisegnabili;
+    for (auto v : model->getDisegni()) {
+        QJsonObject disegnabile;
+        v->write(disegnabile);
+        arrayDisegnabili.append(disegnabile);
+    }
+    jObj["disegnabili"] = arrayDisegnabili;
+}
+
+void Controller::read(const QJsonObject& jObj) const
+{
+    model->cancellaTutto();
+    refreshInfoDisegni();
+    QJsonArray arrayDisegnabili = jObj["disegnabili"].toArray();
+    for (int i=0; i<arrayDisegnabili.size(); ++i) {
+        model->convertiOggettiJson(arrayDisegnabili[i].toObject());
+        showInfoDisegni();
+    }
+    view->refreshPiano();
+}
+
+void Controller::saveToFile() const
+{
+    QString fileName = view->showSaveFile();
+    if (fileName.isEmpty())
+            return;
+    QFile saveFile(fileName);
+
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("Impossibile aprire il file.");
+        return;
+    }
+
+    QJsonObject sessionObject;
+    write(sessionObject);
+    saveFile.write(QJsonDocument(sessionObject).toJson());
+    std::cout << "FILE SALVATO: " << fileName.toStdString() << std::endl;
+}
+
+void Controller::loadFromFile() const
+{
+    QFile loadFile(view->showLoadFile());
+
+    if (!loadFile.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open save file.");
+        return;
+    }
+
+    QByteArray saveData = loadFile.readAll();
+
+    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+
+    read(loadDoc.object());
+
+    QTextStream(stdout) << "File caricato usando JSON" << "...\n";
+}

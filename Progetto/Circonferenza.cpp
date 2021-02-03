@@ -42,4 +42,24 @@ Circonferenza *Circonferenza::clone() const {
     return new Circonferenza(*this);
 }
 
+void Circonferenza::read(const QJsonObject& jObj)
+{
+    setNome(jObj["nome"].toString().toStdString());
+    setColor(jObj["color"].toString());
+    Punto p;
+    QJsonObject jCentro = jObj["centro"].toObject();
+    p.read(jCentro);
+    centro = p;
+    raggio = jObj["raggio"].toDouble();
+}
 
+void Circonferenza::write(QJsonObject& jObj) const
+{
+    jObj["class"] = 5;
+    jObj["nome"] = QString::fromStdString(getNome());
+    jObj["color"] = getColore().name();
+    QJsonObject jCentro;
+    centro.write(jCentro);
+    jObj["centro"] = jCentro;
+    jObj["raggio"] = raggio;
+}

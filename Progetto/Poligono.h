@@ -15,7 +15,7 @@ public:
      * @brief Poligono
      * Costruttore di Poligono
      */
-    Poligono(string, QColor, const Vettore<Punto*>& = Vettore<Punto*>());
+    Poligono(string ="", QColor =Qt::black, const Vettore<Punto*>& = Vettore<Punto*>());
 
     ~Poligono() = default;
 
@@ -59,6 +59,11 @@ public:
      * @return un puntatore al nuovo Punto clonato
      */
     Poligono* clone() const override;
+
+    const Vettore<Punto> &getVettorePunti() const;
+
+    void read(const QJsonObject&) override;
+    void write(QJsonObject&) const override;
 };
 
 #endif // POLIGONO_H
