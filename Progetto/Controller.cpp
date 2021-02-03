@@ -229,7 +229,7 @@ void Controller::read(const QJsonObject& jObj) const
     view->refreshPiano();
 }
 
-void Controller::saveToFile() const
+bool Controller::saveToFile() const
 {
     try {
         QString fileName = view->showSaveFile();
@@ -240,8 +240,10 @@ void Controller::saveToFile() const
         QJsonObject sessionObject;
         write(sessionObject);
         saveFile.write(QJsonDocument(sessionObject).toJson());
+        return true;
     }  catch (std::runtime_error& e) {
         e.what();
+        return false;
     }
 }
 

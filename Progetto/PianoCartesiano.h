@@ -20,6 +20,7 @@ public:
     void modificaScala(int);
     void refresh();
     void setWorkspace(WorkSpace*);
+    bool pianocartesianoVuoto() const;
 signals:
 
 };

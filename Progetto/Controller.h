@@ -39,7 +39,7 @@ public slots:
     
     void write(QJsonObject&) const;
     void read(const QJsonObject&) const;
-    void saveToFile() const;
+    bool saveToFile() const;
     void loadFromFile() const;
 };
 

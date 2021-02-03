@@ -97,3 +97,7 @@ void PianoCartesiano::refresh() {
 void PianoCartesiano::setWorkspace(WorkSpace *w) {
     workspace = w;
 }
+bool PianoCartesiano::pianocartesianoVuoto() const
+{
+    return workspace->workspaceVuota();
+}

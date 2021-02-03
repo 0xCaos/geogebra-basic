@@ -43,7 +43,7 @@ void Interfaccia::buildSxLayout(QHBoxLayout *bodyInterface) {
     infoLayout     = new QVBoxLayout;
 
     // Bottoni
-    importa        = new QPushButton("Importa");
+    importaButton  = new QPushButton("Importa");
     disegnaButton  = new QPushButton("Disegna");
     eliminaButton  = new QPushButton("Elimina");
     resetButton    = new QPushButton("Reset");
@@ -157,11 +157,11 @@ void Interfaccia::setMainButtons() {
     QPalette palette;
 
     // "Importa"
-    importa->setAutoFillBackground(true);
-    palette = importa->palette();
+    importaButton->setAutoFillBackground(true);
+    palette = importaButton->palette();
     palette.setColor(QPalette::Button, myBlue);
     palette.setColor(QPalette::ButtonText, QColor(Qt::white));
-    importa->setPalette(palette);
+    importaButton->setPalette(palette);
 
     // "Disegna"
     disegnaButton->setAutoFillBackground(true);
@@ -185,13 +185,13 @@ void Interfaccia::setMainButtons() {
     resetButton->setPalette(palette);
 
     // Set della size dei pulsanti
-    importa->setFixedSize(100,50);
+    importaButton->setFixedSize(100,50);
     disegnaButton->setFixedSize(100,50);
     eliminaButton->setFixedSize(100,50);
     resetButton->setFixedSize(100,50);
 
     // Aggiunta al rispettivo layout
-    buttonLayout->addWidget(importa);
+    buttonLayout->addWidget(importaButton);
     buttonLayout->addWidget(disegnaButton);
     buttonLayout->addWidget(eliminaButton);
     buttonLayout->addWidget(resetButton);
@@ -271,11 +271,13 @@ void Interfaccia::setController(Controller *c) {
     connect(disegnaMenu->actions().at(4), SIGNAL(triggered()), controller, SLOT(addRegolare()));
     connect(disegnaMenu->actions().at(5), SIGNAL(triggered()), controller, SLOT(addCirconferenza()));
     connect(disegnaMenu->actions().at(6), SIGNAL(triggered()), controller, SLOT(addEllisse()));
+    
     // Menu "Cancellazione"
     connect(utility->actions().at(0), SIGNAL(triggered()), controller, SLOT(removeDisegno()));
     connect(utility->actions().at(1), SIGNAL(triggered()), controller, SLOT(cancellaTutto()));
 
     // Main Buttons
+    connect(importaButton, SIGNAL(clicked()), controller, SLOT(loadFromFile()));
     connect(disegnaButton, &QPushButton::clicked, this, &Interfaccia::showSceltaFiguraDialog);
     connect(eliminaButton, SIGNAL(clicked()), controller, SLOT(removeDisegno()));
     connect(resetButton, SIGNAL(clicked()), controller, SLOT(cancellaTutto()));
@@ -331,7 +333,7 @@ void Interfaccia::showSceltaFiguraDialog() {
     verticalLayout->addWidget(nuovaCirconferenza);
 
     dialog->setLayout(verticalLayout);
-    dialog->resize(QSize(720, 480));
+    dialog->setFixedSize(300, 300);
 
     dialog->exec();
 }
@@ -739,8 +741,11 @@ void Interfaccia::closeEvent(QCloseEvent *event) {
                                                     QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         if (risposta == QMessageBox::Cancel)
             return;
-        if (risposta == QMessageBox::Yes)
-            controller->saveToFile();
-        event->accept();
+        if (risposta == QMessageBox::Yes) {
+            if (controller->saveToFile())
+                event->accept();
+        }
+        if (risposta == QMessageBox::No)
+            event->accept();
     }
 }

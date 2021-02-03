@@ -22,6 +22,7 @@
 #include <QFileDialog>
 #include <QJsonDocument>
 #include <QScrollBar>
+#include <QCloseEvent>
 
 #include "PianoCartesiano.h"
 
@@ -50,7 +51,7 @@ private:
     QPushButton* disegnaButton;
     QPushButton* eliminaButton;
     QPushButton* resetButton;
-    QPushButton* importa;
+    QPushButton* importaButton;
 
     // QDialog personalizzati per l'input dei dati da parte dell'utente
     QDialog* formDialog;
@@ -171,6 +172,8 @@ public:
 
     QString showSaveFile();
     QString showLoadFile();
+
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // INTERFACCIA_H
