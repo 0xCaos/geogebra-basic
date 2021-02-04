@@ -196,7 +196,7 @@ void Controller::removeDisegno() const {
 
 void Controller::cancellaTutto() const {
     int d = view->showConfermaDialog("Attenzione stai per eliminare tutti i disegni inseriti. L'operazione non è annullabile.");
-    if(d == 16384) // 16384 => coincide con il numero intero della Accept
+    if(d == QMessageBox::Yes)
     {
         model->cancellaTutto();
         refreshInfoDisegni();

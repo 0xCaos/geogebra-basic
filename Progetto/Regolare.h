@@ -6,7 +6,7 @@
 
 # define M_PIl          3.141592653589793238462643383279502884L /* pi */
 
-Vettore<double> const costantiAree = {0.433, 1, 1.720, 2.598, 3.634, 4.828, 6.182, 7.694, 11.196};
+Vettore<double> const costantiAree = {0.433, 1, 1.720, 2.598, 3.634, 4.828, 6.182, 7.694, 9.366, 11.196, 13.186, 15.335, 17.642};
 
 class Regolare : public Figura {
 private:

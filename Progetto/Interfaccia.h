@@ -109,9 +109,14 @@ private slots:
      */
     void setZoomOut();
 
+    /**
+     * @brief showTutorialDialog    MessageBox per la visualizzazione delle informazioni e del tutorial
+     */
+    void showTutorialDialog();
+
 public:
     explicit Interfaccia(QWidget* parent = nullptr);
-    ~Interfaccia() =default;
+    ~Interfaccia() = default;
 
     /**
      * @brief setController     settaggio del Controller con tutte le varie connect
@@ -134,7 +139,7 @@ public:
     /**
      * @brief showConfermaDialog    gestione della MessageBox per la visualizzazione di una question di conferma
      * @param message               messaggio da mostrare sulla box
-     * @return                      ritorna un intero in base alla scelta fatta prima della chiusura della messageBox
+     * @return                      ritorna un QMessageBox::StandardButton in base alla scelta fatta prima della chiusura della messageBox
      */
     int showConfermaDialog(const QString& message);
 

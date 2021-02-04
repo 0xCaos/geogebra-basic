@@ -8,11 +8,14 @@ double Regolare::getCostanteArea(unsigned int id) const {
 Regolare::Regolare(std::string nome, string color, std::pair<Punto*, Punto*> _punti, unsigned int numVertici) :
     Figura(nome, color)
 {
-    if (numVertici<3 || numVertici>12)
-        throw std::logic_error("Il numero di vertici deve essere compreso tra 3 e 12 (inclusi)");
-    if (_punti.first && _punti.second && *_punti.first == *_punti.second)
+    if (numVertici<3 || numVertici>15)
+        throw std::logic_error("Il numero di vertici deve essere compreso tra 3 e 15.");
+    if (*_punti.first == *_punti.second)
         throw std::logic_error("Le coordinate dei due punti non possono coincidere");
-    punti = {*_punti.first, *_punti.second};
+    if(_punti.first->getX() < _punti.second->getX())
+        punti = {*_punti.first, *_punti.second};
+    else
+        punti = {*_punti.second, *_punti.first};
     lato = punti.first.getDistanza(punti.second);
     numLati = numVertici;
 }

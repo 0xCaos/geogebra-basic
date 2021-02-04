@@ -14,7 +14,7 @@ private:
     int pixelScale;
     WorkSpace* workspace;
 public:
-    explicit PianoCartesiano(WorkSpace* =nullptr, QWidget *parent = nullptr);
+    explicit PianoCartesiano(WorkSpace* =new WorkSpace, QWidget *parent = nullptr);
     void paintEvent(QPaintEvent* e);
     void disegnaFigura(Disegnabile*);
     void modificaScala(int);

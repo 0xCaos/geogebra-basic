@@ -6,7 +6,7 @@ void Interfaccia::addMenu(QVBoxLayout *mainLayout) {
     file                = new QMenu("File", menuBar);
     disegnaMenu         = new QMenu("Disegno", menuBar);
     utility             = new QMenu("Cancellazione", menuBar);
-    help                = new QMenu("Help", menuBar);
+    help                = new QMenu("Aiuto", menuBar);
 
     menuBar->addMenu(file);
     menuBar->addMenu(disegnaMenu);
@@ -32,7 +32,7 @@ void Interfaccia::addMenu(QVBoxLayout *mainLayout) {
     utility->addAction(new QAction("Cancella tutto", utility));
 
     // Menu "Help"
-    help->addAction(new QAction("Tutorial", help));
+    help->addAction(new QAction("Informazioni e Tutorial", help));
 
     mainLayout->addWidget(menuBar);
 }
@@ -82,7 +82,8 @@ void Interfaccia::buildDxLayout(QHBoxLayout *bodyInterface) {
     //QWidget* boxPiano = new QWidget;
 
     // Creazione del piano cartesiano
-        pianoCartesiano  = new PianoCartesiano(new WorkSpace);
+
+        //pianoCartesiano  = new PianoCartesiano();
         pianoCartesiano->setMinimumSize(3000,3000);
 
         // Pulsanti per lo zoom "+" e "-"
@@ -106,41 +107,7 @@ void Interfaccia::buildDxLayout(QHBoxLayout *bodyInterface) {
 
     dxLayout->addWidget(pianoScroll);
 
-
-    /*
-    QFrame* frame = new QFrame;
-    QScrollArea* pianoScroll = new QScrollArea;
-    //pianoScroll->setLayout(dxLayout);
-    frame->setLayout(dxLayout);
-
-    frame->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
-    frame->setLineWidth(1);
-    frame->setContentsMargins(1,30,30,20);
-
-    // Creazione del piano cartesiano
-    pianoCartesiano  = new PianoCartesiano(new WorkSpace);
-    pianoCartesiano->setMinimumSize(1100,800);
-
-    // Pulsanti per lo zoom "+" e "-"
-    QPushButton* zoomIn = new QPushButton("+", pianoCartesiano);
-    QPushButton* zoomOut = new QPushButton("-", pianoCartesiano);
-
-    connect(zoomIn, &QPushButton::clicked, this, &Interfaccia::setZoomIn);
-    connect(zoomOut, &QPushButton::clicked, this, &Interfaccia::setZoomOut);
-
-    int buttonSize = 40;
-    //zoomIn->setGeometry(pianoCartesiano->width()-buttonSize*2,pianoCartesiano->height()-buttonSize*3,buttonSize,buttonSize);
-    //zoomOut->setGeometry(pianoCartesiano->width()-buttonSize*2,pianoCartesiano->height()-buttonSize*2,buttonSize,buttonSize);
-    zoomIn->setGeometry(5, 5, buttonSize, buttonSize);
-    zoomOut->setGeometry(5, 50, buttonSize, buttonSize);
-    //zoomIn->setFixedSize(40,40);
-    //zoomOut->setFixedSize(40,40);
-    //frame->setLayout(dxLayout);
-    dxLayout->addWidget(pianoCartesiano);
-    */
-
     bodyInterface->addLayout(dxLayout);
-    //bodyInterface->addWidget(frame);
 }
 
 void Interfaccia::setMainButtons() {
@@ -198,13 +165,13 @@ void Interfaccia::setMainButtons() {
 }
 
 void Interfaccia::setStandardDialog() {
-    // Creazione dei componenti standard per ogni layout di Input
+    // Creazione dei componenti standard per ogni layout di Input    
     formDialog     = new QDialog(this);
     mainLayout     = new QVBoxLayout;
     dialogButton   = new QHBoxLayout;
     formLayout     = new QFormLayout;
 
-    inputNome      = new QLineEdit();
+    inputNome      = new QLineEdit;
     colorLabel     = new QLabel;
     colorButton    = new QPushButton(tr("Colore"));
     bottoni        = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -222,7 +189,7 @@ void Interfaccia::popolaComboBox(const Vettore<Punto *> &punti, const Vettore<QC
     }
 }
 
-Interfaccia::Interfaccia(QWidget *parent) : QWidget(parent) {
+Interfaccia::Interfaccia(QWidget *parent) : QWidget(parent), pianoCartesiano(new PianoCartesiano) {
     QVBoxLayout* mainLayout = new QVBoxLayout;
 
     /***
@@ -275,6 +242,9 @@ void Interfaccia::setController(Controller *c) {
     // Menu "Cancellazione"
     connect(utility->actions().at(0), SIGNAL(triggered()), controller, SLOT(removeDisegno()));
     connect(utility->actions().at(1), SIGNAL(triggered()), controller, SLOT(cancellaTutto()));
+
+    // Menu "Tutorial"
+    connect(help->actions().at(0), SIGNAL(triggered()), this, SLOT(showTutorialDialog()));
 
     // Main Buttons
     connect(importaButton, SIGNAL(clicked()), controller, SLOT(loadFromFile()));
@@ -340,7 +310,7 @@ void Interfaccia::showSceltaFiguraDialog() {
 
 int Interfaccia::showWarningDialog(const QString &message) {
     QMessageBox msgBox(QMessageBox::Warning, tr("Attenzione"), message, { }, this);
-    msgBox.setDetailedText(message);
+    //msgBox.setDetailedText(message);
     msgBox.addButton(tr("&Continua"), QMessageBox::AcceptRole);
     return msgBox.exec();
 }
@@ -348,9 +318,27 @@ int Interfaccia::showWarningDialog(const QString &message) {
 int Interfaccia::showConfermaDialog(const QString &message) {
     QMessageBox msgQBox(QMessageBox::Question, tr("Attenzione"),
                         message,
-                        QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+                        QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, this);
+
+    msgQBox.setButtonText(QMessageBox::Yes, "&Si");
+    msgQBox.setButtonText(QMessageBox::No, "&No");
+    msgQBox.setButtonText(QMessageBox::Cancel, "&Annulla");
 
     return msgQBox.exec();
+}
+
+void Interfaccia::showTutorialDialog() {
+    QString testo (
+            "Informazioni: \n\n"
+            "GeogebraBasic è un programma che si ispira al più rinomato Geogebra. La versione proposta è una soluzione "
+            "semplificata che ha lo scopo di fornire i dati e le propietà più importanti delle principali figure della geometria piana.\n\n"
+            "Tutorial: \n\n"
+            "Per poter disegnare qualsiasi figura \"complessa\" occorre prima disegnare i punti necessari per poi indicarli nella finestra di input corrispondente.\n\n"
+            "Si possono usare i pulsantoni colorati per le principali operazioni oppure usare il menu a tendina completo di tutte le funzioni diviso per il tipo di operazione eseguita.");
+    QMessageBox msgQBox(QMessageBox::Question, tr("Informazioni GeogebraBasic"),testo,QMessageBox::Yes, this);
+    msgQBox.setButtonText(QMessageBox::Yes, "&Chiudi");
+
+    msgQBox.exec();
 }
 
 Vettore<QString> Interfaccia::showNewPuntoDialog() {
@@ -358,7 +346,8 @@ Vettore<QString> Interfaccia::showNewPuntoDialog() {
     formDialog->setWindowTitle("Nuovo Punto");
 
     // Set Input section
-    inputNome               = new QLineEdit("P");
+    //inputNome               = new QLineEdit("P");
+    inputNome->setText("P");
     inputNome->setMaxLength(1);
     validator               = new QRegularExpressionValidator(QRegularExpression("[A-Z][^A-Z]"), formDialog);
     QLineEdit* inputX       = new QLineEdit;
@@ -393,6 +382,8 @@ Vettore<QString> Interfaccia::showNewPuntoDialog() {
         };
     }
 
+    delete inputNome;
+    delete colorLabel;
     return results;
 }
 
@@ -435,6 +426,9 @@ Vettore<QString> Interfaccia::showNewLineaDialog(const Vettore<Punto*> punti, bo
             colorLabel->text()
         };
     }
+
+    delete inputNome;
+    delete colorLabel;
     return results;
 }
 
@@ -480,6 +474,9 @@ Vettore<QString> Interfaccia::showNewRegolareDialog(const Vettore<Punto *> punti
             colorLabel->text()
         };
     }
+
+    delete inputNome;
+    delete colorLabel;
     return results;
 }
 
@@ -536,7 +533,10 @@ Vettore<QString> Interfaccia::showNewPoligonoDialog(const Vettore<Punto *> punti
             }
             results.push_back(colorLabel->text());
         }
+        delete inputNome;
+        delete colorLabel;
     }
+
     return results;
 }
 
@@ -582,6 +582,9 @@ Vettore<QString> Interfaccia::showNewCirconferenzaDialog(const Vettore<Punto *> 
             colorLabel->text()
         };
     }
+
+    delete inputNome;
+    delete colorLabel;
     return results;
 }
 
@@ -632,6 +635,9 @@ Vettore<QString> Interfaccia::showNewEllisseDialog(const Vettore<Punto *> punti)
             colorLabel->text()
         };
     }
+
+    delete inputNome;
+    delete colorLabel;
     return results;
 }
 
@@ -685,11 +691,6 @@ void Interfaccia::addInfoDisegnabile(std::unordered_map<std::string, std::string
         else {
             box->addRow(new QLabel(QString::fromStdString(el.first)), new QLabel(QString::fromStdString(el.second)));
         }
-
-        /*
-        if(el.first == "Nome") infoDisegni->addRow(new QLabel("Numero"), new QLabel(QString::fromStdString(std::to_string(index))));
-        infoDisegni->addRow(new QLabel(QString::fromStdString(el.first)), new QLabel(QString::fromStdString(el.second)));
-        */
     }
 
     frame->setLayout(box);
@@ -736,9 +737,9 @@ QString Interfaccia::showLoadFile()
 void Interfaccia::closeEvent(QCloseEvent *event) {
     if (!pianoCartesiano->pianocartesianoVuoto()) {
         event->ignore();
-        QMessageBox::StandardButton risposta = QMessageBox::question(
-                                                    this, "Attenzione", "Vuoi salvare prima di chiudere?",
-                                                    QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+
+        int risposta = showConfermaDialog("Vuoi salvare prima di chiudere?");
+
         if (risposta == QMessageBox::Cancel)
             return;
         if (risposta == QMessageBox::Yes) {
