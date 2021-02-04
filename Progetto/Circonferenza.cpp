@@ -8,6 +8,8 @@ Circonferenza::Circonferenza(std::string _nome, string _colore, Punto* _centro, 
     centro(*_centro)
 {}
 
+Circonferenza::Circonferenza() {}
+
 double Circonferenza::diametro() const { return raggio*2; }
 
 double Circonferenza::perimetro() const { return diametro()*M_PI; }

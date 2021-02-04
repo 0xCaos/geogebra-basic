@@ -2,6 +2,8 @@
 
 Segmento::Segmento(std::string _nome, string _colore, Punto* a, Punto* b) : Linea(_nome, _colore, a, b) {}
 
+Segmento::Segmento() {}
+
 double Segmento::getLunghezza() const { return getPunti().first.getDistanza(getPunti().second); }
 
 Segmento *Segmento::clone() const {

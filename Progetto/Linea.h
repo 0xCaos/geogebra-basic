@@ -11,6 +11,7 @@ private:
 protected:
     Linea(string, string, Punto*, Punto*);
 
+    Linea(string ="Linea", string ="#000000");
 public:
     /**
      * @brief getPunti

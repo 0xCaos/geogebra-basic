@@ -16,7 +16,9 @@ public:
      * Calcolo del coefficiente angolare "m" --> m = (y2-y1)/(x2-x1)
      * Calcolo di quota all'origine "q" --> q = y1 - m*x1
      */
-    Retta(string ="", string ="#000000", Punto* =new Punto, Punto* =new Punto);
+    Retta(string, string, Punto*, Punto*);
+
+    Retta();
 
     ~Retta() =default;
 

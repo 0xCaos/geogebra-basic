@@ -9,6 +9,8 @@ Ellisse::Ellisse(std::string nome, string colore, Punto* _centro, double _raggio
     centro(*_centro)
 {}
 
+Ellisse::Ellisse() {}
+
 double Ellisse::perimetro() const { return 2*M_PI*sqrt((pow(semiAsse1,2) + pow(semiAsse2,2))/2); }
 
 double Ellisse::area() const { return M_PI*semiAsse1*semiAsse2; }

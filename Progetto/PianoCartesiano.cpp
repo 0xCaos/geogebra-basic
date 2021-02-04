@@ -42,8 +42,8 @@ void PianoCartesiano::paintEvent(QPaintEvent* e) {
         p.drawLine(side, i*pixelScale, -side, i*pixelScale);
         p.setPen(Qt::black);
         p.setFont(QFont(QString("Verdana"), fontSize));
-        p.drawText(i*pixelScale+1, 4, QString::fromStdString(std::to_string(i)));
-        if(i!=0) p.drawText(-3, i*pixelScale, QString::fromStdString(std::to_string(i)));
+        p.drawText(i*pixelScale+1, 4, QString::fromStdString(std::to_string(i))); // numeri asse x
+        if(i!=0) p.drawText(-3, i*pixelScale, QString::fromStdString(std::to_string(-i))); // numeri asse y
     }
 
     //----------------------------------//

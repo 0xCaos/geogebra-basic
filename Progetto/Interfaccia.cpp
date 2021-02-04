@@ -358,7 +358,7 @@ Vettore<QString> Interfaccia::showNewPuntoDialog() {
     formDialog->setWindowTitle("Nuovo Punto");
 
     // Set Input section
-    inputNome               = new QLineEdit;
+    inputNome               = new QLineEdit("P");
     inputNome->setMaxLength(1);
     validator               = new QRegularExpressionValidator(QRegularExpression("[A-Z][^A-Z]"), formDialog);
     QLineEdit* inputX       = new QLineEdit;

@@ -164,10 +164,9 @@ void Model::convertiOggettiJson(QJsonObject disegnabile)
         break;
     }
     case punto:
-        Punto p;
-        p.read(disegnabile);
-        addNewPunto(p.getX(), p.getY(), p.getNome(), p.getColore());
+        Punto* p = new Punto;
+        p->read(disegnabile);
+        addNewPunto(p->getX(), p->getY(), p->getNome(), p->getColore());
         break;
     }
-
 }

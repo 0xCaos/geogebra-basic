@@ -22,7 +22,9 @@ public:
      * figura con "numLati" tutti di lunghezza "lato"
      * se numLati > 12, verrà creato al massimo comunque un dodecagono
      */
-    Regolare(string ="", string ="#000000", std::pair<Punto*, Punto*> =std::pair<Punto*, Punto*>(), unsigned int =3);
+    Regolare(string, string, std::pair<Punto*, Punto*>, unsigned int);
+
+    Regolare();
 
     ~Regolare() =default;
 

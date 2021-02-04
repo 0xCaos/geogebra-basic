@@ -6,7 +6,7 @@
 
 class Figura : public Disegnabile {
 protected:
-    Figura(string, string);
+    Figura(string ="Figura", string ="#000000");
 public:
     virtual double perimetro() const =0;
     virtual double area() const =0;

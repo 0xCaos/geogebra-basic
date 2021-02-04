@@ -30,6 +30,8 @@ void Controller::addPunto() const {
         Vettore<QString> dati = view->showNewPuntoDialog();
         if(!dati.empty()){
             string nome = dati[0].toStdString();
+            if (nome == "")
+                throw std::logic_error("Inserire un nome valido per il punto.");
             if(dati[1].contains(",") || dati[2].contains(","))
                 throw std::logic_error("Per inserire un valore decimale usare il \".\". La \",\" non è accettata.");
             double x = dati[1].toDouble();

@@ -14,6 +14,8 @@ Retta::Retta(string nome, string colore, Punto* a, Punto* b) :
     }
 }
 
+Retta::Retta() {}
+
 double Retta::getM() const { return m; }
 
 double Retta::getQ() const { return q; }

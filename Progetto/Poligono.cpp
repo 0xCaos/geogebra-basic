@@ -56,6 +56,8 @@ Poligono::Poligono(std::string nome , string color, const Vettore<Punto*>& vettV
     }
 }
 
+Poligono::Poligono() {}
+
 void Poligono::setVertici(const Vettore<Punto*>& newVertici) {
     for(auto p : newVertici){
         vertici.push_back(*p);
@@ -101,7 +103,6 @@ void Poligono::read(const QJsonObject& jObj)
     setColor(jObj["color"].toString().toStdString());
     QJsonArray vettPunti = jObj["vettPunti"].toArray();
     vertici.clear();
-    vertici.resize(vettPunti.size());
     for(int i=0; i<vettPunti.size(); ++i) {
         QJsonObject punto = vettPunti[i].toObject();
         Punto p;

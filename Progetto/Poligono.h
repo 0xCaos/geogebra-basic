@@ -15,7 +15,9 @@ public:
      * @brief Poligono
      * Costruttore di Poligono
      */
-    Poligono(string ="", string ="#000000", const Vettore<Punto*>& = Vettore<Punto*>());
+    Poligono(string, string, const Vettore<Punto*>&);
+
+    Poligono();
 
     ~Poligono() = default;
 

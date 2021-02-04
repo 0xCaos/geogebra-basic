@@ -11,7 +11,9 @@ public:
      * @param Punto 1
      * @param Punto 2
      */
-    Segmento(string ="", string ="#000000", Punto* =new Punto(), Punto* =new Punto());
+    Segmento(string, string, Punto*, Punto*);
+
+    Segmento();
 
     ~Segmento() =default;
 

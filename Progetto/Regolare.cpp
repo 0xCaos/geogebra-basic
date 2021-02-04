@@ -10,12 +10,14 @@ Regolare::Regolare(std::string nome, string color, std::pair<Punto*, Punto*> _pu
 {
     if (numVertici<3 || numVertici>12)
         throw std::logic_error("Il numero di vertici deve essere compreso tra 3 e 12 (inclusi)");
-    if (*_punti.first == *_punti.second)
+    if (_punti.first && _punti.second && *_punti.first == *_punti.second)
         throw std::logic_error("Le coordinate dei due punti non possono coincidere");
     punti = {*_punti.first, *_punti.second};
     lato = punti.first.getDistanza(punti.second);
     numLati = numVertici;
 }
+
+Regolare::Regolare() {} //invoca Figura::Figura() di default
 
 double Regolare::perimetro() const {
     return lato * numLati;

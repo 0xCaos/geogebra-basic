@@ -14,7 +14,9 @@ public:
      * @brief Costruttore di Ellisse
      * @default         costruisco una circonferenza goniometrica
      */
-    Ellisse(std::string nome="", string colore="#000000", Punto* centro=new Punto, double raggio1=1, double raggio2=1);
+    Ellisse(std::string, string, Punto*, double, double);
+
+    Ellisse();
 
     ~Ellisse() =default;
 
