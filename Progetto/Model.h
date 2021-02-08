@@ -8,7 +8,16 @@ class Model {
 private:
     WorkSpace* workspace;
 
+    /**
+     * @brief checkNuoviPunti   controlla se i punti passati sono già presenti in workspace
+     * @param points            vettore dei punti da controllare
+     * @return                  TRUE sse dentro points c'è un nuovo punto non presente in workspace
+     */
     bool checkNuoviPunti(const Vettore<Punto*>& points) const;
+
+    /**
+     * @brief className enum    enum per una gestione più semplice dell'I/O
+     */
     enum className { segmento =0, retta =1, poligono =2, regolare=3, ellisse=4, circonferenza=5, punto=6 };
 public:
     Model();
@@ -106,8 +115,16 @@ public:
      */
     std::unordered_map<string, string> getInfoDisegnabile() const;
 
+    /**
+     * @brief getTutteInfo          Get di tutte le info dei disegni presenti in workspace
+     * @return                      vettore di unordered_map contenenti le info di tutti i disegni
+     */
     Vettore<std::unordered_map<std::string, std::string> > getTutteInfo() const;
 
+    /**
+     * @brief getNumeroDisegni      ritorna il numero di disegni presenti in workspace
+     * @return                      unsigned int dei disegni attualmente prensenti
+     */
     unsigned int getNumeroDisegni() const;
 
     /**
@@ -116,12 +133,29 @@ public:
      */
     Vettore<Punto*> getTuttiPunti() const;
 
+    /**
+     * @brief getWorkspace          get del puntatore al workspace
+     * @return                      il puntatore al workspace
+     */
     WorkSpace* getWorkspace() const;
 
-    const Vettore<DeepPtr<Disegnabile>> getDisegni() const;
+    /**
+     * @brief getDisegni            get di tutti i disegni presenti in workspace attualmente
+     * @return                      riferimento al vettore costante di DeepPtr a Disegnabile
+     */
+    const Vettore<DeepPtr<Disegnabile>>& getDisegni() const;
+
+    /**
+     * @brief addDisegnabile        aggiunge un Disegnabile* (generico) al workspace
+     * @param                       puntatore al Disegnabile da aggiungere
+     */
     void addDisegnabile(Disegnabile*) const;
 
-    void convertiOggettiJson(QJsonObject);
+    /**
+     * @brief convertiOggettiJson   crea l'oggetto Disegno corretto a partire dal JSON ricevuto dal controller
+     * @param disegnabile           oggetto QJsonObject contenente tutti i paramentri del disegno da importare
+     */
+    void convertiOggettiJson(QJsonObject disegnabile);
 };
 
 #endif // MODEL_H

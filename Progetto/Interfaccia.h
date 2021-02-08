@@ -175,9 +175,22 @@ public:
      */
     void refreshPiano();
 
+    /**
+     * @brief showSaveFile          funzione per il dialog di salvataggio del lavoro
+     * @return                      path del file da salvare
+     */
     QString showSaveFile();
+
+    /**
+     * @brief showLoadFile          funzione per il dialog di import file
+     * @return                      path del file da aprire
+     */
     QString showLoadFile();
 
+    /**
+     * @brief closeEvent            override di QWidget::closeEvent(QCloseEvent *event)
+     * @param event                 QCloseEvent richiesto
+     */
     void closeEvent(QCloseEvent *event);
 };
 

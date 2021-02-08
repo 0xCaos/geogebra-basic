@@ -79,23 +79,25 @@ void Interfaccia::buildDxLayout(QHBoxLayout *bodyInterface) {
     dxLayout->setMargin(0);
 
     QScrollArea* pianoScroll = new QScrollArea;
-    //QWidget* boxPiano = new QWidget;
 
-    // Creazione del piano cartesiano
+    /*
+     * Creazione del piano cartesiano
+     */
 
-        //pianoCartesiano  = new PianoCartesiano();
-        pianoCartesiano->setMinimumSize(3000,3000);
+    pianoCartesiano->setMinimumSize(3000,3000);
 
-        // Pulsanti per lo zoom "+" e "-"
-        QPushButton* zoomIn = new QPushButton("+", pianoScroll);
-        QPushButton* zoomOut = new QPushButton("-", pianoScroll);
+    // Pulsanti per lo zoom "+" e "-"
+    QPushButton* zoomIn = new QPushButton("+", pianoScroll);
+    QPushButton* zoomOut = new QPushButton("-", pianoScroll);
 
-        connect(zoomIn, &QPushButton::clicked, this, &Interfaccia::setZoomIn);
-        connect(zoomOut, &QPushButton::clicked, this, &Interfaccia::setZoomOut);
+    connect(zoomIn, &QPushButton::clicked, this, &Interfaccia::setZoomIn);
+    connect(zoomOut, &QPushButton::clicked, this, &Interfaccia::setZoomOut);
 
-        int buttonSize = 40;
-        zoomIn->setGeometry(5, 5, buttonSize, buttonSize);
-        zoomOut->setGeometry(5, 50, buttonSize, buttonSize);
+    int buttonSize = 40;
+    zoomIn->setGeometry(5, 5, buttonSize, buttonSize);
+    zoomOut->setGeometry(5, 50, buttonSize, buttonSize);
+
+    /* ----------------------------------- */
 
     dxLayout->setContentsMargins(1,30,20,20);
 
@@ -270,7 +272,7 @@ void Interfaccia::setZoomIn() {
 
 
 void Interfaccia::setZoomOut() {
-    pianoCartesiano->modificaScala(-5);
+    pianoCartesiano->modificaScala(-5);  // +5 e -5 sono i valori ottimali per la modifica della scala
 }
 
 void Interfaccia::showSceltaFiguraDialog() {
@@ -310,7 +312,6 @@ void Interfaccia::showSceltaFiguraDialog() {
 
 int Interfaccia::showWarningDialog(const QString &message) {
     QMessageBox msgBox(QMessageBox::Warning, tr("Attenzione"), message, { }, this);
-    //msgBox.setDetailedText(message);
     msgBox.addButton(tr("&Continua"), QMessageBox::AcceptRole);
     return msgBox.exec();
 }
@@ -346,7 +347,6 @@ Vettore<QString> Interfaccia::showNewPuntoDialog() {
     formDialog->setWindowTitle("Nuovo Punto");
 
     // Set Input section
-    //inputNome               = new QLineEdit("P");
     inputNome->setText("P");
     inputNome->setMaxLength(1);
     validator               = new QRegularExpressionValidator(QRegularExpression("[A-Z][^A-Z]"), formDialog);

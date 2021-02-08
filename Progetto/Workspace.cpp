@@ -2,31 +2,17 @@
 
 WorkSpace::WorkSpace() : disegni() {}
 
-WorkSpace::~WorkSpace(){
-    //for(auto i: disegni) delete i.get();
-}
-
-const Vettore<DeepPtr<Disegnabile>> WorkSpace::getDisegni() const {
+const Vettore<DeepPtr<Disegnabile> > &WorkSpace::getDisegni() const {
     return disegni;
 }
 
 unsigned int WorkSpace::getNumeroDisegni() const { return disegni.size(); }
 
-void WorkSpace::addDisegno(Disegnabile* disegno) {/*
-    std::cout << "pre pushback\n";
-    for(auto j : disegni) {
-        for(auto i : j->getInfo())
-            std::cout << i.first << " " << i.second << "\n";
-    }*/
-    disegni.push_back(disegno);/*
-    std::cout << "post pushback\n";
-    for(auto j : disegni) {
-        for(auto i : j->getInfo())
-            std::cout << i.first << " " << i.second << "\n";
-    }*/
+void WorkSpace::addDisegno(Disegnabile* disegno) {
+    disegni.push_back(disegno);
 }
 
-void WorkSpace::removeDisegno(unsigned int index) { // Valutare se tornare il puntatore o no
+void WorkSpace::removeDisegno(unsigned int index) {
     if(index >= disegni.size())
         throw std::out_of_range("Il disegno selezionato non è presente.");
 
@@ -45,7 +31,6 @@ bool WorkSpace::puntoNuovo(const Punto *point) const {
     return true;
 }
 
-//SAFE! :)
 Vettore<Punto *> WorkSpace::tuttiPunti() const {
     Vettore<Punto*> punti;
     for(auto&& disegno : disegni){

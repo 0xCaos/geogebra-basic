@@ -31,5 +31,3 @@ Ellisse* Creator::creaEllisse(std::string nome, string color, Punto * centro, do
 Circonferenza* Creator::creaCirconferenza(std::string nome, string color, Punto *centro, double raggio) const {
     return new Circonferenza(nome, color, centro, raggio);
 }
-
-

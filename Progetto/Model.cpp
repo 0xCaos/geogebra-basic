@@ -93,7 +93,7 @@ WorkSpace* Model::getWorkspace() const {
     return workspace;
 }
 
-const Vettore<DeepPtr<Disegnabile> > Model::getDisegni() const
+const Vettore<DeepPtr<Disegnabile> >& Model::getDisegni() const
 {
     return workspace->getDisegni();
 }
@@ -152,7 +152,7 @@ void Model::convertiOggettiJson(QJsonObject disegnabile)
     case punto:
         Punto* p = new Punto;
         p->read(disegnabile);
-        addNewPunto(p->getX(), p->getY(), p->getNome(), p->getColore());
+        addNewPunto(p->getX(), p->getY(), p->getNome(), p->getColore()); // addNewPunto effettua il controllo che non ci siano punti duplicati (addDisegnabile fa solo la pushback)
         delete p;
         break;
     }
