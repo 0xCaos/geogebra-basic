@@ -9,7 +9,6 @@ void PianoCartesiano::paintEvent(QPaintEvent* e) {
 
     QPainter p(this);
     p.setViewport((width()-side)/2, (height()-side)/2, side, side);
-    //p.setWindow(-100,-100,200,200);
     p.setWindow(-400,-400,800,800);
 
     QPen pen;
@@ -47,9 +46,8 @@ void PianoCartesiano::paintEvent(QPaintEvent* e) {
     }
 
     //----------------------------------//
-    //qDebug("Pre-Ciclo");
+
     pen.setWidth(1);
-    //if (workspace) std::cout << workspace->getDisegni().size() << "\n";
     for(auto& i : workspace->getDisegni()) {
         pen.setColor(QString::fromStdString(i.get()->getColore()));
         p.setPen(pen);
@@ -66,18 +64,6 @@ void PianoCartesiano::paintEvent(QPaintEvent* e) {
     p.drawLine(-side,0,side,0);
     //asse y
     p.drawLine(0,side,0,-side);
-
-    //arrows
-    /*
-    int x_arrow = 144;
-    p.drawLine(x_arrow-2, 2, x_arrow, 0);
-    p.drawLine(x_arrow-2, -2, x_arrow, 0);
-    int y_arrow = -100;
-    p.drawLine(2, y_arrow+2, 0, y_arrow);
-    p.drawLine(-2, y_arrow+2, 0, y_arrow);
-    */
-
-    // Prima posizione
 
     QWidget::paintEvent(e);
 }
@@ -97,6 +83,7 @@ void PianoCartesiano::refresh() {
 void PianoCartesiano::setWorkspace(WorkSpace *w) {
     workspace = w;
 }
+
 bool PianoCartesiano::pianocartesianoVuoto() const
 {
     return workspace->workspaceVuota();

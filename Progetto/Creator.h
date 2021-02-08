@@ -1,7 +1,12 @@
 #ifndef CREATOR_H
 #define CREATOR_H
 
-#include "Gerarchia.h"
+#include "Segmento.h"
+#include "Retta.h"
+#include "Poligono.h"
+#include "Regolare.h"
+#include "Circonferenza.h"
+#include "Ellisse.h"
 
 class Creator {
 public:

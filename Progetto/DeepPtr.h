@@ -1,8 +1,6 @@
 #ifndef DEEPPTR_H
 #define DEEPPTR_H
 
-#endif // DEEPPTR_H
-
 #include <iostream>
 
 typedef unsigned int u_int;
@@ -148,3 +146,5 @@ T* DeepPtr<T>::operator->() const {
 
 template<class T>
 DeepPtr<T>::operator bool() const { return get()!=nullptr; }
+
+#endif // DEEPPTR_H

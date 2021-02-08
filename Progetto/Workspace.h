@@ -1,7 +1,14 @@
 #ifndef WORKSPACE_H
 #define WORKSPACE_H
 
-#include "Gerarchia.h"
+#include "Segmento.h"
+#include "Retta.h"
+#include "Poligono.h"
+#include "Regolare.h"
+#include "Circonferenza.h"
+#include "Ellisse.h"
+
+#include "DeepPtr.h"
 
 class WorkSpace {
 private:

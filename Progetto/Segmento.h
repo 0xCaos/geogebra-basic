@@ -42,8 +42,6 @@ public:
 
     void read(const QJsonObject&) override;
     void write(QJsonObject&) const override;
-
-
 };
 
 

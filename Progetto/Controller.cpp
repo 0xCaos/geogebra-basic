@@ -2,9 +2,7 @@
 
 #include <iostream>
 
-Controller::Controller(QObject *parent) : QObject(parent) {
-    // connessione di eventiali signals
-}
+Controller::Controller(QObject *parent) : QObject(parent) {}
 
 void Controller::setModel(Model *m) { model = m; }
 
@@ -77,7 +75,6 @@ void Controller::addRetta() const {
             unsigned int indexA = dati[1].toUInt();
             unsigned int indexB = dati[2].toUInt();
             string color        = dati[3].toStdString();
-            std::cout << indexA << " " << indexB << "\n";
             model->addNewRetta(punti[indexA], punti[indexB], nome, color);
             showInfoDisegni();
             view->refreshPiano();
@@ -188,7 +185,7 @@ void Controller::removeDisegno() const {
         refreshInfoDisegni();
         view->refreshPiano();
     } catch (std::runtime_error& exc) {
-        view->showWarningDialog(exc.what()); // controllare se effetivamente può avvenire un runtime error
+        view->showWarningDialog(exc.what());
     } catch (std::out_of_range& exc) {
         view->showWarningDialog(exc.what());
     }

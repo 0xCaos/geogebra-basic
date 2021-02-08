@@ -1,7 +1,13 @@
 ﻿#ifndef PIANOCARTESIANO_H
 #define PIANOCARTESIANO_H
 
-#include "Gerarchia.h"
+#include "Segmento.h"
+#include "Retta.h"
+#include "Poligono.h"
+#include "Regolare.h"
+#include "Circonferenza.h"
+#include "Ellisse.h"
+
 #include "Workspace.h"
 
 #include <QWidget>
