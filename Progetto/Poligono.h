@@ -22,12 +22,6 @@ public:
     ~Poligono() = default;
 
     /**
-     * @brief setVertici
-     * metodo per il settaggio di tutti i vertici del poligono
-     */
-    void setVertici(const Vettore<Punto*>&);
-
-    /**
      * @brief perimetro (override di Figura::perimetro)
      * @return perimetro del poligono
      */

@@ -58,12 +58,6 @@ Poligono::Poligono(std::string nome , string color, const Vettore<Punto*>& vettV
 
 Poligono::Poligono() {}
 
-void Poligono::setVertici(const Vettore<Punto*>& newVertici) {
-    for(auto p : newVertici){
-        vertici.push_back(*p);
-    }
-}
-
 double Poligono::perimetro() const {
     int numVertici = vertici.size();
     double valore = 0;
