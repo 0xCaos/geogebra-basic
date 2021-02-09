@@ -488,7 +488,6 @@ Vettore<QString> Interfaccia::showNewPoligonoDialog(const Vettore<Punto *> punti
             QInputDialog::getInt(this, tr("Numero Vertici Poligono"),
                          "Inserire il numero di vertici (almeno 3): ", 1, 3, 19, 1, &ok);
     if(ok) {
-        if(n > 20) throw std::logic_error("Per questa funzione non sono accettati valori maggiori di 19.");
 
         setStandardDialog();
         formDialog->setWindowTitle("Nuovo Poligono Irregolare");
