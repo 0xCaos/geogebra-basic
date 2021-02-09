@@ -16,7 +16,6 @@ class PianoCartesiano : public QWidget
 {
     Q_OBJECT
 private:
-    double scalaZoom;
     int pixelScale;
     WorkSpace* workspace;
 public:
@@ -57,7 +56,6 @@ public:
      * @return                      TRUE sse workspace punta a un WorkSpace vuoto
      */
     bool pianocartesianoVuoto() const;
-signals:
 
 };
 

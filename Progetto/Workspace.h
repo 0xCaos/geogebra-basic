@@ -58,19 +58,19 @@ public:
      * @brief tuttiPunti            get di tutti i punti presenti in "disegni"
      * @return                      vettore di Punto* ai punti presenti in "disegni"
      */
-    Vettore<Punto*> tuttiPunti() const;
+    const Vettore<Punto*> tuttiPunti() const;
 
     /**
      * @brief getTutteInfo          Get di tutte le info dei disegni presenti in "disegni"
      * @return                      vettore di unordered_map contenenti le info di tutti i disegni
      */
-    Vettore<std::unordered_map<std::string, std::string>> getTutteInfo();
+    const Vettore<std::unordered_map<std::string, std::string>> getTutteInfo() const;
 
     /**
      * @brief getInfoDisegnabile    Get delle info dell'ultimo disegno inserito in "disegni"
      * @return                      unordered_map con le info
      */
-    std::unordered_map<std::string, std::string> getInfoDisegnabile();
+    const std::unordered_map<std::string, std::string> getInfoDisegnabile() const;
 
     /**
      * @brief workspaceVuota        controlla se la workspace è vuota

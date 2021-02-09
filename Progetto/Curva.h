@@ -5,12 +5,14 @@
 
 class Curva : public Figura
 {
-public:
-
+protected:
     /**
      * @brief Costruttore di Curva
      */
     Curva(std::string nome="Curva", string colore="#000000");
+    
+public:
+
 
     /**
      * @brief Calcolo dell'eccentricità (rapporto costante tra le distanze di un qualsiasi

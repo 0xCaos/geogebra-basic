@@ -71,7 +71,7 @@ void Model::removeDisegno(unsigned int index) const { workspace->removeDisegno(i
 
 void Model::refresh() const {}
 
-void Model::cancellaTutto() { workspace->svuotaWorkspace(); }
+void Model::cancellaTutto() const { workspace->svuotaWorkspace(); }
 
 std::unordered_map<string, string> Model::getInfoDisegnabile() const {
     return workspace->getInfoDisegnabile();
@@ -85,7 +85,7 @@ unsigned int Model::getNumeroDisegni() const {
     return workspace->getNumeroDisegni();
 }
 
-Vettore<Punto *> Model::getTuttiPunti() const {
+const Vettore<Punto *> Model::getTuttiPunti() const {
     return workspace->tuttiPunti();
 }
 
@@ -103,7 +103,7 @@ void Model::addDisegnabile(Disegnabile *d) const
     workspace->addDisegno(d);
 }
 
-void Model::convertiOggettiJson(QJsonObject disegnabile)
+void Model::convertiOggettiJson(const QJsonObject& disegnabile)
 {
     className classe = className(disegnabile["class"].toInt());
     switch (classe) {

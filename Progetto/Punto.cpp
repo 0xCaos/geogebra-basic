@@ -11,7 +11,7 @@ double Punto::getX() const { return x; }
 
 double Punto::getY() const { return y; }
 
-double Punto::getDistanza(Punto p) const
+double Punto::getDistanza(const Punto& p) const
 {
     double d;
     d = sqrt(pow((x - p.getX()),2) + pow((y - p.getY()),2));

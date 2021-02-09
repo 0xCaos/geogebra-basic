@@ -32,7 +32,7 @@ public:
      * @brief Calcolo della distanza tra il Punto di invocazione e il Punto passato come parametro
      * @return Ritorna un double (la distanza)
      */
-    double getDistanza(Punto) const;
+    double getDistanza(const Punto&) const;
 
     /**
      * @brief operator std::string

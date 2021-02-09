@@ -16,7 +16,7 @@ Retta* Creator::creaRetta(std::string nome, string color, Punto *A, Punto *B) co
     return new Retta(nome, color, A, B);
 }
 
-Poligono* Creator::creaPoligono(std::string nome, string color, Vettore<Punto *> punti) const {
+Poligono* Creator::creaPoligono(std::string nome, string color, const Vettore<Punto *>& punti) const {
     return new Poligono(nome, color, punti);
 }
 

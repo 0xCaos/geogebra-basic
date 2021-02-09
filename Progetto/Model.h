@@ -107,7 +107,7 @@ public:
     /**
      * @brief cancellaTutto         Elimina tutti i disegni dal workspace
      */
-    void cancellaTutto();
+    void cancellaTutto() const;
 
     /**
      * @brief getInfoDisegnabile    Get delle info dell'ultimo disegno inserito
@@ -131,7 +131,7 @@ public:
      * @brief getTuttiPunti         Ritorna un vettore con tutti i punti nel workspace
      * @return                      vettore di puntatori ai punti
      */
-    Vettore<Punto*> getTuttiPunti() const;
+    const Vettore<Punto*> getTuttiPunti() const;
 
     /**
      * @brief getWorkspace          get del puntatore al workspace
@@ -155,7 +155,7 @@ public:
      * @brief convertiOggettiJson   crea l'oggetto Disegno corretto a partire dal JSON ricevuto dal controller
      * @param disegnabile           oggetto QJsonObject contenente tutti i paramentri del disegno da importare
      */
-    void convertiOggettiJson(QJsonObject disegnabile);
+    void convertiOggettiJson(const QJsonObject& disegnabile);
 };
 
 #endif // MODEL_H

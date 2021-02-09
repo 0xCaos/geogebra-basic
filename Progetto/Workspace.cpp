@@ -31,7 +31,7 @@ bool WorkSpace::puntoNuovo(const Punto *point) const {
     return true;
 }
 
-Vettore<Punto *> WorkSpace::tuttiPunti() const {
+const Vettore<Punto *> WorkSpace::tuttiPunti() const {
     Vettore<Punto*> punti;
     for(auto&& disegno : disegni){
         if(dynamic_cast<Punto*>(disegno.get()))
@@ -40,14 +40,14 @@ Vettore<Punto *> WorkSpace::tuttiPunti() const {
     return punti;
 }
 
-Vettore<std::unordered_map<std::string, std::string> > WorkSpace::getTutteInfo() {
+const Vettore<std::unordered_map<std::string, std::string> > WorkSpace::getTutteInfo() const {
     Vettore<std::unordered_map<std::string, std::string> > info;
     for(auto&& d : disegni)
         info.push_back(d->getInfo());
     return info;
 }
 
-std::unordered_map<string, string> WorkSpace::getInfoDisegnabile() {
+const std::unordered_map<string, string> WorkSpace::getInfoDisegnabile() const {
     return disegni[disegni.size()-1]->getInfo();
 }
 
