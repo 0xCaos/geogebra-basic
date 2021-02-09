@@ -45,6 +45,8 @@ std::unordered_map<std::string, std::string> Poligono::getInfo() const {
 Poligono::Poligono(std::string nome , string color, const Vettore<Punto*>& vettVertici) :
     Figura(nome,color)
 {
+    if(vettVertici.size() < 3)
+        throw std::logic_error("Attenzione: un poligono deve avere almeno 3 vertici distinti per definizione.");
     bool duplicati = false;
     for(auto i = vettVertici.begin(); i != vettVertici.end() && !duplicati; ++i)
         for(auto j = i+1; j != vettVertici.end() && !duplicati; ++j)

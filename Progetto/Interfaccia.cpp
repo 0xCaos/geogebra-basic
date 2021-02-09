@@ -277,6 +277,7 @@ void Interfaccia::setZoomOut() {
 
 void Interfaccia::showSceltaFiguraDialog() {
     QDialog* dialog = new QDialog(this);
+    dialog->setWindowTitle("Disegna");
 
     QVBoxLayout *verticalLayout = new QVBoxLayout;
 
@@ -321,9 +322,9 @@ int Interfaccia::showConfermaDialog(const QString &message) {
                         message,
                         QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, this);
 
-    msgQBox.setButtonText(QMessageBox::Yes, "&Si");
-    msgQBox.setButtonText(QMessageBox::No, "&No");
-    msgQBox.setButtonText(QMessageBox::Cancel, "&Annulla");
+    msgQBox.setButtonText(QMessageBox::Yes, tr("&Si"));
+    msgQBox.setButtonText(QMessageBox::No, tr("&No"));
+    msgQBox.setButtonText(QMessageBox::Cancel, tr("&Annulla"));
 
     return msgQBox.exec();
 }
@@ -336,8 +337,8 @@ void Interfaccia::showTutorialDialog() {
             "Tutorial: \n\n"
             "Per poter disegnare qualsiasi figura \"complessa\" occorre prima disegnare i punti necessari per poi indicarli nella finestra di input corrispondente.\n\n"
             "Si possono usare i pulsantoni colorati per le principali operazioni oppure usare il menu a tendina completo di tutte le funzioni diviso per il tipo di operazione eseguita.");
-    QMessageBox msgQBox(QMessageBox::Question, tr("Informazioni GeogebraBasic"),testo,QMessageBox::Yes, this);
-    msgQBox.setButtonText(QMessageBox::Yes, "&Chiudi");
+    QMessageBox msgQBox(QMessageBox::Information, tr("Informazioni GeogebraBasic"),testo,QMessageBox::Cancel, this);
+    msgQBox.setButtonText(QMessageBox::Cancel, tr("&Chiudi"));
 
     msgQBox.exec();
 }
@@ -438,7 +439,7 @@ Vettore<QString> Interfaccia::showNewRegolareDialog(const Vettore<Punto *> punti
 
     // Set Input section
     QLineEdit* inputLati    = new QLineEdit();
-    validator = new QIntValidator(3, 12, formDialog);
+    validator = new QIntValidator(3, 15, formDialog);
     inputLati->setValidator(validator);
 
     // Set QComboBox
@@ -485,8 +486,9 @@ Vettore<QString> Interfaccia::showNewPoligonoDialog(const Vettore<Punto *> punti
     Vettore<QString> results;
     unsigned int n =
             QInputDialog::getInt(this, tr("Numero Vertici Poligono"),
-                         "Inserire il numero di vertici (almeno 3): ", 1, 3, 2147483647, 1, &ok);
+                         "Inserire il numero di vertici (almeno 3): ", 1, 3, 19, 1, &ok);
     if(ok) {
+        if(n > 20) throw std::logic_error("Per questa funzione non sono accettati valori maggiori di 19.");
 
         setStandardDialog();
         formDialog->setWindowTitle("Nuovo Poligono Irregolare");

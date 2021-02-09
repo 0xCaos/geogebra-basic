@@ -50,7 +50,7 @@ void Regolare::disegna(QPainter *p, int scala) const {
     double yC = yA + raggio * (sin((f1+f2)*M_PI/180));
 
     double d = punti.first.getDistanza(Punto("P","#000000", xC, yC+raggio));
-    double angolo = acos((2*pow(raggio,2)-pow(d,2))/(2*pow(raggio,2))) * 180/M_PIl;
+    double angolo = -acos((2*pow(raggio,2)-pow(d,2))/(2*pow(raggio,2))) * 180/M_PIl;
 
     for (unsigned int i=0; i<numLati; ++i) {
         double xP1 = xC + raggio*sin((2*M_PIl*i/numLati)+angolo*M_PIl/180);
@@ -110,6 +110,5 @@ void Regolare::write(QJsonObject& jObj) const
     pairPunti.append(puntoBobj);
     jObj["pairPunti"] = pairPunti;
     jObj["lato"] = lato;
-    QVariant QVariantNumLati = QVariant::fromValue(numLati);
-    jObj["numLati"] = QVariantNumLati.toInt();
+    jObj["numLati"] = static_cast<int>(numLati);
 }
