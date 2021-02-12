@@ -1,12 +1,9 @@
 #ifndef WORKSPACE_H
 #define WORKSPACE_H
 
-#include "Segmento.h"
-#include "Retta.h"
-#include "Poligono.h"
-#include "Regolare.h"
-#include "Circonferenza.h"
-#include "Ellisse.h"
+#include "Disegnabile.h"
+#include "Vettore.h"
+#include "Punto.h"
 
 #include "DeepPtr.h"
 
