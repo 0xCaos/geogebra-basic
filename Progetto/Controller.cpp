@@ -160,9 +160,9 @@ void Controller::addPoligono() const
     try {
         Vettore<Punto*> punti = model->getTuttiPunti();
         Vettore<QString> dati = view->showNewPoligonoDialog(punti);
-        if(punti.empty())
-            throw std::runtime_error("Non hai punti sufficienti per creare il poligono.");
         if(!dati.empty()){
+            if(punti.empty())
+                throw std::runtime_error("Non hai punti sufficienti per creare il poligono.");
             string nome     = dati[0].toStdString();
             Vettore<Punto*> puntiScelti;
             for(unsigned int j = 1; j < dati.size()-1; j++){

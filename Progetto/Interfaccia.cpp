@@ -76,7 +76,6 @@ void Interfaccia::buildSxLayout(QHBoxLayout *bodyInterface) {
 
 void Interfaccia::buildDxLayout(QHBoxLayout *bodyInterface) {
     QVBoxLayout* dxLayout   = new QVBoxLayout;
-    dxLayout->setMargin(0);
 
     QScrollArea* pianoScroll = new QScrollArea;
 
@@ -488,6 +487,9 @@ Vettore<QString> Interfaccia::showNewPoligonoDialog(const Vettore<Punto *> punti
             QInputDialog::getInt(this, tr("Numero Vertici Poligono"),
                          "Inserire il numero di vertici (almeno 3): ", 1, 3, 19, 1, &ok);
     if(ok) {
+        if(punti.size() < n){
+            throw std::runtime_error("Non hai creato punti sufficienti per disegnare un poligono di " + std::to_string(n) + " vertici.");
+        }
 
         setStandardDialog();
         formDialog->setWindowTitle("Nuovo Poligono Irregolare");
