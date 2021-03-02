@@ -1,4 +1,4 @@
-# PAO-dreams
+# PAO-GeogebraBasic
 Repository per il progetto di PAO
 
 Repository del progetto di Programmazione ad Oggetti 2020/21
