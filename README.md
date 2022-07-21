@@ -1,19 +1,17 @@
-# PAO-GeogebraBasic
-Repository per il progetto di PAO
-
-Repository del progetto di Programmazione ad Oggetti 2020/21
+# GeogebraBasic
+Project for Padua's CS Bachelor OOP course
 
 Nome progetto: GeogebraBasic
 
-Sistema di sviluppo: 
+System: 
   - Ubuntu 20.04
   - Qt Creator (IDE)
 
-Linguaggio: 
+Language: 
   - C++
   - Framework Qt
 
-Vincoli obbligatori del progetto:
-  - sviluppo di una propria gerarchia di tipi
-  - divisione completa tra gerarchia di tipi e interfaccia
-  - interfaccia intuitiva e funzionale
+Mandatory project constraints:
+  - development of a type hierarchy
+  - complete division between type hierarchy and interface
+  - intuitive and functional UI
