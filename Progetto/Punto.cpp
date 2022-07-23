@@ -28,8 +28,8 @@ Punto::operator std::string() const {
 
 std::unordered_map<string, string> Punto::getInfo() const {
     std::unordered_map<string, string> infoPunto;
-    infoPunto["Coordinate"] = *this;
-    infoPunto["Nome"] = getNome();
+    infoPunto["Coordinates"] = *this;
+    infoPunto["Name"] = getNome();
 
     return infoPunto;
 }

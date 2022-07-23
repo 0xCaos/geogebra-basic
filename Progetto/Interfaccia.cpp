@@ -4,9 +4,9 @@
 void Interfaccia::addMenu(QVBoxLayout *mainLayout) {
     menuBar             = new QMenuBar(this);
     file                = new QMenu("File", menuBar);
-    disegnaMenu         = new QMenu("Disegno", menuBar);
-    utility             = new QMenu("Cancellazione", menuBar);
-    help                = new QMenu("Aiuto", menuBar);
+    disegnaMenu         = new QMenu("Draw", menuBar);
+    utility             = new QMenu("Delete", menuBar);
+    help                = new QMenu("Help", menuBar);
 
     menuBar->addMenu(file);
     menuBar->addMenu(disegnaMenu);
@@ -14,25 +14,25 @@ void Interfaccia::addMenu(QVBoxLayout *mainLayout) {
     menuBar->addMenu(help);
 
     // Menu "File"
-    file->addAction(new QAction("Salva", file));
-    file->addAction(new QAction("Importa", file));
-    file->addAction(new QAction("Chiudi", file));
+    file->addAction(new QAction("Save", file));
+    file->addAction(new QAction("Import", file));
+    file->addAction(new QAction("Close", file));
 
     // Menu "Disegna"
-    disegnaMenu->addAction(new QAction("Punto", disegnaMenu));
-    disegnaMenu->addAction(new QAction("Segmento", disegnaMenu));
-    disegnaMenu->addAction(new QAction("Retta", disegnaMenu));
-    disegnaMenu->addAction(new QAction("Poligono", disegnaMenu));
-    disegnaMenu->addAction(new QAction("Regolare", disegnaMenu));
-    disegnaMenu->addAction(new QAction("Circonferenza", disegnaMenu));
-    disegnaMenu->addAction(new QAction("Ellisse", disegnaMenu));
+    disegnaMenu->addAction(new QAction("Point", disegnaMenu));
+    disegnaMenu->addAction(new QAction("Line", disegnaMenu));
+    disegnaMenu->addAction(new QAction("StraightLine", disegnaMenu));
+    disegnaMenu->addAction(new QAction("Polygon", disegnaMenu));
+    disegnaMenu->addAction(new QAction("Regular", disegnaMenu));
+    disegnaMenu->addAction(new QAction("Circle", disegnaMenu));
+    disegnaMenu->addAction(new QAction("Oval", disegnaMenu));
 
     // Menu "Utility"
-    utility->addAction(new QAction("Elimina disegno", utility));
-    utility->addAction(new QAction("Cancella tutto", utility));
+    utility->addAction(new QAction("Delete draw", utility));
+    utility->addAction(new QAction("Delete all", utility));
 
     // Menu "Help"
-    help->addAction(new QAction("Informazioni e Tutorial", help));
+    help->addAction(new QAction("Info and Tutorial", help));
 
     mainLayout->addWidget(menuBar);
 }
@@ -43,9 +43,9 @@ void Interfaccia::buildSxLayout(QHBoxLayout *bodyInterface) {
     infoLayout     = new QVBoxLayout;
 
     // Bottoni
-    importaButton  = new QPushButton("Importa");
-    disegnaButton  = new QPushButton("Disegna");
-    eliminaButton  = new QPushButton("Elimina");
+    importaButton  = new QPushButton("Import");
+    disegnaButton  = new QPushButton("Draw");
+    eliminaButton  = new QPushButton("Delete");
     resetButton    = new QPushButton("Reset");
 
     // Settaggio dei pulsanti
@@ -64,7 +64,7 @@ void Interfaccia::buildSxLayout(QHBoxLayout *bodyInterface) {
     infoBox->setLayout(infoDisegni);
     infoScroll->setWidget(infoBox);
 
-    infoLayout->addWidget(new QLabel("Info Oggetti"));
+    infoLayout->addWidget(new QLabel("Info Objects"));
     infoLayout->addWidget(infoScroll);
     infoLayout->setContentsMargins(20, 20, 30, 20);
     sxLayout->addLayout(infoLayout);
@@ -174,7 +174,7 @@ void Interfaccia::setStandardDialog() {
 
     inputNome      = new QLineEdit;
     colorLabel     = new QLabel;
-    colorButton    = new QPushButton(tr("Colore"));
+    colorButton    = new QPushButton(tr("Color"));
     bottoni        = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
     connect(colorButton, &QPushButton::clicked, this, &Interfaccia::selectColor);
@@ -256,7 +256,7 @@ void Interfaccia::setController(Controller *c) {
 
 void Interfaccia::selectColor()
 {
-    QColor color = QColorDialog::getColor(Qt::black, this, "Seleziona colore");
+    QColor color = QColorDialog::getColor(Qt::black, this, "Select Color");
 
     if (color.isValid()) {
         colorLabel->setText(color.name());
@@ -276,17 +276,17 @@ void Interfaccia::setZoomOut() {
 
 void Interfaccia::showSceltaFiguraDialog() {
     QDialog* dialog = new QDialog(this);
-    dialog->setWindowTitle("Disegna");
+    dialog->setWindowTitle("Draw");
 
     QVBoxLayout *verticalLayout = new QVBoxLayout;
 
-    QPushButton* nuovoPunto         = new QPushButton("Punto");
-    QPushButton* nuovoSegmento      = new QPushButton("Segmento");
-    QPushButton* nuovaRetta         = new QPushButton("Retta");
-    QPushButton* nuovoPoligono      = new QPushButton("Poligono");
-    QPushButton* nuovoRegolare      = new QPushButton("Regolare");
-    QPushButton* nuovaEllisse       = new QPushButton("Ellisse");
-    QPushButton* nuovaCirconferenza = new QPushButton("Circonferenza");
+    QPushButton* nuovoPunto         = new QPushButton("Point");
+    QPushButton* nuovoSegmento      = new QPushButton("Line");
+    QPushButton* nuovaRetta         = new QPushButton("StraightLine");
+    QPushButton* nuovoPoligono      = new QPushButton("Polygon");
+    QPushButton* nuovoRegolare      = new QPushButton("Regular");
+    QPushButton* nuovaEllisse       = new QPushButton("Oval");
+    QPushButton* nuovaCirconferenza = new QPushButton("Circle");
 
     connect(nuovoPunto, SIGNAL(clicked()), controller, SLOT(addPunto()));
     connect(nuovoSegmento, SIGNAL(clicked()), controller, SLOT(addSegmento()));
@@ -311,19 +311,19 @@ void Interfaccia::showSceltaFiguraDialog() {
 }
 
 int Interfaccia::showWarningDialog(const QString &message) {
-    QMessageBox msgBox(QMessageBox::Warning, tr("Attenzione"), message, { }, this);
-    msgBox.addButton(tr("&Continua"), QMessageBox::AcceptRole);
+    QMessageBox msgBox(QMessageBox::Warning, tr("Warning"), message, { }, this);
+    msgBox.addButton(tr("&Continue"), QMessageBox::AcceptRole);
     return msgBox.exec();
 }
 
 int Interfaccia::showConfermaDialog(const QString &message) {
-    QMessageBox msgQBox(QMessageBox::Question, tr("Attenzione"),
+    QMessageBox msgQBox(QMessageBox::Question, tr("Warning"),
                         message,
                         QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, this);
 
-    msgQBox.setButtonText(QMessageBox::Yes, tr("&Si"));
+    msgQBox.setButtonText(QMessageBox::Yes, tr("&Yes"));
     msgQBox.setButtonText(QMessageBox::No, tr("&No"));
-    msgQBox.setButtonText(QMessageBox::Cancel, tr("&Annulla"));
+    msgQBox.setButtonText(QMessageBox::Cancel, tr("&Cancel"));
 
     return msgQBox.exec();
 }
@@ -344,7 +344,7 @@ void Interfaccia::showTutorialDialog() {
 
 Vettore<QString> Interfaccia::showNewPuntoDialog() {
     setStandardDialog();
-    formDialog->setWindowTitle("Nuovo Punto");
+    formDialog->setWindowTitle("New Point");
 
     // Set Input section
     inputNome->setText("P");
@@ -356,7 +356,7 @@ Vettore<QString> Interfaccia::showNewPuntoDialog() {
     inputX->setValidator(validator);
     inputY->setValidator(validator);
 
-    formLayout->addRow(new QLabel("Nome"), inputNome);
+    formLayout->addRow(new QLabel("Name"), inputNome);
     formLayout->addRow(new QLabel("X"), inputX);
     formLayout->addRow(new QLabel("Y"), inputY);
     formLayout->addRow(colorButton, colorLabel);
@@ -389,7 +389,7 @@ Vettore<QString> Interfaccia::showNewPuntoDialog() {
 
 Vettore<QString> Interfaccia::showNewLineaDialog(const Vettore<Punto*> punti, bool retta) {
     setStandardDialog();
-    retta ? formDialog->setWindowTitle("Nuova retta") : formDialog->setWindowTitle("Nuovo segmento");
+    retta ? formDialog->setWindowTitle("New straight line") : formDialog->setWindowTitle("New line");
 
     // Set QComboBox
     boxPunti1 = new QComboBox(formDialog);
@@ -397,9 +397,9 @@ Vettore<QString> Interfaccia::showNewLineaDialog(const Vettore<Punto*> punti, bo
 
     popolaComboBox(punti, {boxPunti1, boxPunti2});
 
-    formLayout->addRow(new QLabel("Nome"), inputNome);
-    formLayout->addRow(new QLabel("Punto 1"), boxPunti1);
-    formLayout->addRow(new QLabel("Punto 2"), boxPunti2);
+    formLayout->addRow(new QLabel("Name"), inputNome);
+    formLayout->addRow(new QLabel("Point 1"), boxPunti1);
+    formLayout->addRow(new QLabel("Point 2"), boxPunti2);
     formLayout->addRow(colorButton, colorLabel);
 
     formLayout->setSpacing(10);
@@ -434,7 +434,7 @@ Vettore<QString> Interfaccia::showNewLineaDialog(const Vettore<Punto*> punti, bo
 
 Vettore<QString> Interfaccia::showNewRegolareDialog(const Vettore<Punto *> punti) {
     setStandardDialog();
-    formDialog->setWindowTitle("Nuovo Poligono Regolare");
+    formDialog->setWindowTitle("New regular polygon");
 
     // Set Input section
     QLineEdit* inputLati    = new QLineEdit();
@@ -447,10 +447,10 @@ Vettore<QString> Interfaccia::showNewRegolareDialog(const Vettore<Punto *> punti
 
     popolaComboBox(punti, {boxPunti1, boxPunti2});
 
-    formLayout->addRow(new QLabel("Nome"), inputNome);
-    formLayout->addRow(new QLabel("Primo punto"), boxPunti1);
-    formLayout->addRow(new QLabel("Secondo punto"), boxPunti2);
-    formLayout->addRow(new QLabel("Numero vertici"), inputLati);
+    formLayout->addRow(new QLabel("Name"), inputNome);
+    formLayout->addRow(new QLabel("First Point"), boxPunti1);
+    formLayout->addRow(new QLabel("Second Point"), boxPunti2);
+    formLayout->addRow(new QLabel("Number of vertex"), inputLati);
     formLayout->addRow(colorButton, colorLabel);
 
     formLayout->setSpacing(10);
@@ -484,7 +484,7 @@ Vettore<QString> Interfaccia::showNewPoligonoDialog(const Vettore<Punto *> punti
     bool ok = false;
     Vettore<QString> results;
     unsigned int n =
-            QInputDialog::getInt(this, tr("Numero Vertici Poligono"),
+            QInputDialog::getInt(this, tr("Number of polygon's vertex"),
                          "Inserire il numero di vertici (almeno 3): ", 1, 3, 19, 1, &ok);
     if(ok) {
         if(punti.size() < n){
@@ -494,7 +494,7 @@ Vettore<QString> Interfaccia::showNewPoligonoDialog(const Vettore<Punto *> punti
         setStandardDialog();
         formDialog->setWindowTitle("Nuovo Poligono Irregolare");
 
-        formLayout->addRow(new QLabel("Nome"), inputNome);
+        formLayout->addRow(new QLabel("Name"), inputNome);
 
         // ComboBox da copiare nelle altre CB
         QComboBox* boxPunti = new QComboBox;
@@ -558,9 +558,9 @@ Vettore<QString> Interfaccia::showNewCirconferenzaDialog(const Vettore<Punto *> 
 
     colorLabel = new QLabel;
 
-    formLayout->addRow(new QLabel("Nome"), inputNome);
-    formLayout->addRow(new QLabel("Centro"), boxPunti1);
-    formLayout->addRow(new QLabel("Raggio"), inputRaggio);
+    formLayout->addRow(new QLabel("Name"), inputNome);
+    formLayout->addRow(new QLabel("Center"), boxPunti1);
+    formLayout->addRow(new QLabel("Radius"), inputRaggio);
     formLayout->addRow(colorButton, colorLabel);
 
     formLayout->setSpacing(10);
@@ -608,10 +608,10 @@ Vettore<QString> Interfaccia::showNewEllisseDialog(const Vettore<Punto *> punti)
 
     popolaComboBox(punti, {boxPunti1});
 
-    formLayout->addRow(new QLabel("Nome"), inputNome);
-    formLayout->addRow(new QLabel("Centro"), boxPunti1);
-    formLayout->addRow(new QLabel("Semiasse 1"), inputRaggio);
-    formLayout->addRow(new QLabel("Semiasse 2"), inputRaggio2);
+    formLayout->addRow(new QLabel("Name"), inputNome);
+    formLayout->addRow(new QLabel("Center"), boxPunti1);
+    formLayout->addRow(new QLabel("Semi-axes 1"), inputRaggio);
+    formLayout->addRow(new QLabel("Semi-axes 2"), inputRaggio2);
 
     formLayout->addRow(colorButton, colorLabel);
 
@@ -678,10 +678,10 @@ void Interfaccia::addInfoDisegnabile(std::unordered_map<std::string, std::string
     QFrame* frame = new QFrame;
     QFormLayout* box = new QFormLayout(frame);
     for(auto&& el : info) {
-        if(el.first == "Nome")
+        if(el.first == "Name")
             box->addRow(new QLabel("N#"), new QLabel(QString::fromStdString(std::to_string(index))));
 
-        if((el.first == "Colore")){
+        if((el.first == "Color")){
             QColor color = QString::fromStdString(el.second);
             QLabel* colorLabel = new QLabel;
             //if (color.isValid()) {

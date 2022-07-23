@@ -47,12 +47,12 @@ void Ellisse::disegna(QPainter * p, int scala) const {
 
 std::unordered_map<std::string, std::string> Ellisse::getInfo() const {
     std::unordered_map<string, string> infoEllisse;
-    infoEllisse["Eccentricità"] = std::to_string(eccentricita());
+    infoEllisse["Eccentricity"] = std::to_string(eccentricita());
     infoEllisse["Area"] = std::to_string(area());
-    infoEllisse["Perimetro"] = std::to_string(perimetro());
-    infoEllisse["Fuochi"] = string(getFuochi().first) + " " + string(getFuochi().second);
-    infoEllisse["Colore"] = getColore();
-    infoEllisse["Nome"] = getNome();
+    infoEllisse["Perimeter"] = std::to_string(perimetro());
+    infoEllisse["Foci"] = string(getFuochi().first) + " " + string(getFuochi().second);
+    infoEllisse["Color"] = getColore();
+    infoEllisse["Name"] = getNome();
 
     return infoEllisse;
 }

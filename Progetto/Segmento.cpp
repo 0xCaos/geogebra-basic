@@ -21,11 +21,11 @@ void Segmento::disegna(QPainter *p, int scala) const {
 
 std::unordered_map<std::string, std::string> Segmento::getInfo() const {
     std::unordered_map<string, string> infoSegmento;
-    infoSegmento["Lunghezza"] = std::to_string(getLunghezza());
-    infoSegmento["Secondo Punto"] = getPunti().second;
-    infoSegmento["Primo Punto"] = getPunti().first;
-    infoSegmento["Colore"] = getColore();
-    infoSegmento["Nome"] = getNome();
+    infoSegmento["Length"] = std::to_string(getLunghezza());
+    infoSegmento["Second Point"] = getPunti().second;
+    infoSegmento["First Point"] = getPunti().first;
+    infoSegmento["Color"] = getColore();
+    infoSegmento["Name"] = getNome();
 
     return infoSegmento;
 }

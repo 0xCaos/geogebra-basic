@@ -1,0 +1,66 @@
+{
+    "disegnabili": [
+        {
+            "class": 6,
+            "color": "",
+            "nome": "P",
+            "x": 2,
+            "y": 6
+        },
+        {
+            "class": 6,
+            "color": "",
+            "nome": "P",
+            "x": 7,
+            "y": 2
+        },
+        {
+            "class": 0,
+            "color": "#55ffff",
+            "nome": "AA",
+            "pairPunti": [
+                {
+                    "class": 6,
+                    "color": "",
+                    "nome": "P",
+                    "x": 2,
+                    "y": 6
+                },
+                {
+                    "class": 6,
+                    "color": "",
+                    "nome": "P",
+                    "x": 7,
+                    "y": 2
+                }
+            ]
+        },
+        {
+            "centro": {
+                "class": 6,
+                "color": "",
+                "nome": "P",
+                "x": 7,
+                "y": 2
+            },
+            "class": 4,
+            "color": "#00aaff",
+            "nome": "E",
+            "semiAsse1": 2,
+            "semiAsse2": 5
+        },
+        {
+            "centro": {
+                "class": 6,
+                "color": "",
+                "nome": "P",
+                "x": 2,
+                "y": 6
+            },
+            "class": 5,
+            "color": "#000000",
+            "nome": "C",
+            "raggio": 1
+        }
+    ]
+}
