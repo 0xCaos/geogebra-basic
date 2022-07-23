@@ -1,7 +1,7 @@
 # GeogebraBasic
 Project for Padua's CS Bachelor OOP course
 
-Nome progetto: GeogebraBasic
+![Geogebra Basic Screenshot](https://github.com/0xCaos/geogebra-basic/blob/master/screenshot.png)
 
 System: 
   - Ubuntu 20.04
